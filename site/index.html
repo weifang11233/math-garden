@@ -642,10 +642,14 @@ function userKey(phone){return 'qd6_state_'+phone}
    cloudLoadState 在登录/启动时异步拉云端覆盖；save() 本地落盘后异步推云端（乐观锁+冲突合并）。
    未登录游客与 NAS 不可达时行为与 v2.3 完全一致。 */
 function load(){  /* 依据登录态加载对应存档 */
-  var def={name:'',lit:{},st:{},wrong:[],days:{},t0:Date.now(),recent:[],books:{}};
-  function compat(v){  /* v2.4.6 向后兼容 + v3.0 分桶迁移：旧存档缺 recent/books 时补空，原字段一律不动 */
+  var def={name:'',lit:{},st:{},wrong:[],days:{},t0:Date.now(),recent:[],books:{},xp:0,daily:null,ach:{},bonus:{}};
+  function compat(v){  /* v2.4.6 向后兼容 + v3.0 分桶迁移 + v4.1 游戏化字段补齐：原字段一律不动 */
     if(v&&typeof v==='object'){
       if(!Array.isArray(v.recent))v.recent=[];
+      if(typeof v.xp!=='number'||!isFinite(v.xp)||v.xp<0)v.xp=0;
+      if(!v.ach||typeof v.ach!=='object'||Array.isArray(v.ach))v.ach={};
+      if(!v.bonus||typeof v.bonus!=='object'||Array.isArray(v.bonus))v.bonus={};
+      if(!v.daily||typeof v.daily!=='object'||Array.isArray(v.daily))v.daily=null;
       migrateStateBuckets(v);
       return v;
     }
@@ -1186,6 +1190,122 @@ function streak(){
   return n;
 }
 
+/* ═════════════ v4.1 游戏化核心（P0）═════════════
+   数据全部挂 S 顶层（xp/daily/ach/bonus），不进课本分桶 → 跨课本通用、跨设备云端同步。
+   设计原则：奖励跟随"掌握行为"（答对、连对、点亮、清错题），不奖励"刷量"。 */
+var LV_STEPS=[0,60,160,320,560,900,1400,2100,3100,4500];  /* 升到第 n 级所需累计经验（n 从 1 起） */
+var LV_TITLES=['数学新芽','计算学徒','解题小手','思维健将','算术先锋','对数高手','推理达人','数学小将','运算大师','乐园学霸'];
+function lvInfo(xp){
+  xp=Math.max(0,Number(xp)||0);
+  var lv=1;
+  for(var i=0;i<LV_STEPS.length;i++){if(xp>=LV_STEPS[i])lv=i+1}
+  if(lv>LV_STEPS.length)lv=LV_STEPS.length;
+  var cur=LV_STEPS[lv-1],next=lv<LV_STEPS.length?LV_STEPS[lv]:null;
+  return {lv:lv,title:LV_TITLES[lv-1],xp:xp,cur:cur,next:next,
+    pct:next?Math.min(100,Math.round((xp-cur)/(next-cur)*100)):100};
+}
+function addXp(n,reason){
+  if(!S)return {lv:1,up:false,gain:0};
+  var before=lvInfo(S.xp).lv;
+  S.xp=Math.max(0,(Number(S.xp)||0)+n);
+  var after=lvInfo(S.xp);
+  return {gain:n,reason:reason||'',lv:after.lv,up:after.lv>before,title:after.title};
+}
+/* 每日任务：按当天日期生成，跨日自动重置。四类任务对应掌握行为，奖励经验。 */
+var DAILY_TPL=[
+  {id:'att',icon:'✏️',name:'完成 10 道练习',goal:10,reward:20,hint:'边做边学，量力而行'},
+  {id:'cor',icon:'🎯',name:'答对 8 道题',goal:8,reward:30,hint:'做完记得检查'},
+  {id:'lit',icon:'⭐',name:'点亮 1 个知识点',goal:1,reward:40,hint:'过关检验连对 5 题'},
+  {id:'wrong',icon:'📕',name:'清掉 2 道错题',goal:2,reward:25,hint:'隔日重考做对'}
+];
+function dailyTasks(){
+  var t=today();
+  if(!S.daily||S.daily.date!==t){
+    S.daily={date:t,items:{},claimed:{}};
+    DAILY_TPL.forEach(function(d){S.daily.items[d.id]={cur:0,goal:d.goal}});
+  }
+  if(!S.daily.items)S.daily.items={};
+  if(!S.daily.claimed)S.daily.claimed={};
+  return S.daily;
+}
+function taskTpl(id){for(var i=0;i<DAILY_TPL.length;i++){if(DAILY_TPL[i].id===id)return DAILY_TPL[i]}return null}
+function taskBump(id,n){
+  var d=dailyTasks(),it=d.items[id];
+  if(!it)return false;
+  var before=it.cur>=it.goal;
+  it.cur=Math.min(it.goal,(Number(it.cur)||0)+(n||1));
+  return (!before&&it.cur>=it.goal);  /* 返回是否本次刚达成 */
+}
+function taskAllDone(){var d=dailyTasks();return DAILY_TPL.every(function(t){return (d.items[t.id]&&d.items[t.id].cur>=d.items[t.id].goal)})}
+function claimTaskReward(id){
+  var d=dailyTasks(),t=taskTpl(id),it=d.items[id];
+  if(!t||!it||it.cur<it.goal||d.claimed[id])return null;
+  d.claimed[id]=true;
+  return addXp(t.reward,'任务:'+t.name);
+}
+/* 成就墙：条件基于累计事实，达成后永久记录（存 ach），首次达成返回新徽章列表供庆祝。 */
+var ACH_DEFS=[
+  {id:'first100',icon:'🌱',name:'初露锋芒',desc:'累计答对 100 题'},
+  {id:'lit10',icon:'⭐',name:'点灯人',desc:'点亮 10 个知识点'},
+  {id:'streak7',icon:'🔥',name:'七日不辍',desc:'连续练习 7 天'},
+  {id:'combo10',icon:'⚡',name:'一气呵成',desc:'单次连对 10 题'},
+  {id:'wrong20',icon:'📕',name:'错题克星',desc:'重考通过 20 道错题'},
+  {id:'lv5',icon:'🏆',name:'渐入佳境',desc:'达到 5 级'},
+  {id:'xp3000',icon:'👑',name:'乐园学霸',desc:'累计经验 3000'}
+];
+function checkAch(){
+  if(!S.ach||typeof S.ach!=='object')S.ach={};
+  var gained=[];
+  function hit(id){if(!S.ach[id]){S.ach[id]=today();gained.push(id)}}
+  var totalCor=0,litN=0,wrongDone=0;
+  var bks=S.books||{};
+  Object.keys(bks).forEach(function(bid){
+    var b=bks[bid]||{};
+    Object.keys(b.st||{}).forEach(function(k){totalCor+=(b.st[k].cor||0)});
+    litN+=Object.keys(b.lit||{}).length;
+    (b.wrong||[]).forEach(function(w){if(w.done)wrongDone++});
+  });
+  if(totalCor>=100)hit('first100');
+  if(litN>=10)hit('lit10');
+  if(streak()>=7)hit('streak7');
+  if((QS&&QS.okStreak>=10)||(S.bonus&&S.bonus.maxCombo>=10))hit('combo10');
+  if(wrongDone>=20)hit('wrong20');
+  if(lvInfo(S.xp).lv>=5)hit('lv5');
+  if(S.xp>=3000)hit('xp3000');
+  return gained;
+}
+function achById(id){for(var i=0;i<ACH_DEFS.length;i++){if(ACH_DEFS[i].id===id)return ACH_DEFS[i]}return null}
+
+/* 首页每日任务卡：进度 + 领奖 + 成就墙入口 */
+function dailyCardHtml(){
+  var d=dailyTasks(),claimed=0,ready=0;
+  var rows=DAILY_TPL.map(function(t){
+    var it=d.items[t.id]||{cur:0,goal:t.goal},done=it.cur>=it.goal,isCl=!!d.claimed[t.id];
+    if(isCl)claimed++;if(done&&!isCl)ready++;
+    var btn=isCl?'<span style="color:var(--green);font-weight:800;font-size:13px">✅ 已领</span>'
+      :done?'<button class="btn orange" style="padding:5px 12px;font-size:12.5px" onclick="claimReward(\''+t.id+'\')">领 '+t.reward+' 经验</button>'
+      :'<span class="muted" style="font-size:12px">'+it.cur+'/'+it.goal+'</span>';
+    return '<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--line)">'
+      +'<span style="font-size:17px">'+t.icon+'</span><div style="flex:1"><b style="font-size:13px">'+t.name+'</b>'
+      +'<div class="bar" style="height:5px;margin:3px 0 0"><i style="width:'+Math.min(100,Math.round(it.cur/it.goal*100))+'%"></i></div></div>'+btn+'</div>';
+  }).join('');
+  var doneN=DAILY_TPL.filter(function(t){return (d.items[t.id]&&d.items[t.id].cur>=d.items[t.id].goal)}).length;
+  return '<div class="card"><div style="display:flex;justify-content:space-between;align-items:center">'
+    +'<h2 style="margin:0">📅 今日任务</h2><span class="badge">'+doneN+' / '+DAILY_TPL.length+' 完成</span></div>'
+    +'<div style="margin-top:8px">'+rows+'</div>'
+    +(ready>0?'<p style="color:var(--orange);font-weight:800;margin-top:8px;font-size:13px">🎁 有 '+ready+' 项奖励待领取</p>':'')
+    +(claimed===DAILY_TPL.length?'<p style="color:var(--green);font-weight:800;margin-top:8px;font-size:13px">🎉 今日奖励已全部领取，明天见！</p>':'')
+    +'<button class="btn plain" style="width:100%;margin-top:10px;font-size:13px" onclick="go(\'ach\')">🏅 我的成就墙（'+Object.keys(S.ach||{}).length+'/'+ACH_DEFS.length+'）</button>'
+    +'</div>';
+}
+function claimReward(id){
+  var r=claimTaskReward(id);
+  if(!r){return}
+  save();
+  go('home');
+}
+
+
 /* v3.0 多课本：六上教材结构已迁至 books/book-qd6a.js；UNITS/BOARDS/GENS/GENLVL/CHEAT 为当前课本指针 */
 var UNITS=[];
 
@@ -1469,6 +1589,24 @@ function go(name,arg){
 
 
 var VIEWS={};
+/* 成就墙视图 */
+VIEWS.ach=function(){
+  var h='<div class="topbar"><button class="backbtn" onclick="go(\'home\')">‹ 首页</button><h1>🏅 我的成就墙</h1></div>';
+  var _li=lvInfo(S.xp),earned=Object.keys(S.ach||{}).length;
+  h+='<div class="card" style="text-align:center"><div class="bigday" style="padding:6px 0"><b style="font-size:26px">Lv.'+_li.lv+' '+_li.title+'</b><br><span class="muted">累计 '+_li.xp+' 经验 · 徽章 '+earned+'/'+ACH_DEFS.length+'</span></div>'
+    +'<div class="bar" style="margin:6px 0"><i style="width:'+_li.pct+'%;background:var(--orange)"></i></div>'
+    +'<p class="muted" style="font-size:12px">'+( _li.next?'再得 '+(_li.next-_li.xp)+' 经验升级到 Lv.'+(_li.lv+1):'已达最高等级')+'</p></div>';
+  h+='<div class="grid2">';
+  ACH_DEFS.forEach(function(a){
+    var got=!!(S.ach&&S.ach[a.id]);
+    h+='<div class="card" style="text-align:center;opacity:'+(got?1:0.45)+';border-color:'+(got?'var(--green)':'var(--line)')+'">'
+      +'<div style="font-size:34px">'+a.icon+'</div><b style="font-size:14px">'+a.name+'</b>'
+      +'<p class="muted" style="font-size:12px;margin:4px 0 0">'+a.desc+'</p>'
+      +'<p style="font-size:12px;color:'+(got?'var(--green)':'var(--sub)')+';font-weight:800;margin:6px 0 0">'+(got?'✅ '+S.ach[a.id]:'尚未解锁')+'</p></div>';
+  });
+  h+='</div><p class="footer-tip">徽章按真实掌握进度解锁 · 与同学friendly竞争无关，只和你自己比</p>';
+  app.innerHTML=h;
+};
 
 VIEWS.bannedView=function(u){
   app.innerHTML=`<div class="card" style="text-align:center;border:2px solid #C0392B">
@@ -1785,11 +1923,21 @@ VIEWS.home=function(){
   var lit=0,total=0;
   UNITS.forEach(function(u){u.kps.forEach(function(k){total++;if(S.lit[k.id])lit++})});
   var d=dayTick();
+  var _li=lvInfo(S.xp),_sk=streak();
+  var _achN=Object.keys(S.ach||{}).length;
   var h=`<div class="card">
-    <div class="bigday"><b>${streak()}</b><br><span class="muted">连续练习天数 🔥</span></div>
-    <p style="text-align:center" class="muted">${CUR.role==='admin'?'管理员视角':S.name?'学习者：'+S.name:'欢迎回来'}｜当前课本：${BOOK_DEF?BOOK_DEF.name:''}｜知识点点亮：${lit} / ${total}</p>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+      <div class="bigday" style="flex:0 0 auto;padding:8px 12px 4px 0"><b>${_sk}</b><br><span class="muted">连续天数 🔥</span></div>
+      <div style="flex:1;text-align:right">
+        <span class="badge" style="font-size:13px;background:var(--orangeL);color:var(--orange)">Lv.${_li.lv} ${_li.title}</span>
+        <p class="muted" style="margin:6px 0 2px;font-size:12px">累计 ${_li.xp} 经验${_li.next?' · 距下级 '+( _li.next-_li.xp):' · 已满级'}</p>
+        <div class="bar" style="margin:0"><i style="width:${_li.pct}%;background:var(--orange)"></i></div>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:8px" class="muted">${CUR.role==='admin'?'管理员视角':S.name?'学习者：'+S.name:'欢迎回来'}｜当前课本：${BOOK_DEF?BOOK_DEF.name:''}｜知识点点亮：${lit} / ${total}｜徽章 ${_achN}/${ACH_DEFS.length}</p>
     <div style="margin-top:10px"><button class="btn blue" style="width:100%" onclick="go('booksel')">🔄 切换课本（1～6 年级共 ${BOOKS.length} 册）</button></div>
   </div>
+  ${hasPerm('daily')||CUR.role==='admin'?dailyCardHtml():''}
   <div class="card">
     <h2>👋 你好，${CUR.name}<small class="muted">（${CUR.phone}）</small></h2>
     ${CUR.role==='admin'
@@ -1949,7 +2097,7 @@ function startDaily(){
   card=`<div class="card"><h2>📖 今日知识卡：${kpSpec.k.name}</h2>
     <div style="font-size:14.5px">${rich(kpSpec.k.card)}</div>
     <div style="margin-top:10px"><button class="btn orange" onclick="startPass('${kpSpec.k.id}')">🎯 给这个知识点过关</button></div></div>`;
-  app.innerHTML=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>今天的任务</h1></div>`+card+
+  app.innerHTML=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>今天的任务</h1></div>`+dailyCardHtml()+card+
     `<div class="card"><h2>✏️ 五道混合题</h2><p class="muted">跨单元混着来，防遗忘</p>
      <button class="btn" style="width:100%;margin-top:8px" onclick="startDailyQuiz()">开始答题</button></div>
      <div class="card"><h2>📕 错题重考</h2>${dueWrongCount()>0?`<p>有 <b>${dueWrongCount()}</b> 道隔日错题到期，先清账！</p><button class="btn orange" style="width:100%;margin-top:8px" onclick="startWrongDue()">去重考</button>`:'<p class="muted">今天没有到期的错题，干得漂亮 🎉</p>'}</div>`;
@@ -2615,9 +2763,24 @@ function finishAnswer(q,right,user,aiFeedback,optIdx){
     if(wi)wi.done=true;
   }
   /* 过关模式：连对 5 题点亮知识点 */
+  var _justLit=false;
   if(QS.mode==='pass'&&right&&QS.okStreak>=5&&!S.lit[QS.kid]){
-    S.lit[QS.kid]=today();
+    S.lit[QS.kid]=today();_justLit=true;
   }
+  /* v4.1 游戏化结算：奖励只跟掌握行为走。错题重考通过/举一反三题同样计入，避免惩罚认真订正的孩子 */
+  var _xpInfo=null,_taskDone=[],_achGot=[];
+  if(right){
+    var _base=5,_combo=QS.okStreak>=10?10:(QS.okStreak>=5?6:(QS.okStreak>=3?3:0));
+    _xpInfo=addXp(_base+_combo,'答对');
+    QS._gainXp=(QS._gainXp||0)+_xpInfo.gain;
+    if(QS.okStreak>=3){S.bonus.maxCombo=Math.max(S.bonus.maxCombo||0,QS.okStreak)}
+  }
+  if(taskBump('att',1))_taskDone.push('att');
+  if(right&&taskBump('cor',1))_taskDone.push('cor');
+  if(_justLit&&taskBump('lit',1))_taskDone.push('lit');
+  if(QS.mode==='wrong'&&right&&wi&&wi.done&&taskBump('wrong',1))_taskDone.push('wrong');
+  _achGot=checkAch();
+  if(_achGot.length||_xpInfo&&_xpInfo.up)QS._celebrate=(QS._celebrate||0)+1;
   save();
   var fb=document.getElementById('fb');
   fb.className='fb '+(right?'ok':'no');
@@ -2625,6 +2788,13 @@ function finishAnswer(q,right,user,aiFeedback,optIdx){
     +rich(q.exp||'')
     +(aiFeedback?'<br>🤖 <b>AI 点评：</b>'+aiFeedback:'');
   if(QS.mode==='pass'&&S.lit[QS.kid]===today()&&!QS._litMsg){QS._litMsg=true;fb.innerHTML+='<br>⭐ <b>知识点已点亮！连续做对 5 题达成。</b>'}
+  if(right&&_xpInfo){
+    fb.innerHTML+='<br><span style="color:var(--orange);font-weight:800">+'+_xpInfo.gain+' 经验'
+      +(QS.okStreak>=3?'（连对 '+QS.okStreak+' 题加成）':'')+'</span>';
+    if(_xpInfo.up)fb.innerHTML+=' <b style="color:var(--green)">🎉 升级到 Lv.'+_xpInfo.lv+' '+_xpInfo.title+'！</b>';
+  }
+  _taskDone.forEach(function(id){var t=taskTpl(id);if(t)fb.innerHTML+='<br>✅ 每日任务完成：'+t.name+'（可领 '+t.reward+' 经验）'});
+  _achGot.forEach(function(id){var a=achById(id);if(a)fb.innerHTML+='<br>🏅 <b>解锁成就「'+a.name+'」！</b>'});
   if(!q.ops){
     var fi=document.getElementById('freeIn');if(fi)fi.disabled=true;
   }else{
@@ -2662,6 +2832,7 @@ function quizDone(){
     <h2>${n>=QS.qs.length*0.8?'🎉 太棒了！':'💪 完成练习！'}</h2>
     <p style="font-size:30px;font-weight:900;color:var(--green);margin:8px 0">${n} / ${QS.qs.length}</p>
     <p class="muted">${QS.title}</p>
+    <p style="font-weight:800;color:var(--orange);margin-top:6px">⏳ 本局获得 ${QS._gainXp||0} 经验</p>
     <p class="muted">答错的题已自动收进错题本，明天会提醒你重考。</p>
     <p id="autoNextTip" style="font-weight:800;color:var(--orange);margin-top:10px">⏭ ${remain} 秒后自动开始新一组题…</p>
     <div class="grid2" style="margin-top:8px">
@@ -2691,10 +2862,14 @@ function quizDone(){
     QS_TITLE_LAST=QS.title;
     return;
   }
+  var _li=lvInfo(S.xp),_gain=QS._gainXp||0;
   var h=`<div class="card" style="text-align:center">
     <h2>${n>=QS.qs.length*0.8?'🎉 太棒了！':'💪 完成练习！'}</h2>
     <p style="font-size:30px;font-weight:900;color:var(--green);margin:8px 0">${n} / ${QS.qs.length}</p>
     <p class="muted">${QS.title}</p>
+    <p style="font-weight:800;color:var(--orange);margin:8px 0">✨ 本局 +${_gain} 经验 · 当前 Lv.${_li.lv} ${_li.title}</p>
+    <div style="display:flex;align-items:center;gap:8px;margin:6px 0"><div class="bar"><i style="width:${_li.pct}%"></i></div><small class="muted">${_li.next?(_li.xp-_li.cur)+'/'+(_li.next-_li.cur):'已满级'}</small></div>
+    ${taskAllDone()?'<p style="color:var(--green);font-weight:800;margin-top:8px">🎊 今日任务全部完成！记得回首页领奖</p>':''}
     <p class="muted">答错的题已自动收进错题本，明天会提醒你重考。</p></div>
     <div class="grid2">
       <div class="modbtn" onclick="QS=null;go('home')">🏠 回首页</div>

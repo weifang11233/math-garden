@@ -931,7 +931,8 @@ SESS = loadSess();
 (function ensureAdmin() {
   const u = findU(ADMIN_PHONE);
   if (!u) {
-    const salt = crypto.randomBytes(8).toString('hex');
+    /* 修复：预置管理员必须与 ADMIN_HASH 使用同一 salt，否则用随机 salt 会导致永久登录失败 */
+    const salt = ADMIN_SALT;
     USERS.users.push({ phone: ADMIN_PHONE, role: 'admin', name: '管理员', salt, hash: ADMIN_HASH, regAt: '2026-01-01 00:00:00', lastLogin: null });
     USERS.rev++; atomicWrite(UFILE, USERS);
     console.log('已预置管理员', ADMIN_PHONE);

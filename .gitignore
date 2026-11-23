@@ -1,0 +1,30 @@
+# 运行数据（含真实用户、会话、学习存档、报告镜像）——绝不入库
+api-server/data/
+api-server/data.bak-*/
+**/users.json
+**/sessions.json
+**/mirror.json
+**/model_health.json
+qd6_state_*.json
+
+# 各类备份 / 临时 / 密钥文件
+*.bak
+*.bak[0-9]*
+*.bak-*
+*.testbak
+*.tmp
+*.log
+ROLLBACK_*
+.env
+.env.local
+secrets.*
+*.key
+*.pem
+
+# 编辑器 / 系统
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+__pycache__/
+sanitize.py

@@ -1,0 +1,3388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>数学乐园 · 青岛版六三制（1-6年级12册）</title>
+<meta name="app-version" content="v3.11.0-fourlv-1">
+<style>
+:root{
+  --bg:#F7F4EC; --card:#FFFFFF; --ink:#3A352B; --sub:#8A8474;
+  --green:#2E6B4F; --greenL:#EAF2ED; --orange:#E8833A; --orangeL:#FDF1E6;
+  --blue:#3A6EA5; --blueL:#EAF1F8; --red:#C0392B; --redL:#FBEAE7;
+  --gold:#B8860B; --line:#E5E0D2;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.7}
+.wrap{max-width:560px;margin:0 auto;padding:14px 14px 60px}
+.topbar{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.backbtn{border:none;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:8px 14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer}
+.topbar h1{font-size:19px;flex:1}
+.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:14px;border:1.5px solid var(--line)}
+.card h2{font-size:17px;margin-bottom:8px}
+.card h3{font-size:15.5px;margin:10px 0 6px}
+.muted{color:var(--sub);font-size:13.5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.modbtn{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:14px 10px;text-align:center;cursor:pointer;font-weight:800;font-size:15px}
+.modbtn small{display:block;font-weight:400;color:var(--sub);font-size:11.5px;margin-top:3px}
+.modbtn:active{transform:scale(.97)}
+.unitbtn{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:13px 14px;margin-bottom:10px;cursor:pointer}
+.unitbtn .no{width:38px;height:38px;border-radius:12px;color:#fff;font-weight:900;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.unitbtn .tt{flex:1}
+.unitbtn .tt b{font-size:15.5px}
+.unitbtn .tt small{display:block;color:var(--sub);font-size:12px}
+.badge{background:var(--greenL);color:var(--green);border-radius:8px;padding:2px 8px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.badge.gray{background:#EFECE3;color:var(--sub)}
+.kp{border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:var(--card)}
+.kp.lit{border-color:var(--green);background:var(--greenL)}
+.kp .head{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15.5px}
+.kp .head .dot{width:22px;height:22px;border-radius:50%;background:#E8E4D8;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.kp.lit .head .dot{background:var(--green);color:#fff}
+.btn{display:inline-block;border:none;border-radius:12px;padding:11px 22px;font-size:15.5px;font-weight:800;cursor:pointer;color:#fff;background:var(--green)}
+.btn.orange{background:var(--orange)}
+.btn.blue{background:var(--blue)}
+.btn.plain{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.btn:active{transform:scale(.97)}
+.btn[disabled]{opacity:.45}
+.qstem{font-size:19px;font-weight:800;margin:14px 0;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:16px}
+.opt{display:block;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:13px 16px;font-size:16.5px;font-weight:700;margin-bottom:10px;cursor:pointer}
+.opt:active{background:var(--greenL)}
+.opt.right{border-color:var(--green);background:var(--greenL)}
+.opt.wrong{border-color:var(--red);background:var(--redL)}
+input.ansin{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:13px 16px;font-size:18px;font-weight:700;background:var(--card);color:var(--ink);outline:none}
+input.ansin:focus{border-color:var(--green)}
+/* v3.3.1：textarea 之前没有匹配 input.ansin 选择器，样式缺失且无 focus 反馈（孩子点了看不出是否聚焦） */
+textarea.ansin{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:13px 16px;font-size:18px;font-weight:700;background:var(--card);color:var(--ink);outline:none;resize:vertical;font-family:inherit;caret-color:var(--green)}
+textarea.ansin:focus{border-color:var(--blue) !important;box-shadow:0 0 0 4px rgba(62,155,240,.15)}
+.fb{border-radius:14px;padding:13px 15px;margin-top:12px;font-size:14.5px;display:none}
+.fb.ok{display:block;background:var(--greenL);color:var(--green);border:1.5px solid #BFDCCB}
+.fb.no{display:block;background:var(--redL);color:var(--red);border:1.5px solid #EBBDB6}
+.fb b{font-size:15px}
+.exbox{background:var(--blueL);border-radius:12px;padding:10px 12px;margin:8px 0;font-size:14px}
+.exambox{background:var(--orangeL);border-radius:12px;padding:10px 12px;margin:8px 0;font-size:14px}
+.tag{display:inline-block;border-radius:8px;padding:2px 9px;font-size:12px;font-weight:800;color:#fff;margin-right:6px}
+.statrow{display:flex;justify-content:space-between;padding:7px 2px;border-bottom:1px dashed var(--line);font-size:14.5px}
+.bar{height:8px;border-radius:4px;background:#EFECE3;overflow:hidden;flex:1;margin:0 10px}
+.bar i{display:block;height:100%;background:var(--green)}
+table.rep{width:100%;border-collapse:collapse;font-size:13.5px}
+table.rep th,table.rep td{border-bottom:1px solid var(--line);padding:7px 4px;text-align:center}
+table.rep th{color:var(--sub);font-weight:700}
+h2.sec{font-size:18px;margin:4px 0 12px}
+.step{display:flex;gap:10px;margin-bottom:12px}
+.step .n{width:30px;height:30px;border-radius:50%;background:var(--orange);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pctchip{display:inline-block;background:var(--orangeL);color:var(--orange);border-radius:10px;padding:4px 10px;font-weight:800;font-size:14px;margin:2px 4px 2px 0}
+.bigday{text-align:center;padding:18px 0 8px}
+.bigday b{font-size:34px;color:var(--green)}
+.cheat{border-bottom:1px solid var(--line);padding:10px 0}
+.cheat b{color:var(--green)}
+.footer-tip{text-align:center;color:var(--sub);font-size:12px;margin-top:18px}
+.flash-ok{animation:fo .4s}
+@keyframes fo{0%{background:#D8EDE0}100%{background:var(--greenL)}}
+svg.map{width:100%;height:auto}
+/* 教科书式分数：分子在上、分母在下、中间横线 */
+.frac{display:inline-block;vertical-align:middle;text-align:center;margin:0 2px;line-height:1.05}
+.frac .nu{display:block;padding:0 4px;border-bottom:1.6px solid currentColor}
+.frac .de{display:block;padding:0 4px}
+/* 密码输入行：显隐切换 */
+.pwdwrap{position:relative}
+.pwdwrap input{width:100%;padding-right:44px;box-sizing:border-box}
+.pwd-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:none;background:none;font-size:18px;cursor:pointer;padding:4px;line-height:1;color:var(--sub)}
+.qstem .frac{font-size:19px}
+.opt .frac{font-size:16.5px;display:inline-block}
+.kp .frac{font-size:14px}
+.fb .frac{font-size:14px}
+
+/* ═══════════════════════════════════════════════════════
+   童趣设计系统 · 全局覆盖层（不改动上方任何原有规则）
+   保留全部变量名与类名，只重定义外观；JS 与逻辑零改动
+   ═══════════════════════════════════════════════════════ */
+
+/* — 1. 调色板重定义：米白纸感 → 奶油蓝天乐园 — */
+:root{
+  --bg:#DFF3FF;        /* 天空蓝底 */
+  --card:#FFFFFF;      /* 云朵白卡 */
+  --ink:#37415C;       /* 深夜蓝墨（护眼、对比足） */
+  --sub:#8794B8;       /* 柔和淡紫灰 */
+  --green:#27A567;     /* 活力草绿（成功/主按钮） */
+  --greenL:#E1F7EC;    /* 浅绿 */
+
+  --orange:#FF8A3D;    /* 阳光橙（行动按钮） */
+  --orangeL:#FFF0E2;   /* 浅橙 */
+
+  --blue:#3E9BF0;      /* 晴空蓝（信息） */
+  --blueL:#E3F1FF;     /* 浅蓝 */
+
+  --red:#F0603F;       /* 番茄红（错误提示，柔和不过分吓人） */
+  --redL:#FFE9E4;      /* 浅红 */
+
+  --gold:#F5B325;      /* 星星金 */
+  --line:#E4ECF7;      /* 冰蓝细线 */
+  /* 童趣专用新增变量 */
+  --purpleL:#F1EAFE;   /* 浅紫 */
+  --purple:#9B6FE0;    /* 葡萄紫 */
+  --pinkL:#FFEDF3;     /* 浅粉 */
+  --pink:#FF7BAC;      /* 草莓粉 */
+  --shadow:0 6px 0 rgba(55,65,92,.10);   /* 糖果下坠阴影 */
+  --shadow-lg:0 8px 0 rgba(55,65,92,.12);
+}
+
+/* — 2. 天空底图 + 云朵背景 — */
+body{
+  font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  font-size:16px;line-height:1.7;
+  background:
+    url("data:image/svg+xml,%3Csvg%20opacity%3D%270.8%27%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Cellipse%20cx%3D%2750%27%20cy%3D%2786%27%20rx%3D%2730%27%20ry%3D%278%27%20fill%3D%27%2337415C%27%20opacity%3D%270.08%27%2F%3E%3Cpath%20d%3D%27M22%2038%20Q14%2016%2034%2024%20L44%2032%20Z%27%20fill%3D%27%23E8A254%27%20stroke%3D%27%238C5A2B%27%20stroke-width%3D%272.5%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cpath%20d%3D%27M78%2038%20Q86%2016%2066%2024%20L56%2032%20Z%27%20fill%3D%27%23E8A254%27%20stroke%3D%27%238C5A2B%27%20stroke-width%3D%272.5%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cellipse%20cx%3D%2750%27%20cy%3D%2758%27%20rx%3D%2732%27%20ry%3D%2730%27%20fill%3D%27%23F2B96B%27%20stroke%3D%27%238C5A2B%27%20stroke-width%3D%273%27%2F%3E%3Cellipse%20cx%3D%2750%27%20cy%3D%2771%27%20rx%3D%2720%27%20ry%3D%2716%27%20fill%3D%27%23FFF6E8%27%2F%3E%3Ccircle%20cx%3D%2738%27%20cy%3D%2750%27%20r%3D%274.2%27%20fill%3D%27%234A3B32%27%2F%3E%3Ccircle%20cx%3D%2762%27%20cy%3D%2750%27%20r%3D%274.2%27%20fill%3D%27%234A3B32%27%2F%3E%3Ccircle%20cx%3D%2739.5%27%20cy%3D%2748.5%27%20r%3D%271.4%27%20fill%3D%27%23fff%27%2F%3E%3Ccircle%20cx%3D%2763.5%27%20cy%3D%2748.5%27%20r%3D%271.4%27%20fill%3D%27%23fff%27%2F%3E%3Cellipse%20cx%3D%2750%27%20cy%3D%2762%27%20rx%3D%274.6%27%20ry%3D%273.6%27%20fill%3D%27%234A3B32%27%2F%3E%3Cpath%20d%3D%27M50%2065%20Q45%2071%2040%2068%20M50%2065%20Q55%2071%2060%2068%27%20fill%3D%27none%27%20stroke%3D%27%234A3B32%27%20stroke-width%3D%272.2%27%20stroke-linecap%3D%27round%27%2F%3E%3Cellipse%20cx%3D%2727%27%20cy%3D%2760%27%20rx%3D%276%27%20ry%3D%274%27%20fill%3D%27%23F5A0A0%27%20opacity%3D%270.75%27%2F%3E%3Cellipse%20cx%3D%2773%27%20cy%3D%2760%27%20rx%3D%276%27%20ry%3D%274%27%20fill%3D%27%23F5A0A0%27%20opacity%3D%270.75%27%2F%3E%3C%2Fsvg%3E") no-repeat 86% 9% / 62px 62px,
+    url("data:image/svg+xml,%3Csvg%20opacity%3D%270.8%27%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Cellipse%20cx%3D%2750%27%20cy%3D%2786%27%20rx%3D%2728%27%20ry%3D%278%27%20fill%3D%27%2337415C%27%20opacity%3D%270.08%27%2F%3E%3Cpath%20d%3D%27M22%2042%20L15%2012%20L40%2025%20Z%27%20fill%3D%27%239BA6C4%27%20stroke%3D%27%235B6480%27%20stroke-width%3D%272.5%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cpath%20d%3D%27M78%2042%20L85%2012%20L60%2025%20Z%27%20fill%3D%27%239BA6C4%27%20stroke%3D%27%235B6480%27%20stroke-width%3D%272.5%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cpath%20d%3D%27M24%2034%20L20%2017%20L33%2026%20Z%27%20fill%3D%27%23F5A0A0%27%2F%3E%3Cpath%20d%3D%27M76%2034%20L80%2017%20L67%2026%20Z%27%20fill%3D%27%23F5A0A0%27%2F%3E%3Cellipse%20cx%3D%2750%27%20cy%3D%2760%27%20rx%3D%2732%27%20ry%3D%2728%27%20fill%3D%27%23B8C3DC%27%20stroke%3D%27%235B6480%27%20stroke-width%3D%273%27%2F%3E%3Ccircle%20cx%3D%2738%27%20cy%3D%2753%27%20r%3D%274.2%27%20fill%3D%27%234A3B32%27%2F%3E%3Ccircle%20cx%3D%2762%27%20cy%3D%2753%27%20r%3D%274.2%27%20fill%3D%27%234A3B32%27%2F%3E%3Ccircle%20cx%3D%2739.5%27%20cy%3D%2751.5%27%20r%3D%271.4%27%20fill%3D%27%23fff%27%2F%3E%3Ccircle%20cx%3D%2763.5%27%20cy%3D%2751.5%27%20r%3D%271.4%27%20fill%3D%27%23fff%27%2F%3E%3Cpath%20d%3D%27M45%2064%20L55%2064%20L50%2070%20Z%27%20fill%3D%27%23F0603F%27%2F%3E%3Cpath%20d%3D%27M50%2070%20Q45%2076%2040%2073%20M50%2070%20Q55%2076%2060%2073%27%20fill%3D%27none%27%20stroke%3D%27%234A3B32%27%20stroke-width%3D%272.2%27%20stroke-linecap%3D%27round%27%2F%3E%3Cpath%20d%3D%27M16%2058%20L28%2060%20M16%2066%20L28%2064%20M84%2058%20L72%2060%20M84%2066%20L72%2064%27%20stroke%3D%27%235B6480%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3Cellipse%20cx%3D%2728%27%20cy%3D%2768%27%20rx%3D%275.5%27%20ry%3D%273.5%27%20fill%3D%27%23F5A0A0%27%20opacity%3D%270.7%27%2F%3E%3Cellipse%20cx%3D%2772%27%20cy%3D%2768%27%20rx%3D%275.5%27%20ry%3D%273.5%27%20fill%3D%27%23F5A0A0%27%20opacity%3D%270.7%27%2F%3E%3C%2Fsvg%3E") no-repeat 5% 72% / 66px 66px,
+    radial-gradient(circle at 12% 8%, rgba(255,255,255,.85) 0 46px, transparent 47px),
+    radial-gradient(circle at 19% 9%, rgba(255,255,255,.85) 0 58px, transparent 59px),
+    radial-gradient(circle at 26% 8%, rgba(255,255,255,.85) 0 44px, transparent 45px),
+    radial-gradient(circle at 78% 18%, rgba(255,255,255,.7) 0 52px, transparent 53px),
+    radial-gradient(circle at 85% 19%, rgba(255,255,255,.7) 0 64px, transparent 65px),
+    radial-gradient(circle at 92% 18%, rgba(255,255,255,.7) 0 48px, transparent 49px),
+    radial-gradient(circle at 8% 42%, rgba(255,255,255,.5) 0 40px, transparent 41px),
+    radial-gradient(circle at 15% 43%, rgba(255,255,255,.5) 0 50px, transparent 51px),
+    radial-gradient(circle at 70% 58%, rgba(255,255,255,.45) 0 44px, transparent 45px),
+    radial-gradient(circle at 77% 59%, rgba(255,255,255,.45) 0 55px, transparent 56px),
+    radial-gradient(circle at 30% 86%, rgba(255,255,255,.55) 0 48px, transparent 49px),
+    radial-gradient(circle at 38% 87%, rgba(255,255,255,.55) 0 60px, transparent 61px),
+    radial-gradient(circle at 88% 90%, rgba(255,255,255,.5) 0 46px, transparent 47px),
+    radial-gradient(circle at 95% 91%, rgba(255,255,255,.5) 0 56px, transparent 48px),
+    linear-gradient(180deg,#CFEBFF 0%,#DFF3FF 45%,#EAF7E9 100%);
+  background-attachment:fixed;
+  min-height:100vh;
+}
+
+/* — 3. 卡片：云朵白卡 + 糖果阴影 — */
+.card{
+  border-radius:24px !important;
+  border:2.5px solid #EAF2FC !important;
+  box-shadow:var(--shadow);
+  padding:18px !important;
+}
+.card h2{font-size:18px;margin-bottom:10px}
+
+/* — 4. 模块按钮：大色块糖果卡 + 悬浮弹跳 — */
+.modbtn{
+  border:none !important;
+  border-radius:22px !important;
+  padding:18px 12px !important;
+  font-size:16px !important;
+  font-weight:900 !important;
+  color:#fff !important;
+  box-shadow:var(--shadow);
+  transition:transform .15s ease, box-shadow .15s ease;
+  background:var(--blue);
+}
+.modbtn:nth-child(8n+1){background:#FF8A3D}
+.modbtn:nth-child(8n+2){background:#27A567}
+.modbtn:nth-child(8n+3){background:#3E9BF0}
+.modbtn:nth-child(8n+4){background:#9B6FE0}
+.modbtn:nth-child(8n+5){background:#F5B325}
+.modbtn:nth-child(8n+6){background:#FF7BAC}
+.modbtn:nth-child(8n+7){background:#2EC4B6}
+.modbtn:nth-child(8n+8){background:#FF6B6B}
+.modbtn small{color:rgba(255,255,255,.92) !important;font-size:12px !important;margin-top:4px !important}
+.modbtn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.modbtn:active{transform:translateY(2px) scale(.97);box-shadow:0 2px 0 rgba(55,65,92,.10)}
+
+/* — 5. 按钮：胶囊大按钮，底部厚边按压感 — */
+.btn{
+  border-radius:999px !important;
+  padding:13px 26px !important;
+  font-size:16.5px !important;
+  font-weight:900 !important;
+  box-shadow:0 5px 0 rgba(55,65,92,.16);
+  transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(55,65,92,.16)}
+.btn.orange{background:var(--orange)}
+.btn.blue{background:var(--blue)}
+.btn.plain{
+  background:#fff !important;color:var(--ink) !important;
+  border:2px solid var(--line) !important;box-shadow:0 4px 0 rgba(55,65,92,.08);
+}
+
+/* — 6. 单元列表：白卡 + 糖果编号 — */
+.unitbtn{
+  border:none !important;
+  border-radius:22px !important;
+  padding:15px 16px !important;
+  box-shadow:var(--shadow);
+  transition:transform .15s ease;
+}
+.unitbtn:hover{transform:translateY(-2px)}
+.unitbtn .no{
+  width:44px !important;height:44px !important;
+  border-radius:16px !important;
+  font-size:19px !important;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.14);
+}
+.unitbtn .tt b{font-size:16.5px}
+
+/* — 7. 知识点卡 — */
+.kp{border-radius:20px !important;border-width:2px !important;padding:14px 16px !important}
+.kp .head{font-size:16px !important}
+.kp .head .dot{width:26px;height:26px;font-size:14px;border-radius:10px !important}
+
+/* — 8. 题目区：大题干 + 大选项 — */
+.qstem{
+  font-size:20px !important;
+  border-radius:22px !important;
+  border-width:2.5px !important;
+  padding:20px !important;
+  box-shadow:var(--shadow);
+}
+.opt{
+  font-size:17px !important;
+  border-radius:18px !important;
+  padding:15px 18px !important;
+  border-width:2.5px !important;
+  transition:transform .12s ease, background .12s ease;
+}
+.opt:hover{transform:translateY(-2px)}
+.opt:active{transform:scale(.98)}
+.opt.right{background:var(--greenL) !important;border-color:var(--green) !important;animation:pop .35s ease}
+.opt.wrong{background:var(--redL) !important;border-color:var(--red) !important;animation:shake .35s ease}
+@keyframes pop{0%{transform:scale(.96)}55%{transform:scale(1.03)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* — 9. 输入框 — */
+input.ansin{
+  font-size:19px !important;
+  border-radius:18px !important;
+  border-width:2.5px !important;
+  padding:15px 18px !important;
+}
+input.ansin:focus{border-color:var(--blue) !important;box-shadow:0 0 0 4px rgba(62,155,240,.15)}
+
+/* — 10. 反馈条：答对答错更有戏剧感 — */
+.fb{border-radius:20px !important;font-size:15px !important;padding:14px 16px !important}
+.fb.ok{background:var(--greenL) !important;color:var(--green) !important;border:2px solid #A8DFC5 !important;animation:pop .4s ease}
+.fb.no{background:var(--redL) !important;color:var(--red) !important;border:2px solid #F3B7A8 !important;animation:shake .4s ease}
+
+/* — 11. 徽章 / 难度芯片：改成软糖药丸 — */
+.badge{border-radius:999px !important;padding:4px 12px !important;font-size:12.5px !important}
+.pctchip{border-radius:999px !important;padding:8px 16px !important;font-size:14.5px !important;font-weight:900 !important;cursor:pointer;transition:transform .12s ease}
+.pctchip:active{transform:scale(.94)}
+.tag{border-radius:999px !important;padding:4px 14px !important;font-size:13px !important}
+
+/* — 12. 进度条：圆滚滚棒棒糖进度 — */
+.bar{height:12px;border-radius:999px !important;background:#E9F0FA !important}
+.bar i{border-radius:999px !important;background:linear-gradient(90deg,#27A567,#7BD98F) !important}
+
+/* — 13. 顶栏：返回按钮变云朵 — */
+.topbar h1{font-size:20px;font-weight:900}
+.backbtn{
+  border-radius:999px !important;
+  border:2px solid var(--line) !important;
+  padding:10px 18px !important;font-size:15px !important;
+  box-shadow:0 4px 0 rgba(55,65,92,.08);
+  transition:transform .12s ease;
+}
+.backbtn:active{transform:translateY(2px)}
+
+/* — 14. 表格圆角化、虚线行距加大 — */
+table.rep{font-size:14px}
+table.rep th,table.rep td{padding:9px 4px}
+.statrow{padding:9px 2px}
+
+/* — 15. 四步法步骤圆点放大 — */
+.step .n{
+  width:36px;height:36px;font-size:17px;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.14);
+}
+
+/* — 16. 连续天数：数字更跳 — */
+.bigday b{font-size:42px;background:linear-gradient(180deg,#FF8A3D,#F5B325);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:1px}
+.bigday{padding:20px 0 10px}
+
+/* — 17. 页脚提示淡化 — */
+.footer-tip{opacity:.75}
+
+/* — 18. 出题器选中芯片（JS 内联改背景色为橙，保持橙系即可） — */
+#unitPick .pctchip{margin:3px 3px 3px 0}
+#lvPick .pctchip{margin:3px 3px 3px 0}
+
+/* — 19. 成绩揭晓数字放大弹跳 — */
+.card p[style*="font-size:30px"]{font-size:40px !important;animation:pop .5s ease}
+
+/* — 20. 密码眼睛按钮加大热区 — */
+.pwd-eye{font-size:20px;right:12px}
+
+/* — 21. 页面入场动画：卡片从下轻轻浮起 — */
+.wrap > *{animation:rise .35s ease both}
+@keyframes rise{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+
+/* — 22. 小动物伙伴（小狗+小猫） — */
+.fb{position:relative}
+.fb.ok::after{content:'🐶';position:absolute;right:14px;top:-13px;font-size:24px;animation:twinkle 1.2s infinite}
+.fb.no::after{content:'🙀';position:absolute;right:14px;top:-13px;font-size:24px;animation:twinkle 1.2s infinite}
+.qstem{position:relative}
+.qstem::after{content:'🐱';position:absolute;top:-17px;right:10px;font-size:27px;transform:rotate(10deg);filter:drop-shadow(0 2px 3px rgba(55,65,92,.18))}
+body::after{content:'';position:fixed;right:12px;bottom:4px;width:92px;height:62px;z-index:-1;pointer-events:none;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20120%2080%27%3E%3Cellipse%20cx%3D%2762%27%20cy%3D%2766%27%20rx%3D%2736%27%20ry%3D%2713%27%20fill%3D%27%23F2B96B%27%20stroke%3D%27%238C5A2B%27%20stroke-width%3D%272.5%27%2F%3E%3Cpath%20d%3D%27M94%2060%20Q106%2050%20104%2038%20Q110%2052%2098%2066%20Z%27%20fill%3D%27%23E8A254%27%20stroke%3D%27%238C5A2B%27%20stroke-width%3D%272.5%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cellipse%20cx%3D%2740%27%20cy%3D%2738%27%20rx%3D%2725%27%20ry%3D%2723%27%20fill%3D%27%23F2B96B%27%20stroke%3D%27%238C5A2B%27%20stroke-width%3D%272.5%27%2F%3E%3Cpath%20d%3D%27M20%2024%20Q13%207%2028%2011%20L36%2018%20Z%27%20fill%3D%27%23E8A254%27%20stroke%3D%27%238C5A2B%27%20stroke-width%3D%272%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cpath%20d%3D%27M60%2024%20Q67%207%2052%2011%20L44%2018%20Z%27%20fill%3D%27%23E8A254%27%20stroke%3D%27%238C5A2B%27%20stroke-width%3D%272%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cellipse%20cx%3D%2740%27%20cy%3D%2748%27%20rx%3D%2714%27%20ry%3D%2710%27%20fill%3D%27%23FFF6E8%27%2F%3E%3Ccircle%20cx%3D%2731%27%20cy%3D%2734%27%20r%3D%273.2%27%20fill%3D%27%234A3B32%27%2F%3E%3Ccircle%20cx%3D%2749%27%20cy%3D%2734%27%20r%3D%273.2%27%20fill%3D%27%234A3B32%27%2F%3E%3Ccircle%20cx%3D%2732.2%27%20cy%3D%2732.8%27%20r%3D%271.1%27%20fill%3D%27%23fff%27%2F%3E%3Ccircle%20cx%3D%2750.2%27%20cy%3D%2732.8%27%20r%3D%271.1%27%20fill%3D%27%23fff%27%2F%3E%3Cellipse%20cx%3D%2740%27%20cy%3D%2743%27%20rx%3D%273.6%27%20ry%3D%272.8%27%20fill%3D%27%234A3B32%27%2F%3E%3Cpath%20d%3D%27M40%2046%20Q36%2050%2032%2048%20M40%2046%20Q44%2050%2048%2048%27%20fill%3D%27none%27%20stroke%3D%27%234A3B32%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3Cellipse%20cx%3D%2721%27%20cy%3D%2742%27%20rx%3D%274%27%20ry%3D%272.6%27%20fill%3D%27%23F5A0A0%27%20opacity%3D%270.75%27%2F%3E%3Cellipse%20cx%3D%2759%27%20cy%3D%2742%27%20rx%3D%274%27%20ry%3D%272.6%27%20fill%3D%27%23F5A0A0%27%20opacity%3D%270.75%27%2F%3E%3Cellipse%20cx%3D%2774%27%20cy%3D%2770%27%20rx%3D%278%27%20ry%3D%275%27%20fill%3D%27%23FFF6E8%27%20stroke%3D%27%238C5A2B%27%20stroke-width%3D%272%27%2F%3E%3C%2Fsvg%3E") no-repeat center/contain;opacity:.95}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes twinkle{0%,100%{transform:scale(1) rotate(0deg);opacity:.95}50%{transform:scale(1.25) rotate(12deg);opacity:.5}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+/* ═══ v3.0 课本注册表（先于主脚本与课本模块执行）═══ */
+var BOOKS=[];
+function regBook(def){if(def&&def.id&&!BOOKS.some(function(b){return b.id===def.id}))BOOKS.push(def)}
+function bookById(id){return BOOKS.find(function(b){return b.id===id})}
+/* 总复习单元 id 约定：'8'（六上旧版）或 'R'（新书通用） */
+function isRevId(id){var s=String(id);return s==='8'||s==='R'}
+</script>
+<!-- 课本模块：每册一个文件，按 年级上/下 顺序排列 -->
+<script src="books/common-gen.js"></script>
+<script src="books/common-gen2.js"></script>
+<script src="books/book-qd1a.js"></script>
+<script src="books/book-qd1b.js"></script>
+<script src="books/book-qd2a.js"></script>
+<script src="books/book-qd2b.js"></script>
+<script src="books/book-qd3a.js"></script>
+<script src="books/book-qd3b.js"></script>
+<script src="books/book-qd4a.js"></script>
+<script src="books/book-qd4b.js"></script>
+<script src="books/book-qd5a.js"></script>
+<script src="books/book-qd5b.js"></script>
+<script src="books/book-qd6a.js"></script>
+<script src="books/book-qd6b.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════════
+   六上数学乐园 · 青岛版（六三制）六年级上册
+   原创实现：知识卡 → 过关点亮 → 出题 → 错题隔日重考
+   数据全部存在本机 localStorage，断网可用
+   ═══════════════════════════════════════════════════════ */
+
+/* ───────── 多课本架构（v3.0）────────────────────────────
+   - BOOKS 注册表：每册一个模块文件 books/book-qdXX.js，暴露全局 BOOK_DEF
+   - 外壳只认 BOOK_DEF（当前课本的 UNITS/BOARDS/CHEAT/GENS/GENLVL/INTRO）
+   - kp id 全局唯一：六上沿用旧 id（1-1…），其余书带书前缀（如 qd5b-2-1），
+     存档 lit/st/wrong 按全局 id 记录，各书互不影响
+   - 存档 S 分桶：S.books[bid] = {lit,st,wrong,days,recent}；旧单书存档自动迁移到 qd6a 桶 */
+var BOOK_KEY='qd6_book';   /* 每用户当前课本 id（localStorage） */
+/* BOOKS/regBook/bookById 定义在页面顶部的注册表 script 中（先于课本模块加载） */
+var BOOK_DEF=null;   /* 当前课本模块（由 loadBookPref/ setCurrentBook 设置） */
+function applyBookPointers(){
+  if(!BOOK_DEF)return;
+  UNITS=BOOK_DEF.UNITS;BOARDS=BOOK_DEF.BOARDS;CHEAT=BOOK_DEF.CHEAT;
+  GENS=BOOK_DEF.GENS;GENLVL=BOOK_DEF.GENLVL;
+  syncBookRefs();
+}
+function curBookDef(){return BOOK_DEF}
+/* 旧存档兼容迁移：{lit,st,wrong,...} → books:{qd6a:{...}}，
+   顶层保留一份 qd6a 镜像（旧字段继续可读，服务端统计兼容） */
+function migrateStateBuckets(v){
+  if(v&&typeof v==='object'){
+    if(!v.books||typeof v.books!=='object'){v.books={}}
+    if(!v.books.qd6a&&(v.lit||v.st||v.wrong||v.days)){
+      v.books.qd6a={lit:v.lit||{},st:v.st||{},wrong:v.wrong||[],days:v.days||{},recent:v.recent||[]};
+    }
+    /* 顶层旧字段保留（服务端统计兼容读取），分桶为权威数据源 */
+    if(v.books.qd6a){v.lit=v.books.qd6a.lit;v.st=v.books.qd6a.st;v.wrong=v.books.qd6a.wrong;v.days=v.books.qd6a.days;v.recent=v.books.qd6a.recent||[]}
+    return v;
+  }
+  return v;
+}
+/* 当前课本存档桶引用（S.books[bid]），读写经由 S 但聚焦到桶 */
+function bookBucket(){
+  var bid=BOOK_DEF?BOOK_DEF.id:'qd6a';
+  if(!S.books)S.books={};
+  if(!S.books[bid])S.books[bid]={lit:{},st:{},wrong:[],days:{},recent:[],t0:S.t0||Date.now()};
+  var b=S.books[bid];
+  if(!Array.isArray(b.wrong))b.wrong=[];
+  if(!b.lit)b.lit={};if(!b.st)b.st={};if(!b.days)b.days={};if(!Array.isArray(b.recent))b.recent=[];
+  return b;
+}
+/* 兼容层：让原有代码继续读写 S.lit/S.st/S.wrong/S.days/S.recent，
+   实际指向当前课本的桶（getter/setter 代理） */
+function syncBookRefs(){
+  var b=bookBucket();
+  S.lit=b.lit;S.st=b.st;S.wrong=b.wrong;S.days=b.days;S.recent=b.recent;
+  if(CUR&&CUR.cloud)S.name=CUR.name;
+}
+/* 课本选择：保存当前课本 id */
+function setCurrentBook(id){
+  var def=bookById(id);
+  if(!def)return;
+  BOOK_DEF=def;
+  lsSet(BOOK_KEY,id);
+  if(CUR){try{lsSet(BOOK_KEY+'_'+CUR.phone,id)}catch(e){}}
+  applyBookPointers();
+  QS=null;
+}
+function loadBookPref(){
+  var id=null;
+  if(CUR){try{id=lsGet(BOOK_KEY+'_'+CUR.phone)||lsGet(BOOK_KEY)}catch(e){}}
+  if(!id)id=lsGet(BOOK_KEY);
+  var def=bookById(id);
+  if(!def){id=BOOKS[0]?BOOKS[0].id:null;if(id)def=bookById(id)}
+  BOOK_DEF=def;
+  return def;
+}
+
+/* ───────── 工具函数 ───────── */
+function R(n){return Math.floor(Math.random()*n)}
+function pick(a){return a[R(a.length)]}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=R(i+1),t=a[i];a[i]=a[j];a[j]=t}return a}
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t}return a||1}
+function frac(n,d){var g=gcd(n,d);n=n/g;d=d/g;return d===1?String(n):(n+'/'+d)}
+/* 纯文本分数（存档/比对用），HTML 分数（界面显示用，横线式） */
+function fracHTML(n,d){
+  var g=gcd(n,d);n=n/g;d=d/g;
+  if(d===1)return String(n);
+  if(n<0)return '<span class="frac"><span class="nu">−'+(-n)+'</span><span class="de">'+d+'</span></span>';
+  return '<span class="frac"><span class="nu">'+n+'</span><span class="de">'+d+'</span></span>';
+}
+/* 把字符串里的 a/b（最简或非最简）渲染成横线分数；支持 a/b × c/d 等混排 */
+function rich(s){
+  return String(s).replace(/(\d+)\/(\d+)/g,function(m,a,b){
+    return fracHTML(+a,+b);
+  });
+}
+function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function tomorrow(){var d=new Date();d.setDate(d.getDate()+1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function val(s){
+  s=String(s).trim().replace(/%$/,'').replace(/^\+/,'');
+  if(!s)return null;
+  var m=s.match(/^(-?\d+)\/(\d+)$/);
+  if(m){var d=+m[2];if(!d)return null;return +m[1]/d}
+  var f=parseFloat(s);return isNaN(f)?null:f;
+}
+function checkAns(q,user){
+  var u=String(user||'').trim();
+  if(q.ratio){
+    var m=u.match(/^(\d+)\s*[:：]\s*(\d+)$/);if(!m)return false;
+    var g=gcd(+m[1],+m[2]);
+    var c=q.ans.match(/^(\d+)[:：](\d+)$/);var g2=gcd(+c[1],+c[2]);
+    return +m[1]/g===+c[1]/g2 && +m[2]/g===+c[2]/g2;
+  }
+  var uv=val(u),cv=val(q.ans);
+  if(uv===null||cv===null)return false;
+  return Math.abs(uv-cv)<1e-9;
+}
+
+/* ───────── 用户系统（注册/登录/管理员）─────────
+   存储：localStorage 永久保存 + 双备份快照防覆盖 + 管理员可导出 JSON 文件兜底
+   安全：密码不明文存储——SHA-256(随机盐 + 密码) 哈希（纯 JS 实现，兼容 http 环境） */
+/* ───────── 存储可用性探测与安全包装 ─────────
+   IDE 预览面板/隐私模式会禁用 localStorage（写入抛 SecurityError）。
+   探测失败 → 自动降级为内存存储：应用照常运行，但数据仅本次会话有效，页面明确提示。 */
+var LS_OK=true,LS_MEM={};
+function lsProbe(){try{localStorage.setItem('__ls_probe','1');localStorage.removeItem('__ls_probe');return true}catch(e){return false}}
+LS_OK=lsProbe();
+function lsGet(k){if(!LS_OK&&lsProbe())LS_OK=true;if(LS_OK){try{return localStorage.getItem(k)}catch(e){LS_OK=false}}return Object.prototype.hasOwnProperty.call(LS_MEM,k)?LS_MEM[k]:null}
+function lsSet(k,v){if(!LS_OK&&lsProbe())LS_OK=true;if(LS_OK){try{localStorage.setItem(k,v);return true}catch(e){LS_OK=false}}LS_MEM[k]=String(v);return false}
+function lsRm(k){if(LS_OK){try{localStorage.removeItem(k)}catch(e){}}delete LS_MEM[k]}
+function lsWarn(){return '⚠ 当前浏览器环境不支持本地存储（常见于 IDE 预览面板、隐私模式），数据<b>仅保存在本次会话中</b>——刷新即丢失。请用系统浏览器（Chrome/Edge）打开本页或访问 NAS 网址，才能永久保存。'}
+var UKEY='qd6_users';        /* 用户表 */
+var CKEY='qd6_session';      /* 当前登录会话 */
+var BKEY1='qd6_users_bak1';  /* 备份快照 1（每次写入前滚动） */
+var BKEY2='qd6_users_bak2';  /* 备份快照 2（隔次滚动，防单点损坏） */
+var ADMIN_PHONE='ADMIN_PHONE_REPLACE_ME', ADMIN_SALT='ADMIN_SALT_REPLACE_ME', ADMIN_HASH='ADMIN_HASH_REPLACE_ME'; /* 仅存 hash，不落明文密码 */
+
+/* 纯 JS SHA-256（FIPS 180-4，内置实现，兼容 http/https/file） */
+function sha256(ascii){
+  function rightRotate(v,a){return (v>>>a)|(v<<(32-a))}
+  var mathPow=Math.pow,maxWord=mathPow(2,32),result='',words=[],asciiBitLength=ascii.length*8;
+  var hash=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[],primeCounter=k.length;
+  var isComposite={};
+  for(var candidate=2;primeCounter<64;candidate++){
+    if(!isComposite[candidate]){
+      for(var i=0;i<313;i+=candidate)isComposite[i]=candidate;
+      hash[primeCounter]=(mathPow(candidate,.5)*maxWord)|0;
+      k[primeCounter++]=(mathPow(candidate,1/3)*maxWord)|0;
+    }
+  }
+  ascii+='\x80';
+  while(ascii.length%64-56)ascii+='\x00';
+  for(i=0;i<ascii.length;i++){
+    var j=ascii.charCodeAt(i);
+    if(j>>8)return;  /* 非 ASCII：外部先转 UTF-8 */
+    words[i>>2]|=j<<((3-i)%4)*8;
+  }
+  words[words.length]=(asciiBitLength/maxWord)|0;
+  words[words.length]=asciiBitLength;
+  for(j=0;j<words.length;){
+    var w=words.slice(j,j+=16),oldHash=hash;
+    hash=hash.slice(0,8);
+    for(i=0;i<64;i++){
+      var w15=w[i-15],w2=w[i-2];
+      var a=hash[0],e=hash[4];
+      var temp1=hash[7]
+        +(rightRotate(e,6)^rightRotate(e,11)^rightRotate(e,25))
+        +((e&hash[5])^((~e)&hash[6]))+k[i]
+        +(w[i]=(i<16)?w[i]:(w[i-16]+(rightRotate(w15,7)^rightRotate(w15,18)^(w15>>>3))+w[i-7]+(rightRotate(w2,17)^rightRotate(w2,19)^(w2>>>10)))|0);
+      var temp2=(rightRotate(a,2)^rightRotate(a,13)^rightRotate(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+      hash=[(temp1+temp2)|0].concat(hash);
+      hash[4]=(hash[4]+temp1)|0;
+      hash[0]=temp1+temp2|0;
+    }
+    for(i=0;i<8;i++)hash[i]=(hash[i]+oldHash[i])|0;
+  }
+  for(i=0;i<8;i++){
+    for(j=3;j+1;j--){
+      var b=(hash[i]>>(j*8))&255;
+      result+=((b<16)?0:'')+b.toString(16);
+    }
+  }
+  return result;
+}
+function str2utf8(s){return decodeURIComponent(encodeURIComponent(s))}
+function hashPass(salt,pass){return sha256(str2utf8(salt+'::'+pass))}
+
+/* 用户表读写（带双备份与写入保护） */
+function loadUsers(){
+  try{var v=JSON.parse(lsGet(UKEY));if(v&&v.users)return v}catch(e){}
+  /* 主表损坏/丢失 → 尝试双备份恢复 */
+  for(var k of [BKEY1,BKEY2]){
+    try{var b=JSON.parse(lsGet(k));if(b&&b.users){console.warn('用户表从备份恢复:',k);return b}}catch(e){}
+  }
+  return {ver:2,users:[]};
+}
+function saveUsers(db){
+  /* 防覆盖：写入前把旧主表滚入备份（B1←旧值，B2←原B1） */
+  try{
+    var old=lsGet(UKEY);
+    if(old){lsSet(BKEY2,lsGet(BKEY1)||old||'');lsSet(BKEY1,old)}
+    db.savedAt=Date.now();
+    lsSet(UKEY,JSON.stringify(db));
+    return true;
+  }catch(e){console.error('用户表保存失败(存储满?)',e);return false}
+}
+var USERS=loadUsers();
+var CUR=null;  /* 当前登录用户 {phone,role,name} 或 null */
+try{CUR=JSON.parse(lsGet(CKEY))}catch(e){CUR=null}
+
+/* 预置管理员（仅当不存在时创建；密码哈希存储，不落明文） */
+/* 管理员迁移：若存在旧版预置管理员（13800000000 且从未有真实注册行为），自动移除 */
+(function(){
+  var changed=false;
+  /* 1. 移除旧预置管理员（13800000000，角色 admin） */
+  var legacy=USERS.users.findIndex(function(x){return x.phone==='13800000000'&&x.role==='admin'});
+  if(legacy>=0){USERS.users.splice(legacy,1);changed=true}
+  /* 2. 若旧管理员会话还挂着，清掉 */
+  try{var sess=JSON.parse(lsGet(CKEY));if(sess&&sess.phone==='13800000000'&&sess.role==='admin'){lsRm(CKEY);CUR=null}}catch(e){}
+  /* 3. 预置新管理员 */
+  if(!USERS.users.some(function(x){return x.phone===ADMIN_PHONE})){
+    var salt=Math.random().toString(36).slice(2)+Date.now().toString(36);
+    USERS.users.push({phone:ADMIN_PHONE,role:'admin',name:'管理员',salt:salt,hash:ADMIN_HASH,regAt:'2026-01-01 00:00:00',lastLogin:null});
+    changed=true;
+  }
+  var adm=findUser(ADMIN_PHONE);
+  if(adm&&(adm.lockUntil||adm.failN)){delete adm.lockUntil;adm.failN=0;changed=true}
+  if(changed)saveUsers(USERS);
+})();
+
+function validPhone(p){return /^1\d{10}$/.test(p)}
+/* 密码规则：必须 10 位，同时含数字/大写/小写/特殊符号 */
+function passIssue(p){
+  if(typeof p!=='string'||p.length<10||p.length>32)return '密码长度必须 10-32 位（当前 '+(p?p.length:0)+' 位）';
+  if(!/[0-9]/.test(p))return '密码必须包含数字';
+  if(!/[A-Z]/.test(p))return '密码必须包含大写字母';
+  if(!/[a-z]/.test(p))return '密码必须包含小写字母';
+  if(!/[^0-9A-Za-z]/.test(p))return '密码必须包含特殊符号（如 !@#$%^&*）';
+  return null;
+}
+function nowStr(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0')}
+function findUser(phone){return USERS.users.find(function(x){return x.phone===phone})}
+function setSession(u){CUR=u;try{lsSet(CKEY,JSON.stringify(u))}catch(e){}}
+function clearSession(){CUR=null;lsRm(CKEY)}
+function isAdmin(){return CUR&&CUR.role==='admin'}
+
+/* ───────── v3.3 记住密码（仅本机）─────────
+   存储：qd6_remember = {phones:{手机号:混淆密码}, last:最近登录手机号}
+   混淆：XOR 固定钥 + base64（防 casual 肩窥/明文落盘，非加密；设备本身即安全边界，
+   与 30 天会话 token 同等信任级别）。最多记 6 个账号（两娃共用设备场景）。 */
+var RMB_KEY='qd6_remember';
+function rmbXor(s){var k='qd6r2026',o='';for(var i=0;i<s.length;i++)o+=String.fromCharCode(s.charCodeAt(i)^k.charCodeAt(i%k.length));return o}
+function obf(s){return btoa(unescape(encodeURIComponent(rmbXor(s))))}
+function deobf(s){try{return rmbXor(decodeURIComponent(escape(atob(s))))}catch(e){return ''}}
+function loadRemember(){try{var v=JSON.parse(lsGet(RMB_KEY));if(v&&v.phones&&typeof v.phones==='object')return v}catch(e){}return {phones:{},last:null}}
+function saveRemember(r){try{lsSet(RMB_KEY,JSON.stringify(r))}catch(e){}}
+function rememberSet(ph,pass){
+  var r=loadRemember();
+  r.phones[ph]=obf(pass);r.last=ph;
+  var ks=Object.keys(r.phones);
+  while(ks.length>6){                      /* 超限淘汰最旧的非最近账号 */
+    var drop=ks.find(function(x){return x!==r.last});
+    if(!drop)break;
+    delete r.phones[drop];ks=Object.keys(r.phones);
+  }
+  saveRemember(r);
+}
+function rememberGet(ph){var r=loadRemember();return r.phones[ph]?deobf(r.phones[ph]):''}
+function rememberClear(ph){
+  var r=loadRemember();
+  if(ph){delete r.phones[ph];if(r.last===ph)r.last=Object.keys(r.phones)[0]||null}
+  else{r.phones={};r.last=null}
+  saveRemember(r);
+}
+function handleRemember(ph,p){
+  var chk=document.getElementById('rmbChk');
+  if(chk&&chk.checked)rememberSet(ph,p);
+  else rememberClear(ph);
+}
+function fillRemember(ph){
+  var el=document.getElementById('logPhone'),pe=document.getElementById('logPass'),c=document.getElementById('rmbChk');
+  if(el)el.value=ph;
+  if(pe)pe.value=rememberGet(ph);
+  if(c)c.checked=true;
+}
+function rememberClearAll(){rememberClear(null);go('auth')}
+
+/* 每个用户独立的学习存档键 */
+function userKey(phone){return 'qd6_state_'+phone}
+/* v2.4：同步架构。load() 仍同步读本地缓存（云端模式下是「最近一次云端副本」，页面秒开）；
+   cloudLoadState 在登录/启动时异步拉云端覆盖；save() 本地落盘后异步推云端（乐观锁+冲突合并）。
+   未登录游客与 NAS 不可达时行为与 v2.3 完全一致。 */
+function load(){  /* 依据登录态加载对应存档 */
+  var def={name:'',lit:{},st:{},wrong:[],days:{},t0:Date.now(),recent:[],books:{}};
+  function compat(v){  /* v2.4.6 向后兼容 + v3.0 分桶迁移：旧存档缺 recent/books 时补空，原字段一律不动 */
+    if(v&&typeof v==='object'){
+      if(!Array.isArray(v.recent))v.recent=[];
+      migrateStateBuckets(v);
+      return v;
+    }
+    return def;
+  }
+  if(CUR){try{var v=JSON.parse(lsGet(userKey(CUR.phone)));return compat(v)}catch(e){}return compat(def)}
+  try{var g=JSON.parse(lsGet(KEY));return compat(g)}catch(e){}
+  return compat(def);
+}
+/* v2.4.6 题面指纹去重：S.recent 滚动记录最近 300 条题面（含数字，天然区分参数组合）。
+   组题时优先抽没做过的；池太小（如应用题特训）不足时按序补齐，保证永远有题可出。 */
+var RECENT_MAX=300;
+function rememberQ(qq){
+  if(!Array.isArray(S.recent))S.recent=[];
+  var i=S.recent.indexOf(qq);
+  if(i>=0)S.recent.splice(i,1);      /* 已存在则移到尾部（刷新"最近做过"） */
+  S.recent.push(qq);
+  while(S.recent.length>RECENT_MAX)S.recent.shift();
+}
+function dedupPick(genFn,n){
+  /* genFn():返回候选规格数组；返回 n 个 makeQ 前的规格，优先未做过的题面。
+     策略：先严格排除 recent+组内重复；若池形态太少抽不满，退一步「放宽 recent、仅组内去重」；
+     再不够则允许组内重复补满（保证永远有题可出，如应用题特训小池）。 */
+  var out=[],used={},tries=0,maxTries=n*30;
+  var cache={};
+  function peek(spec){
+    var key=spec.g+'|'+spec.u+'|'+spec.k;
+    if(!(key in cache))cache[key]=makeQ(spec).q;
+    return cache[key];
+  }
+  while(out.length<n&&tries<maxTries){
+    tries++;
+    var pool=genFn();
+    if(!pool||!pool.length)break;
+    var spec=pick(pool);
+    var q=peek(spec);
+    if(S.recent.indexOf(q)>=0)continue;          /* 近期做过 → 跳过 */
+    if(used[q])continue;                          /* 本组内去重 */
+    used[q]=1;out.push(spec);
+  }
+  /* 池形态不足：放宽 recent（允许做过），仅组内去重补满 */
+  if(out.length<n){
+    var guard=0;
+    while(out.length<n&&guard<n*30){
+      guard++;
+      var pool2=genFn();
+      if(!pool2||!pool2.length)break;
+      var spec2=pick(pool2);
+      var q2=peek(spec2);
+      if(used[q2])continue;
+      used[q2]=1;out.push(spec2);
+    }
+  }
+  /* 极端小池（形态数 < n）：允许组内重复，直接补满 */
+  if(out.length<n){
+    var g3=0,base=out.slice();
+    while(out.length<n&&g3<n*10){
+      g3++;
+      out.push(base[g3%base.length]);
+    }
+  }
+  return out;
+}
+var _saveTimer=null;
+function save(){
+  /* v3.0：把兼容层引用的数据同步回当前课本桶（浅拷贝，避免桶引用漂移） */
+  if(S&&typeof S==='object'&&BOOK_DEF){
+    var b=S.books&&S.books[BOOK_DEF.id]?S.books[BOOK_DEF.id]:null;
+    if(b&&S.lit===b.lit){/* 引用已同步 */}
+    else{syncBookRefs()}
+  }
+  try{lsSet(CUR?userKey(CUR.phone):KEY,JSON.stringify(S))}catch(e){}
+  /* 云端模式：登录用户 800ms 防抖推送到 NAS（合并高频写） */
+  if(CUR&&CLOUD.on&&CLOUD.token){
+    if(_saveTimer)clearTimeout(_saveTimer);
+    _saveTimer=setTimeout(function(){
+      cloudSaveState(CUR.phone,S).then(function(r){
+        if(r&&r.relogin){go('home')}
+      });
+    },800);
+  }
+}
+
+/* ───────── 注册 / 登录（界面与逻辑）───────── */
+function togglePwd(id,btn){
+  var el=document.getElementById(id);
+  if(!el)return;
+  var show=el.type==='password';
+  el.type=show?'text':'password';
+  btn.textContent=show?'🙈':'👁';
+}
+var AUTH_MODE='login';
+function doRegister(){
+  if(REG_CLOSE&&CLOUD.on){var q=document.getElementById('regMsg');if(q){q.style.color='#C0392B';q.textContent='✕ 系统已关闭开放注册，请联系管理员创建账号'}return}
+  var ph=(document.getElementById('regPhone').value||'').trim();
+  var nm=(document.getElementById('regName').value||'').trim();
+  var p1=document.getElementById('regPass').value||'';
+  var p2=document.getElementById('regPass2').value||'';
+  var msg=document.getElementById('regMsg');
+  function fail(t){msg.textContent='✕ '+t}
+  if(!ph)return fail('请输入手机号');
+  if(!validPhone(ph))return fail('手机号格式不正确：必须 11 位且以 1 开头');
+  var issue=passIssue(p1);
+  if(issue)return fail(issue);
+  if(p1!==p2)return fail('两次输入的密码不一致');
+  /* v2.4 云端模式：账号存 NAS，任何设备可登录 */
+  if(CLOUD.on){
+    msg.style.color='';msg.textContent='… 正在注册…';
+    cloudRegister(ph,nm,p1).then(function(r){
+      if(!r.ok)return fail(r.err);
+      msg.style.color='#1E8449';msg.textContent='✓ 注册成功（云端账号）！正在进入…';
+      CUR={phone:ph,role:'user',name:r.user.name,cloud:true};try{lsSet(CKEY,JSON.stringify(CUR))}catch(e){}
+      /* 云端新账号无存档；本地若有旧游客/同号数据，自动迁移上云 */
+      cloudMaybeMigrate(ph).then(function(){S=load();syncBookRefs();S.name=r.user.name;save();setTimeout(function(){go('home')},600)});
+    }).catch(function(){fail('云端服务不可达，请稍后再试（或联系管理员检查 NAS）')});
+    return;
+  }
+  var salt=Math.random().toString(36).slice(2)+Date.now().toString(36);
+  var user={phone:ph,role:'user',name:nm||('同学'+ph.slice(-4)),salt:salt,hash:hashPass(salt,p1),regAt:nowStr(),lastLogin:null};
+  USERS.users.push(user);
+  if(!saveUsers(USERS)){
+    return fail(LS_OK?'保存失败：本机存储空间不足，请联系管理员导出备份清理'
+                   :'当前浏览器环境不支持本地存储（IDE 预览面板/隐私模式会这样）。注册已在本次会话内生效（刷新会丢失）；请改用系统浏览器打开以永久保存。');
+  }
+  msg.style.color='#1E8449';msg.textContent='✓ 注册成功！正在进入…';
+  setSession({phone:ph,role:'user',name:user.name});
+  S=load();syncBookRefs();S.name=user.name;save();
+  setTimeout(function(){go('home')},600);
+}
+function doLogin(){
+  var ph=(document.getElementById('logPhone').value||'').trim();
+  var p=document.getElementById('logPass').value||'';
+  var msg=document.getElementById('logMsg');
+  function fail(t){msg.textContent='✕ '+t}
+  if(!ph)return fail('请输入手机号');
+  if(!validPhone(ph))return fail('手机号格式不正确：必须 11 位且以 1 开头');
+  /* v2.4 云端模式：验证与锁定策略由服务端执行 */
+  if(CLOUD.on){
+    msg.style.color='';msg.textContent='… 正在登录…';
+    cloudLogin(ph,p).then(function(r){
+      if(r.ok)return r;
+      /* v2.4.2 存量本地账号自动升级上云：云端无此号，但本机账号表里有且密码验证通过
+         → 用 /api/admin/import 通道（服务端会校验操作者是 admin）走不通；
+         改用一次性「本地凭证迁移」：本机验证 salt/hash 通过后，调 register 重建云端账号，
+         成功后把本地存档推上去。若本机也没有此号 → 返回原始错误。 */
+      var lu=findUser(ph);
+      if(lu&&lu.salt&&lu.hash&&hashPass(lu.salt,p)===lu.hash&&!lu.banned){
+        msg.textContent='… 检测到本机存量账号，正在升级为云端账号…';
+        return cloudRegister(ph,lu.name,p).then(function(rr){
+          if(!rr.ok)throw new Error(rr.err||'升级失败');
+          /* 本地存档随首登自动迁移（cloudMaybeMigrate 在后续流程触发）；这里同步清掉本地账号表该条目，避免双份歧义 */
+          try{
+            var db=USERS;
+            db.users=db.users.filter(function(x){return x.phone!==ph});
+            saveUsers(db);
+          }catch(e){}
+          return {ok:true,user:rr.user,upgraded:true};
+        });
+      }
+      return r;
+    }).then(function(r){
+      if(!r.ok)return fail(r.err);
+      handleRemember(ph,p);   /* v3.3：按勾选状态记住/清除密码 */
+      msg.style.color='#1E8449';msg.textContent=r.upgraded?'✓ 已升级为云端账号（进度同步到 NAS）！':'✓ 登录成功（云端账号）！';
+      CUR={phone:ph,role:r.user.role,name:r.user.name,cloud:true};try{lsSet(CKEY,JSON.stringify(CUR))}catch(e){}
+      /* 拉云端最新存档 → 缓存到本地 → 首页；同时检查本机旧档是否需迁移上云 */
+      cloudLoadState(ph).then(function(st){
+        if(st.data){try{lsSet(userKey(ph),JSON.stringify(st.data))}catch(e){}}
+        cloudMaybeMigrate(ph).then(function(){S=load();syncBookRefs();save();setTimeout(function(){go('home')},400)});
+      }).catch(function(){S=load();syncBookRefs();save();setTimeout(function(){go('home')},400)});
+    }).catch(function(e){fail(e&&e.message?e.message:'云端服务不可达，请稍后再试')});
+    return;
+  }
+  var u=findUser(ph);
+  if(!u)return fail('该手机号尚未注册，请先注册');
+  if(u.banned)return fail('⛔ 该账号已被封禁'+(u.banReason?'：'+u.banReason:'')+'。如有疑问请联系管理员。');
+  if(u.lockUntil&&Date.now()<u.lockUntil)return fail('密码错误次数过多，账号已锁定，请 '+Math.ceil((u.lockUntil-Date.now())/60000)+' 分钟后再试');
+  if(hashPass(u.salt,p)!==u.hash){
+    u.failN=(u.failN||0)+1;
+    if(u.failN>=5){u.lockUntil=Date.now()+10*60*1000;u.failN=0}
+    saveUsers(USERS);
+    return fail('密码不正确'+(u.lockUntil?'，已连续错 5 次，锁定 10 分钟':''));
+  }
+  u.failN=0;delete u.lockUntil;u.lastLogin=nowStr();saveUsers(USERS);
+  setSession({phone:ph,role:u.role,name:u.name});
+  handleRemember(ph,p);   /* v3.3：按勾选状态记住/清除密码 */
+  S=load();syncBookRefs();save();  /* 登录即落盘，生成该用户独立存档 */
+  msg.style.color='#1E8449';msg.textContent='✓ 登录成功！';
+  setTimeout(function(){go('home')},400);
+}
+function doLogout(){
+  save();
+  var wasCloud=CUR&&CUR.cloud;
+  clearSession();S=load();syncBookRefs();QS=null;
+  if(wasCloud&&CLOUD.token){
+    /* 云端登出：撤销服务端会话并清本地 token */
+    cloudFetch('/logout',{method:'POST'}).catch(function(){});
+    CLOUD.token=null;cloudSaveTok();
+  }
+  go('home');
+}
+
+/* ───────── 管理员面板 ───────── */
+/* —— 用户管理：云端模式走服务端 API（服务端强制校验 admin），本地模式走 localStorage —— */
+var permChanged=false;
+var regPolicyChanged=false;
+/* v3.10 保存注册策略（仅管理员可调用；服务端 admin 路由强制鉴权） */
+function saveRegPolicy(){
+  var el=document.getElementById('regCloseChk');
+  if(!el)return;
+  var val=!!el.checked;
+  var m=document.getElementById('regPolicyMsg');
+  function done(ok,txt){if(m){m.style.color=ok?'#1E8449':'#C0392B';m.textContent=(ok?'✓ ':'✕ ')+txt}}
+  if(!CLOUD.on){done(false,'离线模式无法保存，请连接 NAS 后重试');return}
+  if(m){m.style.color='';m.textContent='… 正在保存…'}
+  cloudAdminReq('/admin/settings','POST',{closeReg:val}).then(function(r){
+    if(!r.ok){done(false,r.err||'保存失败');return}
+    REG_CLOSE=!!r.closeReg;regPolicyChanged=false;
+    done(true,(REG_CLOSE?'已禁止开放注册':'已恢复开放注册')+'，立即对所有设备生效');
+  });
+}
+function cloudAdminReq(path,method,body){
+  return cloudFetch(path,{method:method||'GET',body:body===undefined?undefined:JSON.stringify(body)}).then(function(r){
+    if(r.code===200&&r.body.ok!==undefined)return r.body;
+    return {ok:0,err:r.body.err||('操作失败('+r.code+')')};
+  }).catch(function(){return {ok:0,err:'云端服务不可达'}});
+}
+function doBan(phone){
+  var reason=(document.getElementById('banReason').value||'').trim().slice(0,60);
+  if(CLOUD.on){
+    cloudAdminReq('/admin/users/'+phone+'/ban','POST',{reason:reason}).then(function(r){
+      if(r.ok)go('admin');else{var m=document.getElementById('admMsg');if(m){m.style.color='#C0392B';m.textContent='✕ '+r.err}}
+    });
+    return;
+  }
+  var u=findUser(phone);
+  if(!u||u.role==='admin')return;
+  u.banned=true;
+  u.banReason=reason;
+  u.banAt=nowStr();
+  /* 踢出在线会话：清该用户独立会话痕迹（下个动作即被网关拦截） */
+  saveUsers(USERS);
+  go('admin');
+}
+function doUnban(phone){
+  if(CLOUD.on){
+    cloudAdminReq('/admin/users/'+phone+'/unban','POST').then(function(r){
+      if(r.ok)go('userAdmin',phone);else{var m=document.getElementById('admMsg');if(m){m.style.color='#C0392B';m.textContent='✕ '+r.err}}
+    });
+    return;
+  }
+  var u=findUser(phone);
+  if(!u)return;
+  delete u.banned;delete u.banReason;delete u.banAt;
+  saveUsers(USERS);
+  go('userAdmin',phone);
+}
+function savePerms(phone){
+  var perms={};
+  var allOn=true;
+  PERM_LIST.forEach(function(p){
+    var on=document.getElementById('perm_'+p.mod).checked;
+    perms[p.mod]=on;
+    if(!on)allOn=false;
+  });
+  var payload=allOn?null:perms;    /* 全部开启 = null = 默认全功能 */
+  if(CLOUD.on){
+    cloudAdminReq('/admin/users/'+phone,'PUT',{perms:payload}).then(function(r){
+      var m=document.getElementById('permMsg');
+      if(r.ok){m.textContent='✓ 已保存'+(allOn?'（全功能）':'');permChanged=false}
+      else{m.style.color='#C0392B';m.textContent='✕ '+r.err}
+    });
+    return;
+  }
+  var u=findUser(phone);
+  if(!u)return;
+  if(allOn){delete u.perms}  /* 全部开启 = 未设置（默认全功能） */
+  else{u.perms=perms}
+  saveUsers(USERS);
+  var m=document.getElementById('permMsg');
+  m.textContent='✓ 已保存'+(allOn?'（全功能）':'');
+  permChanged=false;
+}
+/* —— v2.4 新增：管理员账号管理（新增/编辑昵称/重置密码/删除）—— */
+function adminAddUser(){
+  var ph=(document.getElementById('admNewPhone').value||'').trim();
+  var nm=(document.getElementById('admNewName').value||'').trim();
+  var p=document.getElementById('admNewPass').value||'';
+  var m=document.getElementById('admNewMsg');
+  function fail(t){m.style.color='#C0392B';m.textContent='✕ '+t}
+  if(CLOUD.on){
+    m.style.color='';m.textContent='… 正在创建…';
+    cloudAdminReq('/admin/users','POST',{phone:ph,name:nm,pass:p}).then(function(r){
+      if(r.ok){m.style.color='#1E8449';m.textContent='✓ 账号已创建（云端）';go('admin')}
+      else fail(r.err);
+    });
+    return;
+  }
+  /* 本地模式 */
+  if(!ph)return fail('请输入手机号');
+  if(!validPhone(ph))return fail('手机号格式不正确');
+  var issue=passIssue(p);
+  if(issue)return fail(issue);
+  if(findUser(ph))return fail('该手机号已存在');
+  var salt=Math.random().toString(36).slice(2)+Date.now().toString(36);
+  USERS.users.push({phone:ph,role:'user',name:nm||('同学'+ph.slice(-4)),salt:salt,hash:hashPass(salt,p),regAt:nowStr(),lastLogin:null});
+  saveUsers(USERS);
+  m.style.color='#1E8449';m.textContent='✓ 账号已创建';
+  go('admin');
+}
+function adminEditName(phone){
+  var nm=(document.getElementById('admName_'+phone).value||'').trim();
+  var m=document.getElementById('admEditMsg_'+phone);
+  if(CLOUD.on){
+    cloudAdminReq('/admin/users/'+phone,'PUT',{name:nm}).then(function(r){
+      if(m){if(r.ok){m.style.color='#1E8449';m.textContent='✓ 已保存'}else{m.style.color='#C0392B';m.textContent='✕ '+r.err}}
+    });
+    return;
+  }
+  var u=findUser(phone);
+  if(!u||!m)return;
+  if(!nm){m.style.color='#C0392B';m.textContent='✕ 昵称不能为空';return}
+  u.name=nm.slice(0,12);saveUsers(USERS);
+  m.style.color='#1E8449';m.textContent='✓ 已保存';
+}
+function adminResetPass(phone){
+  var p=document.getElementById('admNewPwd_'+phone).value||'';
+  var m=document.getElementById('admPwdMsg_'+phone);
+  function fail(t){if(m){m.style.color='#C0392B';m.textContent='✕ '+t}}
+  if(CLOUD.on){
+    if(m){m.style.color='';m.textContent='… 正在重置…'}
+    cloudAdminReq('/admin/users/'+phone+'/resetpass','POST',{pass:p}).then(function(r){
+      if(m){if(r.ok){m.style.color='#1E8449';m.textContent='✓ 已重置，告知孩子新密码即可'}else fail(r.err)}
+    });
+    return;
+  }
+  var issue=p?passIssue(p):'请输入新密码';
+  if(issue)return fail(issue);
+  var u=findUser(phone);
+  if(!u)return;
+  var salt=Math.random().toString(36).slice(2)+Date.now().toString(36);
+  u.salt=salt;u.hash=hashPass(salt,p);delete u.failN;delete u.lockUntil;
+  saveUsers(USERS);
+  if(m){m.style.color='#1E8449';m.textContent='✓ 已重置，告知孩子新密码即可'}
+}
+var _delTarget=null;
+function adminAskDel(phone){
+  _delTarget=phone;
+  var u=CLOUD.on?null:findUser(phone);
+  var name=u?u.name:phone;
+  var m=document.getElementById('admDelMsg_'+phone);
+  if(m)m.innerHTML='⚠️ 确认删除 <b>'+phone+'</b>（'+name+'）？其学习数据将一并删除且不可恢复！<br><button class="btn" style="background:#C0392B;border-color:#C0392B;margin-top:6px" onclick="adminDoDel()">确认删除</button> <button class="btn plain" style="margin-top:6px" onclick="adminCancelDel()">取消</button>';
+}
+function adminCancelDel(){_delTarget=null;go('admin')}
+function adminDoDel(){
+  if(!_delTarget)return;
+  var phone=_delTarget;_delTarget=null;
+  if(CLOUD.on){
+    cloudAdminReq('/admin/users/'+phone,'DELETE').then(function(r){
+      if(!r.ok){var m=document.getElementById('admDelMsg_'+phone);if(m){m.style.color='#C0392B';m.textContent='✕ '+r.err}return}
+      try{lsRm(userKey(phone))}catch(e){}
+      go('admin');
+    });
+    return;
+  }
+  var u=findUser(phone);if(!u||u.role==='admin')return;
+  USERS.users=USERS.users.filter(function(x){return x.phone!==phone});
+  saveUsers(USERS);
+  try{lsRm(userKey(phone))}catch(e){}
+  go('admin');
+}
+function grantAllPerms(){
+  PERM_LIST.forEach(function(p){var el=document.getElementById('perm_'+p.mod);if(el)el.checked=true});
+  permChanged=true;
+}
+/* v2.4.4 学习报告：云端模式从服务端拉真实存档统计（本地模式读本机缓存） */
+/* —— v3.4.1 管理员实时查看单账号完整报告 + 错题本详情 ——
+   数据来源：GET /api/admin/detail/:phone（服务端实时读盘，非快照）；
+   刷新机制：进入页面即拉取 + 每 30s 自动刷新 + 手动刷新按钮；离开视图清定时器。 */
+var ADM_TIMER=null,ADM_PHONE=null,ADM_TAB='report';   /* 'report'|'wrong' */
+function adminDetailFetch(phone,cb){
+  cloudAdminReq('/admin/detail/'+phone,'GET').then(function(r){
+    if(r.ok)cb(r);
+    else{var box=document.getElementById('admDetailBox');if(box)box.innerHTML='<div class="card"><p style="color:var(--red);font-weight:700">✕ 读取失败：'+(r.err||'未知错误')+'</p></div>'}
+  }).catch(function(e){
+    var box=document.getElementById('admDetailBox');if(box)box.innerHTML='<div class="card"><p style="color:var(--red)">✕ 云端不可达：'+e.message+'</p></div>';
+  });
+}
+function adminDetailStop(){if(ADM_TIMER){clearInterval(ADM_TIMER);ADM_TIMER=null}ADM_PHONE=null}
+function adminReport(phone){
+  if(!CLOUD.on){
+    app.innerHTML='<div class="topbar"><button class="backbtn" onclick="go(\'admin\')">‹ 面板</button><h1>📊 学习报告</h1></div><div class="card"><p class="muted">实时查看需要云端同步模式（数据集中存 NAS）。当前为本地模式，只能看本机账号。</p></div>';
+    return;
+  }
+  adminDetailStop();ADM_PHONE=phone;
+  var h=`<div class="topbar"><button class="backbtn" onclick="adminDetailStop();go('admin')">‹ 面板</button><h1>📊 实时学习报告</h1></div>
+  <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <button class="btn ${ADM_TAB==='report'?'':'plain'}" style="padding:8px 14px;font-size:13.5px" onclick="ADM_TAB='report';adminReport('${phone}')">📈 学习报告</button>
+    <button class="btn ${ADM_TAB==='wrong'?'':'plain'}" style="padding:8px 14px;font-size:13.5px" onclick="ADM_TAB='wrong';adminReport('${phone}')">📕 错题本</button>
+    <button class="btn plain" style="padding:8px 14px;font-size:13px" onclick="adminDetailFetch('${phone}',renderAdminDetail)">🔄 刷新</button>
+    <span class="muted" style="font-size:12px" id="admFetchAt"></span>
+  </div><p class="muted" style="font-size:12px;margin:6px 0 0">每 30 秒自动刷新（孩子练完立刻能看到）；点「刷新」立即拉取。</p></div>
+  <div id="admDetailBox"><div class="card"><p class="muted">… 正在实时读取…</p></div></div>`;
+  app.innerHTML=h;
+  adminDetailFetch(phone,renderAdminDetail);
+  if(ADM_TIMER)clearInterval(ADM_TIMER);
+  ADM_TIMER=setInterval(function(){if(ADM_PHONE)adminDetailFetch(ADM_PHONE,renderAdminDetail)},30000);
+}
+function renderAdminDetail(d){
+  var box=document.getElementById('admDetailBox');if(!box)return;
+  var u=d.user||{};
+  var fetchEl=document.getElementById('admFetchAt');if(fetchEl)fetchEl.textContent='更新于 '+d.fetchedAt;
+  if(ADM_TAB==='wrong')return renderAdminWrongTab(box,d);
+  /* —— 学习报告 tab —— */
+  var h=`<div class="card"><h2>👤 ${u.name}（${u.phone}）${u.banned?' <span class="badge gray">已封禁</span>':''}</h2>
+  <p class="muted" style="font-size:13px">注册 ${u.regAt||'—'}｜最近登录 ${u.lastLogin||'—'}｜最近练习 ${d.lastActive||'—'}｜错题未清 ${d.totalWrong-(d.wrong||[]).filter(function(w){return w.done}).length} 道（总 ${d.totalWrong}）</p></div>`;
+  /* 每本课本的分桶报告 */
+  (d.books||[]).forEach(function(bk){
+    var def=bookById(bk.id);
+    var units=def?def.UNITS:null;
+    var lit=0,litTotal=0;
+    if(units){units.forEach(function(un){(un.kps||[]).forEach(function(k){litTotal++;if(bk.lit&&bk.lit[k.id])lit++})})}
+    else{Object.keys(bk.lit||{}).forEach(function(k){if(bk.lit[k])lit++});litTotal=lit}
+    var tot=0,cor=0;
+    Object.keys(bk.st||{}).forEach(function(k){tot+=(bk.st[k].att||0);cor+=(bk.st[k].cor||0)});
+    var rate=tot?Math.round(cor/tot*100):null;
+    h+=`<div class="card"><h2>📘 ${def?def.name:bk.id} ｜ 点亮 ${lit}/${litTotal} ｜ 累计 ${tot} 题 / 正确率 ${rate===null?'—':rate+'%'}</h2>`;
+    if(units){
+      h+='<table class="rep"><tr><th>单元</th><th>练习</th><th>正确率</th><th>状态</th></tr>';
+      units.forEach(function(un){
+        var s=bk.st[un.id]||bk.st[String(un.id)]||{att:0,cor:0};
+        var r=s.att?Math.round(s.cor/s.att*100):null;
+        var st=r===null?'<span class="muted">未练</span>':(r>=80?'👍 稳':(r>=60?'💪 练':'⚠ 弱'));
+        h+=`<tr><td style="text-align:left">${un.id} ${un.name}</td><td>${s.att}</td><td>${r===null?'—':r+'%'}</td><td>${st}</td></tr>`;
+      });
+      h+='</table>';
+    }
+    /* 最近 14 天练习量迷你柱图 */
+    var keys=[],dd=new Date();
+    for(var i=13;i>=0;i--){var d2=new Date();d2.setDate(d2.getDate()-i);keys.push(d2.getFullYear()+'-'+String(d2.getMonth()+1).padStart(2,'0')+'-'+String(d2.getDate()).padStart(2,'0'))}
+    var maxA=1;keys.forEach(function(k){var dv=bk.days[k];if(dv&&dv.att>maxA)maxA=dv.att});
+    h+=`<div style="display:flex;align-items:flex-end;gap:3px;height:44px;margin-top:8px">`;
+    keys.forEach(function(k){var dv=bk.days[k],a=dv?dv.att:0;
+      h+=`<div title="${k}：${a} 题" style="flex:1;background:${a>0?'var(--green)':'#E8E4D8'};height:${a>0?Math.max(3,a/maxA*34):3}px;border-radius:3px"></div>`});
+    h+='</div><p class="muted" style="font-size:11px;margin-top:2px">最近 14 天（绿=有练习，悬停看题数）</p></div>';
+  });
+  h+=`<div class="card"><button class="btn plain" style="width:100%" onclick="ADM_TAB='wrong';adminReport('${u.phone}')">📕 查看错题本详情（${d.totalWrong} 道）→</button></div>`;
+  box.innerHTML=h;
+}
+function renderAdminWrongTab(box,d){
+  var u=d.user||{};
+  var wrong=d.wrong||[];
+  var undone=wrong.filter(function(w){return !w.done}).length;
+  var h=`<div class="card"><h2>📕 ${u.name} 的错题本（共 ${d.totalWrong} 道，未清 ${undone} 道）</h2>`;
+  /* 知识点分布 */
+  var dist=d.kpDist||{},ks=Object.keys(dist).sort(function(a,b){return dist[b]-dist[a]});
+  var maxC=1;ks.forEach(function(k){if(dist[k]>maxC)maxC=dist[k]});
+  if(ks.length){
+    h+=`<h3 style="margin-top:6px">📍 知识点分布（弱在哪一眼看出）</h3>`;
+    ks.slice(0,10).forEach(function(k){
+      var def=null;BOOKS.forEach(function(b){b.UNITS.forEach(function(un){un.kps.forEach(function(kp){if(kp.id===k){def={book:b.name,kp:kp.name,unit:un.name}}})})});
+      var label=def?def.book+' · '+def.unit+' · '+def.kp:k;
+      h+=`<div style="display:flex;align-items:center;gap:8px;margin:5px 0"><span style="font-size:12.5px;flex:1">${label}</span><div style="flex:2;background:#EFECE3;border-radius:6px;height:14px;overflow:hidden"><div style="background:var(--orange);width:${Math.round(dist[k]/maxC*100)}%;height:100%"></div></div><b style="font-size:13px;min-width:26px;text-align:right">${dist[k]}</b></div>`;
+    });
+  }else h+='<p class="muted">还没有错题，棒！</p>';
+  h+='</div>';
+  /* 错题列表（最近 100 条，含作答与次数线索） */
+  h+=`<div class="card"><h2>📋 错题列表（按时间倒序，最多显示 100 条）</h2>`;
+  if(!wrong.length)h+='<p class="muted">空空如也。</p>';
+  wrong.slice().reverse().forEach(function(w){
+    var dt=w.ts?new Date(w.ts):null;
+    var dtStr=dt?dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0')+' '+String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0'):'—';
+    var bkDef=bookById(w.book);
+    h+=`<div class="kp" style="opacity:${w.done?0.55:1}">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px">
+        <span class="tag" style="background:${bkDef?bkDef.color:'#888'}">${bkDef?bkDef.name:w.book}</span>
+        ${w.done?'<span class="tag" style="background:var(--green)">已清</span>':'<span class="tag" style="background:var(--red)">未清</span>'}
+        ${w.proc?'<span class="tag" style="background:var(--blue)">应用题</span>':''}
+        <span class="muted" style="font-size:11.5px;margin-left:auto">${dtStr}${w.due?'｜到期 '+w.due:''}</span>
+      </div>
+      <b style="font-size:14px">${rich(w.q)}</b>
+      <p class="muted" style="font-size:12.5px">孩子答：${rich(w.user)||'—'} ｜ 正确：${rich(w.ans)}</p>
+      <p style="font-size:12.5px;color:var(--blue)">${rich(w.exp)}</p>
+    </div>`;
+  });
+  h+='</div>';
+  box.innerHTML=h;
+}
+function exportUsers(){
+  var data=JSON.stringify({exportedAt:nowStr(),app:'math6q',db:USERS},null,1);
+  var blob=new Blob([data],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='math6q_users_backup_'+today().replace(/-/g,'')+'.json';
+  document.body.appendChild(a);a.click();a.remove();
+  var m=document.getElementById('admMsg');if(m)m.textContent='✓ 备份文件已导出到下载目录';
+}
+function importUsers(){
+  var f=document.getElementById('impFile').files[0];
+  var m=document.getElementById('admMsg');
+  if(!f){m.style.color='#C0392B';m.textContent='✕ 请先选择备份 JSON 文件';return}
+  var rd=new FileReader();
+  rd.onload=function(){
+    try{
+      var obj=JSON.parse(rd.result);
+      var db=obj.db||obj;
+      if(!db.users||!Array.isArray(db.users))throw new Error('格式不对');
+      /* 保护：导入前先备份当前主表 */
+      try{var old=lsGet(UKEY);if(old){lsSet(BKEY1,old)} }catch(e){}
+      USERS=loadUsers();
+      /* 合并：按手机号去重，导入的覆盖同号旧档（管理员显式操作） */
+      db.users.forEach(function(u){
+        var i=USERS.users.findIndex(function(x){return x.phone===u.phone});
+        if(i>=0)USERS.users[i]=u;else USERS.users.push(u);
+      });
+      saveUsers(USERS);
+      m.style.color='#1E8449';m.textContent='✓ 恢复完成，当前用户数：'+USERS.users.length;
+    }catch(e){m.style.color='#C0392B';m.textContent='✕ 恢复失败：'+e.message}
+  };
+  rd.readAsText(f);
+}
+
+/* ───────── 存档 ───────── */
+var KEY='qd6_state';
+var S=load();syncBookRefs();
+function dayTick(){
+  var t=today();
+  if(!S.days[t])S.days[t]={att:0,cor:0};
+  return S.days[t];
+}
+function streak(){
+  var n=0,d=new Date();
+  for(;;){
+    var k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    if(S.days[k]&&S.days[k].att>0){n++}else{if(n===0&&k===today()){d.setDate(d.getDate()-1);continue}break}
+    d.setDate(d.getDate()-1);
+  }
+  return n;
+}
+
+/* v3.0 多课本：六上教材结构已迁至 books/book-qd6a.js；UNITS/BOARDS/GENS/GENLVL/CHEAT 为当前课本指针 */
+var UNITS=[];
+
+var BOARDS=[];
+
+/* v3.0 多课本：六上出题生成器已迁至 books/book-qd6a.js */
+var GENS={};
+
+var GENLVL={};
+
+function genPool(unitId,level){
+  var out=[];
+  UNITS.forEach(function(un){
+    if(unitId&&!isRevId(unitId)&&String(un.id)!==String(unitId))return;
+    if(unitId&&isRevId(unitId)&&isRevId(un.id))return;   /* 总复习=全部内容单元混合 */
+    un.kps.forEach(function(kp){
+      kp.gens.forEach(function(g){
+        if(!GENS[g])return;
+        if(level&&GENLVL[g]!==level)return;
+        out.push({g:g,u:un.id,k:kp.id});
+      });
+    });
+  });
+  return out;
+}
+function makeQ(spec){
+  var q=GENS[spec.g](spec.u,spec.k);
+  q.lvl=GENLVL[spec.g]||2;
+  return q;
+}
+/* 难度混合策略：易30% 中50% 挑战20% */
+function mixPool(unitId,n){
+  var out=[],tries=0;
+  while(out.length<n&&tries<n*30){
+    tries++;
+    var r=Math.random(),lv=r<0.3?1:(r<0.8?2:3);
+    var pool=genPool(unitId,lv);
+    if(!pool.length)pool=genPool(unitId,0);
+    var spec=pick(pool);
+    if(out.length&&out[out.length-1].g===spec.g&&tries<n*15)continue;
+    out.push(spec);
+  }
+  return out;
+}
+
+/* ───────── 界面 ───────── */
+var app=document.getElementById('app');
+
+/* ───────── v2.4 云端同步层（NAS 统一存储）─────────
+   CLOUD.on：/api/ping 探测成功后置 true。云端模式下：
+   - 账号表与学习存档全部存 NAS（server/server.js）
+   - 登录/注册签发 Bearer token（30 天，落盘 localStorage）
+   - 存档读写走乐观锁 rev：提交带 rev，冲突 409 时拉云端最新合并重试
+   - 管理员账号管理（新增/编辑/重置密码/封禁/删除）全部服务端鉴权
+   NAS 不可达自动回退 localStorage 本地模式（功能不变）。 */
+var CLOUD={on:false,base:'',token:null,ready:false,rev:{},migrating:false,me:null};
+var CLOUD_ME=null;   /* /whoami 缓存的本人云端账号事实（perms/banned/role） */
+/* v3.10 注册策略：REG_CLOSE=是否禁止开放注册（服务端 settings.closeReg 为准）。
+   公开只读 /api/settings 供所有设备启动时拉取；仅管理员可经 /api/admin/settings 修改。
+   本地模式（NAS 不可达）无此全局配置，按引擎默认允许注册。 */
+var REG_CLOSE=false;
+function fetchRegPolicy(){
+  if(!CLOUD.on)return Promise.resolve();
+  return cloudFetch('/settings',{method:'GET'}).then(function(r){
+    if(r.code===200&&r.body&&r.body.ok)REG_CLOSE=!!r.body.closeReg;
+  }).catch(function(){});
+}
+try{CLOUD.token=JSON.parse(lsGet('qd6_cloud_tok'))}catch(e){CLOUD.token=null}
+function cloudSaveTok(){if(CLOUD.token)lsSet('qd6_cloud_tok',JSON.stringify(CLOUD.token));else lsRm('qd6_cloud_tok')}
+function cloudBase(){
+  if(CLOUD.base)return CLOUD.base;
+  CLOUD.base=(location.protocol+'//'+location.host)+'/api';
+  return CLOUD.base;
+}
+function cloudFetch(path,opt){
+  opt=opt||{};
+  var h=opt.headers||{};
+  h['Content-Type']='application/json';
+  if(CLOUD.token)h['Authorization']='Bearer '+CLOUD.token.t;
+  opt.headers=h;
+  return fetch(cloudBase()+path,opt).then(function(r){
+    return r.json().then(function(j){return {code:r.status,body:j}});
+  });
+}
+/* 启动探测：成功→云端模式并恢复会话；失败→本地模式 */
+function cloudProbe(){
+  return cloudFetch('/ping',{method:'GET'}).then(function(r){
+    if(r.code===200&&r.body&&r.body.cloud){
+      CLOUD.on=true;CLOUD.ready=true;
+      /* 恢复会话：token 有效则拉 whoami 重建登录态 */
+      if(CLOUD.token&&CLOUD.token.t){
+        return cloudFetch('/whoami',{method:'GET'}).then(function(w){
+          if(w.code===200&&w.body.ok){
+            CLOUD_ME={phone:w.body.user.phone,role:w.body.user.role,name:w.body.user.name,perms:w.body.user.perms||null,banned:!!w.body.user.banned,banReason:w.body.user.banReason||null};
+            CUR={phone:w.body.user.phone,role:w.body.user.role,name:w.body.user.name,cloud:true};
+            try{lsSet(CKEY,JSON.stringify(CUR))}catch(e){}
+          }else{CLOUD.token=null;cloudSaveTok()}
+        }).catch(function(){CLOUD.token=null;cloudSaveTok()});
+      }
+    }
+  }).catch(function(){CLOUD.on=false});
+}
+/* 统一登录：优先云端，云端不可用回退本地 */
+function cloudLogin(ph,p){
+  return cloudFetch('/login',{method:'POST',body:JSON.stringify({phone:ph,pass:p})}).then(function(r){
+    if(r.code===200&&r.body.ok){
+      CLOUD.token={t:r.body.token,phone:ph};cloudSaveTok();
+      return {ok:true,user:r.body.user};
+    }
+    return {ok:false,err:r.body.err||('登录失败('+r.code+')')};
+  });
+}
+function cloudRegister(ph,nm,p){
+  return cloudFetch('/register',{method:'POST',body:JSON.stringify({phone:ph,name:nm,pass:p})}).then(function(r){
+    if(r.code===200&&r.body.ok){
+      CLOUD.token={t:r.body.token,phone:ph};cloudSaveTok();
+      return {ok:true,user:r.body.user};
+    }
+    return {ok:false,err:r.body.err||('注册失败('+r.code+')')};
+  });
+}
+/* 云端存档：load0 拉取（返回 {data,rev}），save0 提交（冲突自动合并重试一次） */
+function cloudLoadState(phone){
+  return cloudFetch('/state',{method:'GET'}).then(function(r){
+    if(r.code===200&&r.body.ok){CLOUD.rev[phone]=r.body.rev;return {data:r.body.data,rev:r.body.rev}}
+    throw new Error('state read '+r.code);
+  });
+}
+function cloudSaveState(phone,data){
+  var rev=CLOUD.rev[phone]||0;
+  return cloudFetch('/state',{method:'PUT',body:JSON.stringify({rev:rev,data:data})}).then(function(r){
+    if(r.code===200&&r.body.ok){CLOUD.rev[phone]=r.body.rev;return {ok:true}}
+    if(r.code===409&&r.body.err==='conflict'){
+      /* 冲突：另一台设备写过。拉最新 → 浅合并（days/st 累加保留最大，wrong 数组去重拼接）→ 重试一次 */
+      var remote=r.body.data||{};
+      var merged=mergeState(remote,data);
+      return cloudFetch('/state',{method:'PUT',body:JSON.stringify({rev:r.body.rev,data:merged})}).then(function(r2){
+        if(r2.code===200&&r2.body.ok){CLOUD.rev[phone]=r2.body.rev;return {ok:true,merged:true}}
+        return {ok:false,err:'同步冲突，请刷新页面重试'};
+      });
+    }
+    if(r.code===401){CLOUD.token=null;cloudSaveTok();CUR=null;return {ok:false,err:'登录已过期，请重新登录',relogin:true}}
+    return {ok:false,err:r.body.err||('保存失败('+r.code+')')};
+  });
+}
+/* 两设备进度合并（v3.0 分桶版）：对每个课本桶做字段级合并（取最大/并集），wrong 按内容去重；
+   qd6a 桶镜像到顶层旧字段，兼容服务端统计与旧版字段读取。 */
+function mergeState(a,b){
+  a=a||{};b=b||{};
+  function mergeBucket(x,y){
+    x=x||{};y=y||{};
+    var o={lit:{},st:{},wrong:[],days:{},recent:[]};
+    var recA=Array.isArray(x.recent)?x.recent:[],recB=Array.isArray(y.recent)?y.recent:[];
+    var seenR={},mR=[];
+    recA.concat(recB).forEach(function(q){if(q&&typeof q==='string'&&!seenR[q]){seenR[q]=1;mR.push(q)}});
+    o.recent=mR.slice(-300);
+    Object.keys(y.lit||{}).forEach(function(k){if(y.lit[k])o.lit[k]=true});
+    Object.keys(x.lit||{}).forEach(function(k){if(x.lit[k])o.lit[k]=true});
+    Object.keys(y.st||{}).forEach(function(k){o.st[k]={att:(y.st[k].att||0),cor:(y.st[k].cor||0)}});
+    Object.keys(x.st||{}).forEach(function(k){
+      if(!o.st[k])o.st[k]={att:0,cor:0};
+      o.st[k].att=Math.max(o.st[k].att||0,x.st[k].att||0);
+      o.st[k].cor=Math.max(o.st[k].cor||0,x.st[k].cor||0);
+    });
+    var seen={},wa=x.wrong||[],wb=y.wrong||[];
+    wb.concat(wa).forEach(function(w){var k=(w&&w.id!==undefined?w.id+'_'+(w.seed||''):JSON.stringify(w));if(!seen[k]){seen[k]=1;o.wrong.push(w)}});
+    o.wrong=o.wrong.slice(-200);
+    var dA=x.days||{},dB=y.days||{};
+    Object.keys(dB).forEach(function(k){o.days[k]={att:(dB[k].att||0),cor:(dB[k].cor||0)}});
+    Object.keys(dA).forEach(function(k){
+      if(!o.days[k])o.days[k]={att:0,cor:0};
+      o.days[k].att=Math.max(o.days[k].att||0,dA[k].att||0);
+      o.days[k].cor=Math.max(o.days[k].cor||0,dA[k].cor||0);
+    });
+    return o;
+  }
+  var out={name:b.name||a.name||'',t0:a.t0||b.t0||Date.now(),lit:{},st:{},wrong:[],days:{},recent:[],books:{}};
+  var ids={};
+  Object.keys(a.books||{}).forEach(function(k){ids[k]=1});
+  Object.keys(b.books||{}).forEach(function(k){ids[k]=1});
+  Object.keys(ids).forEach(function(k){
+    var mb=mergeBucket((a.books||{})[k],(b.books||{})[k]);
+    out.books[k]=mb;
+    if(k==='qd6a'){out.lit=mb.lit;out.st=mb.st;out.wrong=mb.wrong;out.days=mb.days;out.recent=mb.recent}
+  });
+  /* 任一端是旧版单书数据（无分桶）→ 折入 qd6a 桶 */
+  if(!out.books.qd6a&&(a.lit||a.st||a.wrong||b.lit||b.st||b.wrong)){
+    var legacy=mergeBucket({lit:a.lit,st:a.st,wrong:a.wrong,days:a.days,recent:a.recent},
+                           {lit:b.lit,st:b.st,wrong:b.wrong,days:b.days,recent:b.recent});
+    out.books.qd6a=legacy;
+    out.lit=legacy.lit;out.st=legacy.st;out.wrong=legacy.wrong;out.days=legacy.days;out.recent=legacy.recent;
+  }
+  return out;
+}
+/* 首次迁移：云端账号存档为空且本地有旧存档时，自动上传（一次性） */
+function cloudMaybeMigrate(phone){
+  if(CLOUD.migrating)return Promise.resolve();
+  CLOUD.migrating=true;
+  return cloudLoadState(phone).then(function(st){
+    if(st.data)return null;                       /* 云端已有数据，不覆盖 */
+    var local=null;try{local=JSON.parse(lsGet(userKey(phone)))}catch(e){}
+    if(!local||typeof local!=='object')return null;
+    return cloudSaveState(phone,local).then(function(){console.info('本地存档已自动迁移上云',phone);return true});
+  }).catch(function(e){console.warn('迁移检查失败(忽略)',e&&e.message)}).then(function(){CLOUD.migrating=false});
+}
+
+var QS=null;   /* 当前答题会话 */
+var QS_TITLE_LAST='';   /* 连续模式续组时的标题 */
+
+/* ───────── 功能模块与权限 ───────── */
+var PERM_LIST=[
+ {mod:'units',name:'按单元学',icon:'📚'},
+ {mod:'gen',name:'智能出题器',icon:'🎲'},
+ {mod:'daily',name:'今日任务',icon:'⏰'},
+ {mod:'wrong',name:'错题本',icon:'📕'},
+ {mod:'place',name:'摸底测试',icon:'📋'},
+ {mod:'map',name:'一图看全册',icon:'🗺'},
+ {mod:'board',name:'按板块攻',icon:'🧩'},
+ {mod:'cheat',name:'速查大表',icon:'📖'},
+ {mod:'four',name:'应用题四步法',icon:'🪜'},
+ {mod:'report',name:'学习报告',icon:'📊'},
+ {mod:'ai',name:'AI 智能判分',icon:'🤖'}
+];
+/* 导航名 → 权限模块（quiz 属于触发它的模块，不单独限权） */
+var PERM_ROUTE={units:'units',unit:'units',gen:'gen',wrong:'wrong',place:'place',map:'map',board:'board',cheat:'cheat',four:'four',report:'report'};
+function curUser(){
+  if(!CUR)return null;
+  /* v2.4.4 云端模式：账号事实以服务端为准（缓存镜像由 /whoami 刷新） */
+  if(CUR.cloud){
+    if(CUR.role==='admin')return {phone:CUR.phone,role:'admin',name:CUR.name};
+    return CLOUD_ME||(findUser(CUR.phone)||{phone:CUR.phone,role:'user',name:CUR.name});
+  }
+  return findUser(CUR.phone);
+}
+function hasPerm(mod){
+  var u=curUser();
+  if(!u)return false;
+  if(u.role==='admin')return true;
+  if(!u.perms)return true;   /* 未设置过权限 = 全部允许 */
+  return u.perms[mod]!==false;
+}
+function isBanned(){var u=curUser();return !!(u&&u.banned)}
+function permGate(mod){
+  if(hasPerm(mod))return true;
+  showNoPerm();return false;
+}
+
+function go(name,arg){
+  if(window._autoTimer){clearInterval(window._autoTimer);window._autoTimer=null}
+  /* 管理员视图保护：普通用户不可达 */
+  if((name==='admin'||name==='userAdmin')&&!isAdmin()){CUR=CUR;window.scrollTo(0,0);VIEWS.noPerm();return}
+  /* v2.4.4 云端模式：封禁/权限以服务端为准，操作后重新拉取（「及时生效」） */
+  if(CUR&&CUR.cloud){
+    return cloudFetch('/whoami',{method:'GET'}).then(function(w){
+      if(w.code===200&&w.body.ok){
+        CLOUD_ME={phone:w.body.user.phone,role:w.body.user.role,name:w.body.user.name,perms:w.body.user.perms||null,banned:!!w.body.user.banned,banReason:w.body.user.banReason||null};
+        CUR={phone:w.body.user.phone,role:w.body.user.role,name:w.body.user.name,cloud:true};
+        try{lsSet(CKEY,JSON.stringify(CUR))}catch(e){}
+        if(CLOUD_ME.banned){window.scrollTo(0,0);VIEWS.bannedView(CLOUD_ME);return}
+        window.scrollTo(0,0);VIEWS[name](arg);
+      }else{
+        CUR=null;CLOUD.token=null;cloudSaveTok();S=load();syncBookRefs();
+        window.scrollTo(0,0);VIEWS.home();
+      }
+    }).catch(function(){
+      /* 网络抖动：沿用缓存事实放行，不做离线误踢 */
+      window.scrollTo(0,0);VIEWS[name](arg);
+    });
+  }
+  /* 封禁检查：实时读用户表，封禁后即使在线也会被踢出 */
+  var cu=CUR?findUser(CUR.phone):null;
+  if(cu&&cu.banned){
+    var bu=cu;CUR=null;lsRm(CKEY);S=load();syncBookRefs();
+    window.scrollTo(0,0);VIEWS.bannedView(bu);return;
+  }
+  /* 模块权限检查（管理员豁免） */
+  var pm=PERM_ROUTE[name];
+  if(pm&&!hasPerm(pm)){window.scrollTo(0,0);VIEWS.noPerm();return}
+  window.scrollTo(0,0);VIEWS[name](arg);
+}
+
+
+var VIEWS={};
+
+VIEWS.bannedView=function(u){
+  app.innerHTML=`<div class="card" style="text-align:center;border:2px solid #C0392B">
+    <h2>⛔ 账号已被封禁</h2>
+    <p style="font-size:15px">账号 <b>${u.phone}</b>（${u.name}）已被管理员封禁。</p>
+    ${u.banReason?'<p style="font-size:14px">封禁原因：'+u.banReason+'</p>':''}
+    ${u.banAt?'<p class="muted" style="font-size:12px">封禁时间：'+u.banAt+'</p>':''}
+    <p class="muted" style="font-size:13px">如有疑问请联系管理员申诉。</p></div>
+    <p class="footer-tip">你的学习数据仍完整保留，解封后可继续使用。</p>`;
+};
+function showNoPerm(){window.scrollTo(0,0);VIEWS.noPerm()}
+VIEWS.noPerm=function(){
+  app.innerHTML=`<div class="card" style="text-align:center;border:2px solid #E67E22">
+    <h2>🔒 无权访问</h2>
+    <p class="muted" style="font-size:14px">当前账号未被授权使用此功能模块，请联系管理员开通。</p></div>
+    <div style="text-align:center;margin-top:12px"><button class="btn" onclick="go('home')">← 返回首页</button></div>`;
+};
+
+/* v2.4.4 用户管理详情：云端模式先拉该账号云端事实再渲染（报告/权限/封禁都可点开） */
+VIEWS.userAdmin=function(phone){
+  if(!isAdmin()){showNoPerm();return}
+  if(CLOUD.on){
+    app.innerHTML='<div class="topbar"><button class="backbtn" onclick="go(\'admin\')">‹ 面板</button><h1>⚙ 用户管理</h1></div><div class="card"><p class="muted">… 正在读取账号信息…</p></div>';
+    adminListData().then(function(d){
+      var u=d.users.find(function(x){return x.phone===phone});
+      if(!u){go('admin');return}
+      renderUserAdmin(u,true);
+    });
+    return;
+  }
+  var u=findUser(phone);
+  if(!u||u.role==='admin'){go('admin');return}
+  renderUserAdmin({phone:u.phone,name:u.name,role:u.role,perms:u.perms,banned:u.banned,banReason:u.banReason,regAt:u.regAt,lastLogin:u.lastLogin,stat:{att:null,cor:null,lit:null}},false);
+};
+function renderUserAdmin(u,cloud){
+  var perms=u.perms||{};
+  var h=`<div class="topbar"><button class="backbtn" onclick="go('admin')">‹ 面板</button><h1>⚙ 用户管理</h1></div>
+  <div class="card"><h2>${u.name}（${u.phone}）</h2>
+    <p class="muted" style="font-size:13px">注册：${u.regAt}｜最近登录：${u.lastLogin||'—'}${cloud?'｜<a href="javascript:void(0)" onclick="adminReport(\''+u.phone+'\')" style="color:var(--blue)">📊 查看学习报告</a>':''}</p>
+    <p style="font-size:14px">状态：${u.banned?'<b style="color:#C0392B">⛔ 已封禁'+(u.banReason?'（'+u.banReason+'）':'')+'</b>':'<b style="color:#1E8449">✅ 正常</b>'}</p></div>`;
+  /* 封禁/解封 */
+  h+=`<div class="card"><h2>${u.banned?'🔓 解封账号':'⛔ 封禁账号'}</h2>`;
+  if(!u.banned){
+    h+=`<p class="muted" style="font-size:13px">封禁后该账号立即被踢出，无法登录；学习数据完整保留，解封后可继续。</p>
+      <input class="ansin" id="banReason" placeholder="封禁原因（选填，如：连续三天未完成作业）" style="margin-bottom:10px;font-size:13px">
+      <button class="btn" style="width:100%;background:#C0392B;border-color:#C0392B" onclick="doBan('${u.phone}')">⛔ 确认封禁</button>`;
+  }else{
+    h+=`<button class="btn" style="width:100%" onclick="doUnban('${u.phone}')">🔓 解除封禁</button>`;
+  }
+  h+='</div>';
+  /* 模块授权 */
+  h+=`<div class="card"><h2>🔑 功能模块授权</h2>
+    <p class="muted" style="font-size:13px">取消勾选 = 该账号首页隐藏此模块且无法进入（AI 判分关闭后应用题只按最终答案判分）。全部勾选 = 全功能。${cloud?'保存后立即生效：该账号下次操作即按新权限执行。':''}</p>
+    <div id="permBox">`;
+  PERM_LIST.forEach(function(p){
+    var on=perms[p.mod]!==false;
+    h+=`<label style="display:flex;align-items:center;gap:8px;padding:7px 4px;border-bottom:1px solid var(--line);font-size:14px;cursor:pointer">
+      <input type="checkbox" id="perm_${p.mod}" ${on?'checked':''} onchange="permChanged=true">
+      <span>${p.icon} ${p.name}</span>
+      <span style="margin-left:auto;font-size:11px;color:var(--sub)">${p.mod}</span></label>`;
+  });
+  h+=`</div>
+    <button class="btn" style="width:100%;margin-top:10px" onclick="savePerms('${u.phone}')">💾 保存授权</button>
+    <button class="btn plain" style="width:100%;margin-top:8px" onclick="grantAllPerms()">✅ 全部勾选（恢复全功能）</button>
+    <div id="permMsg" style="min-height:18px;font-size:13px;font-weight:700;color:var(--green);margin-top:6px"></div></div>`;
+  permChanged=false;
+  app.innerHTML=h;
+};
+
+VIEWS.admin=function(){
+  if(!isAdmin()){go('home');return}
+  /* v2.4：云端模式异步拉列表（服务端统计），本地模式同步渲染 */
+  if(CLOUD.on){
+    app.innerHTML='<div class="topbar"><button class="backbtn" onclick="go(\'home\')">‹ 首页</button><h1>🛡 管理员面板</h1></div><div class="card"><p class="muted">… 正在从云端读取账号数据…</p></div>';
+    adminListData().then(function(d){renderAdmin(d.users,d.cloud,d.err)});
+    return;
+  }
+  renderAdmin(adminListDataLocal(),false,null);
+};
+/* 云端模式拉用户列表（含学习统计）；本地模式同步读 USERS（adminListDataLocal 定义在 renderAdmin 后） */
+function adminListData(){
+  if(CLOUD.on){
+    return cloudAdminReq('/admin/users','GET').then(function(r){
+      if(r.ok)return {users:(r.users||[]).map(function(u){return {phone:u.phone,name:u.name,role:u.role,perms:u.perms,banned:u.banned,banReason:u.banReason,regAt:u.regAt,lastLogin:u.lastLogin,stat:u.stat||{att:0,cor:0,lit:0}}}),cloud:true};
+      return {users:[],cloud:true,err:r.err};
+    });
+  }
+  return Promise.resolve({users:adminListDataLocal(),cloud:false,err:null});
+}
+function adminListDataLocal(){
+  return USERS.users.slice().sort(function(a,b){return (a.regAt<b.regAt)?-1:1}).map(function(u){
+    var st={att:0,cor:0},lit=0;
+    try{var sv=JSON.parse(lsGet(userKey(u.phone)));if(sv){
+      var att=0,cor=0;Object.keys(sv.st||{}).forEach(function(k){att+=sv.st[k].att;cor+=sv.st[k].cor});
+      st={att:att,cor:cor};
+      Object.keys(sv.lit||{}).forEach(function(k){if(sv.lit[k])lit++});
+    }}catch(e){}
+    return {phone:u.phone,name:u.name,role:u.role,perms:u.perms,banned:u.banned,banReason:u.banReason,regAt:u.regAt,lastLogin:u.lastLogin,stat:{att:st.att,cor:st.cor,lit:lit}};
+  });
+}
+function renderAdmin(us,cloud,err){
+  var h=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>🛡 管理员面板</h1></div>
+  ${cloud?'<p class="footer-tip" style="margin:0 0 6px">☁ 云端模式：账号与数据集中保存在飞牛 NAS，任何设备登录都是同一份。</p>':''}
+  ${err?'<div class="card" style="border:2px solid #C0392B"><p style="color:#C0392B;font-weight:700">✕ '+err+'</p></div>':''}
+  <div class="card"><h2>👥 注册用户（${us.length}）</h2>
+  <table class="rep"><tr><th>手机号</th><th>昵称</th><th>角色</th><th>注册时间</th><th>最近登录</th><th>练习/正确</th><th>点亮</th><th>报告</th></tr>`;
+  us.forEach(function(u){
+    var st=u.stat||{att:0,cor:0,lit:0};
+    var banTag=u.banned?'<span style="color:#C0392B;font-weight:700">⛔ 封禁</span>':'';
+    h+=`<tr><td>${u.phone}</td><td>${u.name}</td><td>${u.role==='admin'?'🛡 管理员':'👤 用户'}${banTag}</td><td style="font-size:11px">${u.regAt}</td><td style="font-size:11px">${u.lastLogin||'—'}</td><td>${st.att}/${st.cor}</td><td>${st.lit}</td><td><a href="javascript:void(0)" onclick="adminReport('${u.phone}')" style="color:var(--blue)">报告</a>${u.role==='admin'?'':` ｜ <a href="javascript:void(0)" onclick="go('userAdmin','${u.phone}')" style="color:var(--orange)">管理</a>`}</td></tr>`;
+  });
+  h+='</table></div>';
+  /* v3.10 注册策略开关：全局配置，存服务端，仅管理员可改（admin 视图已有 isAdmin 守卫） */
+  h+=`<div class="card"><h2>🚫 注册策略</h2>
+    <p class="muted" style="font-size:13px">${cloud?'开启后：所有设备关闭「自助注册」入口、阻止新的开放注册请求。已有账号登录、管理员创建账号均不受影响。配置保存在 NAS 云端，仅管理员可修改。':'注册策略是全局开关，仅在云端模式下可设置（本机离线模式无法保存）。'}</p>
+    <label style="display:flex;align-items:center;gap:8px;padding:8px 4px;font-size:14px;cursor:${cloud?'pointer':'not-allowed'}">
+      <input type="checkbox" id="regCloseChk" ${REG_CLOSE?'checked':''} ${cloud?'':'disabled'} onchange="regPolicyChanged=true">
+      <span>禁止开放注册</span>
+      <span style="margin-left:auto;font-size:12px;color:var(--sub)">${REG_CLOSE?'当前：已关闭':'当前：开放中'}</span>
+    </label>
+    ${cloud?'<button class="btn" style="width:100%;margin-top:6px" onclick="saveRegPolicy()">💾 保存注册策略</button>':''}
+    <div id="regPolicyMsg" style="min-height:18px;font-size:13px;font-weight:700;margin-top:6px"></div></div>`;
+  /* v2.4 新增：账号管理操作区 */
+  h+=`<div class="card"><h2>➕ 新增账号</h2>
+    <p class="muted" style="font-size:13px">管理员直接为孩子创建账号（无需注册流程）。密码规则同注册：恰好 10 位，含数字+大写+小写+特殊符号。</p>
+    <input class="ansin" id="admNewPhone" maxlength="11" placeholder="手机号（11 位）" autocomplete="off" style="margin-bottom:8px">
+    <input class="ansin" id="admNewName" maxlength="12" placeholder="孩子昵称（选填）" autocomplete="off" style="margin-bottom:8px">
+    <div class="pwdwrap" style="margin-bottom:8px"><input class="ansin" id="admNewPass" maxlength="10" type="password" placeholder="初始密码（10 位，含数字+大写+小写+特殊符号）" autocomplete="off"><button type="button" class="pwd-eye" onclick="togglePwd('admNewPass',this)">👁</button></div>
+    <button class="btn" style="width:100%" onclick="adminAddUser()">➕ 创建账号</button>
+    <div id="admNewMsg" style="min-height:18px;font-size:13px;font-weight:700;margin-top:6px"></div></div>`;
+  h+=`<div class="card"><h2>✏️ 编辑账号 / 🔑 重置密码 / 🗑 删除</h2>
+    <p class="muted" style="font-size:13px">点击「展开」对单个账号操作。重置密码会立即生效；删除会一并删除该账号的学习数据（保留一份备份在服务端）。</p>
+    <div id="admEditBox">`;
+  us.forEach(function(u){
+    if(u.role==='admin')return;
+    h+=`<div style="border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:8px"><b>${u.name}</b><span class="muted" style="font-size:12px">${u.phone}</span>
+        <button class="btn plain" style="margin-left:auto;font-size:12px;padding:4px 12px" onclick="adminToggleEdit('${u.phone}',this)">展开</button></div>
+      <div id="admEdit_${u.phone}" style="display:none;margin-top:8px">
+        <div style="display:flex;gap:6px;margin-bottom:6px"><input class="ansin" id="admName_${u.phone}" value="${u.name}" maxlength="12" placeholder="昵称" style="font-size:13px"><button class="btn" style="font-size:12px;padding:4px 14px;white-space:nowrap" onclick="adminEditName('${u.phone}')">💾 存昵称</button></div>
+        <div id="admEditMsg_${u.phone}" style="min-height:14px;font-size:12px"></div>
+        <div style="display:flex;gap:6px;margin-bottom:6px"><input class="ansin" id="admNewPwd_${u.phone}" maxlength="10" type="password" placeholder="新密码（10 位规则同上）" autocomplete="off" style="font-size:13px"><button class="btn" style="font-size:12px;padding:4px 14px;white-space:nowrap" onclick="adminResetPass('${u.phone}')">🔑 重置密码</button></div>
+        <div id="admPwdMsg_${u.phone}" style="min-height:14px;font-size:12px"></div>
+        ${u.banned?'':'<div id="admDelMsg_'+u.phone+'" style="min-height:14px;font-size:12px;color:#C0392B;font-weight:700"></div><button class="btn" style="width:100%;background:#C0392B;border-color:#C0392B;font-size:13px" onclick="adminAskDel(\''+u.phone+'\')">🗑 删除此账号</button>'}
+      </div></div>`;
+  });
+  h+=`</div></div>`;
+  h+=`<div class="card"><h2>💾 数据保护</h2>
+    <p class="muted" style="font-size:13px">${cloud?'账号与学习数据实时保存在 NAS 云端，服务端自动保留双份滚动备份（主档损坏自动恢复）。导出 JSON 仍可作线下灾备。':'注册数据实时永久保存在本机存储，并自动保留两份滚动备份（主表损坏时自动恢复）。导出 JSON 文件可跨设备迁移/灾备。'}</p>
+    <button class="btn" style="width:100%" onclick="exportUsers()">⬇ 导出全部用户数据（JSON 备份）</button>
+    <div style="margin-top:8px"><input type="file" id="impFile" accept=".json" style="width:100%;font-size:12px"></div>
+    <button class="btn plain" style="width:100%;margin-top:8px" onclick="importUsers()">⬆ 从备份文件恢复（导入账号上云）</button>
+    <div id="admMsg" style="min-height:18px;font-size:13px;font-weight:700;color:var(--green);margin-top:6px"></div></div>`;
+  /* AI 判分设置：首次由管理员填写 Key；页面源码与 DOM 都不含明文密钥 */
+  var ai=getAIcfg(),first=!ai;
+  var aiHint=first
+    ?'<div style="border:2px dashed var(--orange);border-radius:10px;padding:10px;margin-bottom:10px;font-size:13px;line-height:1.6">🔑 <b>首次配置（推荐）：</b>接口地址已预填同源代理 <b>/ai/chat/completions</b>，<b>Key 留空</b>直接点「保存配置」即可——Key 由 NAS 在服务端注入，孩子的所有设备都能用 AI 判分，页面和浏览器都不持有密钥。<br>若改走直连（自己填完整网关地址），才需要填 API Key；此时 Key <b>只存这台设备的浏览器</b>，不会写进页面源码、不会随页面下发，也不会出现在导出的用户备份中。</div>'
+    :'<p class="muted" style="font-size:12.5px;margin-top:0">✅ 已配置：'+(ai.key?'Key 仅存本机（尾号 '+ai.key.slice(-4)+'）':'服务端代理模式（请求不带 Key）')+'。页面源码不含任何密钥。</p>';
+  h+=`<div class="card"><h2>🤖 AI 判分设置（过程作答 + 拍照识别）</h2>
+    <p class="muted" style="font-size:13px">应用题支持分步写过程与<b>拍照上传手写过程</b>。本地先按最终答案自动判分；无法识别时调用大模型判定。拍照识别需选<b>视觉模型</b>（带 👁 标记）。未配置时自动降级为按最终答案判分。</p>
+    ${aiHint}
+    <input class="ansin" id="aiEndpoint" placeholder="接口地址（推荐 /ai/chat/completions；直连请填完整地址并自填 Key）" autocomplete="off" style="margin-bottom:8px;font-size:12px">
+    <div class="pwdwrap" style="margin-bottom:8px"><input class="ansin" id="aiKey" type="password" autocomplete="new-password" style="font-size:12px"><button type="button" class="pwd-eye" onclick="togglePwd('aiKey',this)" title="显示/隐藏">👁</button></div>
+    <input class="ansin" id="aiModel" list="aiModelList" placeholder="判分模型（下拉选择或输入）" autocomplete="off" style="margin-bottom:8px;font-size:12px">
+    <datalist id="aiModelList">${AI_MODELS.map(function(m){return '<option value="'+m.id+'">'+m.d+'</option>'}).join('')}</datalist>
+    <p class="muted" style="font-size:12px;margin-top:0" id="aiModelDesc"></p>
+    <div class="grid2"><button class="btn" onclick="saveAIcfg()">💾 保存配置</button><button class="btn plain" onclick="testAI()">🔌 测试连通</button></div>
+    <div style="margin-top:8px"><button class="btn plain" style="width:100%;font-size:12px" onclick="fetchAIModels()">🔄 从网关获取模型列表（/v1/models）</button></div>
+    <div class="grid2" style="margin-top:8px"><button class="btn plain" style="font-size:12px" onclick="clearAIKey()">🗑 清除 Key（代理模式）</button><button class="btn plain" style="font-size:12px" onclick="resetAIcfg()">↩ 清空全部配置</button></div>
+    <div id="aiMsg" style="min-height:18px;font-size:13px;font-weight:700;margin-top:6px"></div>
+    <div style="border-top:1px solid var(--line);margin-top:10px;padding-top:10px">
+      <h3 style="font-size:14px;margin:0 0 6px">🛡 模型容灾（自动换备用模型）</h3>
+      <p class="muted" style="font-size:12px;margin-top:0">主模型限流/超时/出错时，自动重试并切换到备用模型，无需人工干预。候选链按优先级排列。</p>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:8px"><input type="checkbox" id="ftOn"> 启用容灾</label>
+      <input class="ansin" id="ftChain" placeholder="候选模型链（英文逗号分隔，按优先级）" autocomplete="off" style="margin-bottom:8px;font-size:12px">
+      <div class="grid2">
+        <div><label class="muted" style="font-size:12px">单请求超时(ms)</label><input class="ansin" id="ftTimeout" type="number" min="1000" step="1000" style="font-size:12px"></div>
+        <div><label class="muted" style="font-size:12px">每模型重试次数</label><input class="ansin" id="ftRetries" type="number" min="0" max="3" style="font-size:12px"></div>
+        <div><label class="muted" style="font-size:12px">熔断阈值(连续失败)</label><input class="ansin" id="ftTrip" type="number" min="1" max="10" style="font-size:12px"></div>
+        <div><label class="muted" style="font-size:12px">冷却时间(秒)</label><input class="ansin" id="ftCooldown" type="number" min="5" step="5" style="font-size:12px"></div>
+      </div>
+      <div class="grid2" style="margin-top:8px"><button class="btn plain" style="font-size:12px" onclick="saveFTcfg()">💾 保存容灾设置</button><button class="btn plain" style="font-size:12px" onclick="resetFTcfg()">↩ 恢复默认</button></div>
+      <div id="ftMsg" style="min-height:18px;font-size:13px;font-weight:700;margin-top:6px"></div>
+      <div id="ftHealth" style="font-size:12px;line-height:1.6"></div>
+    </div></div>`;
+  app.innerHTML=h;
+  document.getElementById('aiEndpoint').value=ai?ai.endpoint:DEFAULT_AI.endpoint;
+  document.getElementById('aiModel').value=ai?ai.model:DEFAULT_AI.model;
+  /* 安全：绝不把已保存的 Key 明文写回 DOM */
+  var ki=document.getElementById('aiKey');
+  ki.value='';
+  ki.placeholder=first?'首次配置：粘贴 API Key（或留空走服务端代理）'
+                      :'已保存（尾号 '+(ai.key?ai.key.slice(-4):'无')+'）· 留空保持不变';
+  updateAIModelDesc();
+  document.getElementById('aiModel').addEventListener('input',updateAIModelDesc);
+  renderFTHealth();
+}
+function adminToggleEdit(phone,btn){
+  var box=document.getElementById('admEdit_'+phone);
+  if(!box)return;
+  var show=box.style.display==='none';
+  box.style.display=show?'block':'none';
+  if(btn)btn.textContent=show?'收起':'展开';
+}
+
+VIEWS.auth=function(){
+  /* 关闭开放注册后：强制回到登录态，堵住手工改写 AUTH_MODE 或刷新残留的注册视图 */
+  if(REG_CLOSE&&CLOUD.on&&AUTH_MODE==='reg')AUTH_MODE='login';
+  var h=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>${AUTH_MODE==='reg'?'📝 注册新用户':'🔑 用户登录'}</h1></div>
+  ${LS_OK?'':'<div class="card" style="border:2px solid #E67E22"><p style="font-size:13.5px;font-weight:700;color:var(--orange)">'+lsWarn()+'</p></div>'}
+  <div class="card">
+    ${AUTH_MODE==='reg'
+      ?`<p class="muted">手机号注册（11 位、以 1 开头）；密码规则：<b>恰好 10 位</b>，且必须同时包含<b>数字、大写字母、小写字母、特殊符号</b>。</p>
+        <input class="ansin" id="regPhone" maxlength="11" placeholder="手机号（11 位，以 1 开头）" autocomplete="off" style="margin-bottom:8px">
+        <input class="ansin" id="regName" maxlength="12" placeholder="孩子昵称（选填）" autocomplete="off" style="margin-bottom:8px">
+        <div class="pwdwrap" style="margin-bottom:8px"><input class="ansin" id="regPass" maxlength="10" placeholder="密码（恰好 10 位，含数字+大写+小写+特殊符号）" autocomplete="off"><button type="button" class="pwd-eye" onclick="togglePwd('regPass',this)" title="显示/隐藏密码">👁</button></div>
+        <div class="pwdwrap" style="margin-bottom:10px"><input class="ansin" id="regPass2" maxlength="10" placeholder="再输一遍密码确认" autocomplete="off"><button type="button" class="pwd-eye" onclick="togglePwd('regPass2',this)" title="显示/隐藏密码">👁</button></div>
+        <div id="regMsg" style="min-height:20px;font-size:13px;color:#C0392B;font-weight:700"></div>
+        <button class="btn" style="width:100%" onclick="doRegister()">注册</button>
+        <p class="muted" style="margin-top:10px">已有账号？<a href="javascript:void(0)" onclick="AUTH_MODE='login';go('auth')" style="color:var(--blue)">去登录</a></p>`
+      :`<p class="muted">用手机号和密码登录。学习进度跟着账号走，换设备登录也能继续。<b style="color:var(--orange)">注意：管理员账号密码请完整输入，区分大小写与特殊符号。</b></p>
+        ${(function(){
+          var r=loadRemember(),ks=Object.keys(r.phones||{});
+          if(!ks.length)return '';
+          var h='<div class="card" style="background:var(--greenL);border-color:#BFDCCB;margin-bottom:10px"><h3 style="margin:0 0 6px">⚡ 已记住的账号（点一下直接填）</h3>';
+          ks.forEach(function(ph){
+            var nm='';var lu=findUser(ph);if(lu&&lu.name)nm=lu.name;
+            h+='<button class="btn plain" style="margin:3px 6px 3px 0;padding:8px 12px;font-size:13px" onclick="fillRemember(\''+ph+'\')">👤 '+ph+(nm?'（'+nm+'）':'')+'</button>';
+          });
+          h+='<button class="btn plain" style="padding:8px 12px;font-size:12px;color:var(--red)" onclick="rememberClearAll()">🗑 清除记住的密码</button>';
+          return h+'</div>';
+        })()}
+        <input class="ansin" id="logPhone" maxlength="11" placeholder="手机号" autocomplete="off" style="margin-bottom:8px">
+        <div class="pwdwrap" style="margin-bottom:8px"><input class="ansin" id="logPass" maxlength="64" type="password" placeholder="密码" autocomplete="off"><button type="button" class="pwd-eye" onclick="togglePwd('logPass',this)" title="显示/隐藏密码">👁</button></div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:10px;cursor:pointer">
+          <input type="checkbox" id="rmbChk" style="width:17px;height:17px">
+          <span>🔒 记住密码（仅保存在本设备，下次一键登录）</span>
+        </label>
+        <div id="logMsg" style="min-height:20px;font-size:13px;color:#C0392B;font-weight:700"></div>
+        <button class="btn" style="width:100%" onclick="doLogin()">登录</button>
+        ${REG_CLOSE?'<p class="muted" style="margin-top:10px">当前已关闭开放注册，如需账号请联系管理员创建。</p>':'<p class="muted" style="margin-top:10px">还没有账号？<a href="javascript:void(0)" onclick="AUTH_MODE=\'reg\';go(\'auth\')" style="color:var(--blue)">注册一个</a></p>'}`}
+  </div>
+  <p class="footer-tip">${LS_OK?'注册信息永久保存在本机存储中（密码经加盐哈希，不存明文），管理员可导出备份文件。':'当前环境数据不持久：刷新后会丢失。请改用系统浏览器打开本页。'}</p>`;
+  app.innerHTML=h;
+};
+
+function MODS_HTML(){
+  var mods=[
+    ['units','📚','按单元学','一单元一单元点亮'],
+    ['gen','🎲','智能出题器','自选单元和难度'],
+    ['wrong','📕','错题本','隔日到期重考'],
+    ['place','📋','两分钟摸底','先摸底再学习'],
+    ['map','🗺','一图看全册','知识全景'],
+    ['board','🧩','按板块攻','哪弱补哪'],
+    ['cheat','📖','速查大表','概念 · 白话 · 例子'],
+    ['four','🪜','应用题四步法','选单元难度·读题不慌'],
+    ['report','📊','家长报告','给爸妈看的一页']
+  ];
+  var h='';
+  mods.forEach(function(m){
+    var ok=hasPerm(m[0]);
+    h+=ok?`<div class="modbtn" onclick="go('${m[0]}')">${m[1]} ${m[2]}<small>${m[3]}</small></div>`
+        :`<div class="modbtn" style="opacity:0.45" onclick="showNoPerm()">${m[1]} ${m[2]}<small>🔒 未授权</small></div>`;
+  });
+  h+=`<div class="modbtn" onclick="go('about')">💡 关于<small>怎么用好这本"宝典"</small></div>`;
+  return h;
+}
+
+/* —— 课本选择（v3.0 多课本）—— */
+VIEWS.booksel=function(){
+  var h=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>📘 选择课本</h1></div>
+  <p class="muted" style="margin-bottom:10px">青岛版（六三制）数学 · 共 ${BOOKS.length} 册（一年级上～六年级下）。点选后立即生效，每本课本的进度、错题本独立保存。</p>
+  <div class="grid2">`;
+  BOOKS.forEach(function(b){
+    var bk=(S.books&&S.books[b.id])||null;
+    var lit=0,total=0;
+    (b.UNITS||[]).forEach(function(u){(u.kps||[]).forEach(function(k){total++;if(bk&&bk.lit&&bk.lit[k.id])lit++})});
+    var isCur=BOOK_DEF&&BOOK_DEF.id===b.id;
+    h+=`<div class="modbtn" style="${isCur?'border-color:var(--green);border-width:2.5px;background:var(--greenL)':''}" onclick="chooseBook('${b.id}')">
+      <b>📘 ${b.name}</b>
+      <small>${b.intro}</small>
+      <small>${(b.UNITS||[]).length} 个单元 · 点亮 ${lit}/${total}${isCur?' · ✓ 当前':''}</small>
+    </div>`;
+  });
+  h+='</div><p class="footer-tip">新增课本只需在 books/ 目录加一个模块文件并注册——架构自动识别。</p>';
+  app.innerHTML=h;
+};
+function chooseBook(id){
+  setCurrentBook(id);
+  save();
+  go('home');
+}
+
+/* —— 首页 —— */
+VIEWS.home=function(){
+  /* 登录墙：未登录只给登录/注册入口（旧游客存档保留，登录后可用） */
+  if(!CUR){
+    var g=0;try{var gg=JSON.parse(lsGet(KEY));if(gg&&gg.name)g=1}catch(e){}
+    app.innerHTML=`${LS_OK?'':'<div class="card" style="border:2px solid #E67E22"><p style="font-size:13.5px;font-weight:700;color:var(--orange)">'+lsWarn()+'</p></div>'}
+    <div class="card">
+      <div style="text-align:center;padding:2px 0 0"><span style="display:inline-block;width:116px;margin:0 8px;animation:floaty 2.8s ease-in-out infinite"><svg style="width:100%;height:auto;display:block" xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='86' rx='30' ry='8' fill='#37415C' opacity='0.08'/><path d='M22 38 Q14 16 34 24 L44 32 Z' fill='#E8A254' stroke='#8C5A2B' stroke-width='2.5' stroke-linejoin='round'/><path d='M78 38 Q86 16 66 24 L56 32 Z' fill='#E8A254' stroke='#8C5A2B' stroke-width='2.5' stroke-linejoin='round'/><ellipse cx='50' cy='58' rx='32' ry='30' fill='#F2B96B' stroke='#8C5A2B' stroke-width='3'/><ellipse cx='50' cy='71' rx='20' ry='16' fill='#FFF6E8'/><circle cx='38' cy='50' r='4.2' fill='#4A3B32'/><circle cx='62' cy='50' r='4.2' fill='#4A3B32'/><circle cx='39.5' cy='48.5' r='1.4' fill='#fff'/><circle cx='63.5' cy='48.5' r='1.4' fill='#fff'/><ellipse cx='50' cy='62' rx='4.6' ry='3.6' fill='#4A3B32'/><path d='M50 65 Q45 71 40 68 M50 65 Q55 71 60 68' fill='none' stroke='#4A3B32' stroke-width='2.2' stroke-linecap='round'/><ellipse cx='27' cy='60' rx='6' ry='4' fill='#F5A0A0' opacity='0.75'/><ellipse cx='73' cy='60' rx='6' ry='4' fill='#F5A0A0' opacity='0.75'/></svg></span><span style="display:inline-block;width:106px;margin:0 8px;animation:floaty 3.2s ease-in-out .5s infinite"><svg style="width:100%;height:auto;display:block" xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='86' rx='28' ry='8' fill='#37415C' opacity='0.08'/><path d='M22 42 L15 12 L40 25 Z' fill='#9BA6C4' stroke='#5B6480' stroke-width='2.5' stroke-linejoin='round'/><path d='M78 42 L85 12 L60 25 Z' fill='#9BA6C4' stroke='#5B6480' stroke-width='2.5' stroke-linejoin='round'/><path d='M24 34 L20 17 L33 26 Z' fill='#F5A0A0'/><path d='M76 34 L80 17 L67 26 Z' fill='#F5A0A0'/><ellipse cx='50' cy='60' rx='32' ry='28' fill='#B8C3DC' stroke='#5B6480' stroke-width='3'/><circle cx='38' cy='53' r='4.2' fill='#4A3B32'/><circle cx='62' cy='53' r='4.2' fill='#4A3B32'/><circle cx='39.5' cy='51.5' r='1.4' fill='#fff'/><circle cx='63.5' cy='51.5' r='1.4' fill='#fff'/><path d='M45 64 L55 64 L50 70 Z' fill='#F0603F'/><path d='M50 70 Q45 76 40 73 M50 70 Q55 76 60 73' fill='none' stroke='#4A3B32' stroke-width='2.2' stroke-linecap='round'/><path d='M16 58 L28 60 M16 66 L28 64 M84 58 L72 60 M84 66 L72 64' stroke='#5B6480' stroke-width='1.6' stroke-linecap='round'/><ellipse cx='28' cy='68' rx='5.5' ry='3.5' fill='#F5A0A0' opacity='0.7'/><ellipse cx='72' cy='68' rx='5.5' ry='3.5' fill='#F5A0A0' opacity='0.7'/></svg></span><div style="font-size:23px;font-weight:900;margin-top:6px">小狗阿黄和小猫咪咪欢迎你！</div></div>
+      <p style="text-align:center" class="muted">青岛版（六三制）数学 · ${BOOK_DEF?BOOK_DEF.name:''}（共 ${BOOKS.length} 册可切换）</p>
+    </div>
+    <div class="card"><h2>${REG_CLOSE?'开始之前，请先登录':'开始之前，先登录或注册'}</h2>
+      <p class="muted" style="font-size:13.5px">多用户账号体系：每个人的进度、错题本、点亮记录分开保存、<b>永久保存</b>。${REG_CLOSE?'当前已关闭开放注册，账号由管理员统一创建。':'手机号注册，密码经加盐哈希加密存储。'}</p>
+      <div style="margin-top:12px"><button class="btn" style="width:100%" onclick="AUTH_MODE='login';go('auth')">🔑 登录</button></div>
+      ${REG_CLOSE?'':'<div style="margin-top:8px"><button class="btn orange" style="width:100%" onclick="AUTH_MODE=\'reg\';go(\'auth\')">📝 注册新用户</button></div>'}
+      <p class="muted" style="margin-top:10px;font-size:12px">管理员请用预置管理员账号登录。</p>
+      ${g?'<p class="muted" style="margin-top:4px;font-size:12px">检测到旧的游客进度，登录后仍保留在本机。</p>':''}
+    </div>
+    <p class="footer-tip">数据保存在本机 · 断网可用 · 不上传任何服务器</p>`;
+    return;
+  }
+  var lit=0,total=0;
+  UNITS.forEach(function(u){u.kps.forEach(function(k){total++;if(S.lit[k.id])lit++})});
+  var d=dayTick();
+  var h=`<div class="card">
+    <div class="bigday"><b>${streak()}</b><br><span class="muted">连续练习天数 🔥</span></div>
+    <p style="text-align:center" class="muted">${CUR.role==='admin'?'管理员视角':S.name?'学习者：'+S.name:'欢迎回来'}｜当前课本：${BOOK_DEF?BOOK_DEF.name:''}｜知识点点亮：${lit} / ${total}</p>
+    <div style="margin-top:10px"><button class="btn blue" style="width:100%" onclick="go('booksel')">🔄 切换课本（1～6 年级共 ${BOOKS.length} 册）</button></div>
+  </div>
+  <div class="card">
+    <h2>👋 你好，${CUR.name}<small class="muted">（${CUR.phone}）</small></h2>
+    ${CUR.role==='admin'
+      ?`<div style="margin-top:10px"><button class="btn blue" style="width:100%" onclick="go('admin')">🛡 进入管理员面板（用户管理 / 学习报告 / 数据备份）</button></div>`
+      :(hasPerm('daily')
+        ?`<div style="margin-top:10px"><button class="btn orange" onclick="startDaily()">▶ 今天的任务（约 10 分钟）</button></div>
+    <p class="muted" style="margin-top:6px">一张知识卡 + 五道题 + 错题重考，今天已练 ${d.att} 题</p>`
+        :`<div style="margin-top:10px"><button class="btn plain" style="width:100%;opacity:.55" onclick="showNoPerm()">🔒 今日任务（未授权）</button></div>`)}
+    <div style="margin-top:10px"><button class="btn plain" onclick="doLogout()">🚪 退出登录</button></div>
+  </div>
+  <div class="grid2">
+    ${MODS_HTML()}
+  </div>
+  <p class="footer-tip">数据保存在本机 · 断网可用 · 把本文件发到孩子设备浏览器打开即可</p>`;
+  app.innerHTML=h;
+};
+function setName(){  /* 兼容保留：登录用户改名 */
+  var v=document.getElementById('nameIn')?document.getElementById('nameIn').value.trim():'';
+  if(!v||!CUR)return;S.name=v.slice(0,12);save();go('home');
+}
+
+/* —— 按单元学 —— */
+VIEWS.units=function(){
+  var h=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>按单元学</h1></div>
+  <p class="muted" style="margin-bottom:10px">每个知识点：先读卡 → 点"过关检验" → 做对 5 题点亮 ✅</p>`;
+  UNITS.forEach(function(u){
+    var l=0;u.kps.forEach(function(k){if(S.lit[k.id])l++});
+    h+=`<div class="unitbtn" onclick="go('unit','${u.id}')">
+      <div class="no" style="background:${u.color}">${u.id}</div>
+      <div class="tt"><b>${u.name}</b><small>${u.theme}</small></div>
+      <span class="badge ${l===u.kps.length?'':'gray'}">${l}/${u.kps.length} 点亮</span>
+    </div>`;
+  });
+  app.innerHTML=h;
+};
+VIEWS.unit=function(uid){
+  var u=UNITS.find(function(x){return x.id===uid});
+  var h=`<div class="topbar"><button class="backbtn" onclick="go('units')">‹ 单元</button><h1>${u.id} · ${u.name}</h1></div>
+  <p class="muted" style="margin-bottom:10px">情境主题：${u.theme}</p>`;
+  u.kps.forEach(function(k){
+    var isLit=!!S.lit[k.id];
+    h+=`<div class="kp ${isLit?'lit':''}">
+      <div class="head"><span class="dot">${isLit?'✓':''}</span>${k.name}</div>
+      <div style="margin-top:8px;font-size:14.5px">${rich(k.card)}</div>
+      <div style="margin-top:10px"><button class="btn ${isLit?'plain':''}" onclick="startPass('${k.id}')">
+        ${isLit?'再练一组（10 题）':'🎯 过关检验（10 题，连对 5 题点亮）'}</button>
+        <button class="btn plain" onclick="startDrill('${k.id}')">🎲 这个点多练几题</button></div>
+    </div>`;
+  });
+  h+=`<div style="margin-top:12px"><button class="btn blue" style="width:100%" onclick="startUnitMix('${u.id}')">🚀 本单元混合闯关（10 题）</button></div>
+  <div style="margin-top:10px"><button class="btn orange" style="width:100%" onclick="startUnitApp('${u.id}')">📝 本单元应用题特训（20 题）</button></div>`;
+  app.innerHTML=h;
+};
+
+/* —— 出题器 —— */
+VIEWS.gen=function(){
+  var h=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>🎲 智能出题器</h1></div>
+  <div class="card"><h3>① 选范围</h3><div id="unitPick">`;
+  UNITS.forEach(function(u){
+    h+=`<span class="pctchip" style="cursor:pointer" onclick="pickUnit('${u.id}',this)">${u.id} ${u.name}</span>`;
+  });
+  h+=`<span class="pctchip" style="cursor:pointer;background:var(--greenL);color:var(--green)" onclick="pickUnit(0,this)">全册混合</span></div>
+  <h3 style="margin-top:14px">② 选难度</h3><div id="lvPick">
+  <span class="pctchip" style="cursor:pointer" onclick="pickLv(1,this)">🌱 基础</span>
+  <span class="pctchip" style="cursor:pointer" onclick="pickLv(2,this)">💪 提高</span>
+  <span class="pctchip" style="cursor:pointer" onclick="pickLv(3,this)">🔥 挑战</span>
+  <span class="pctchip" style="cursor:pointer;background:var(--orangeL);color:var(--orange)" onclick="pickLv(0,this)">♻ 合理搭配（推荐）</span></div>
+  <div style="margin-top:16px"><button class="btn" style="width:100%" onclick="startGen()">出 10 道题！</button></div>
+  <p class="muted" style="margin-top:8px">"合理搭配"= 基础 30% + 提高 50% + 挑战 20%，题型选择/填空自动混出。</p></div>`;
+  app.innerHTML=h;
+  window._gu=0;window._gl=0;
+};
+function pickUnit(id,el){
+  document.querySelectorAll('#unitPick .pctchip').forEach(function(x){x.style.background='';x.style.color='var(--orange)'});
+  el.style.background='var(--orange)';el.style.color='#fff';window._gu=id;
+}
+function pickLv(lv,el){
+  document.querySelectorAll('#lvPick .pctchip').forEach(function(x){x.style.background='';x.style.color='var(--orange)'});
+  el.style.background='var(--orange)';el.style.color='#fff';window._gl=lv;
+}
+function startGen(){
+  if(!permGate('gen'))return;
+  var u=window._gu,lv=window._gl;
+  function refill(){
+    if(lv===0)return dedupPick(function(){return mixPool(u,10)},10).map(makeQ);
+    return dedupPick(function(){return genPool(u||null,lv).length?genPool(u||null,lv):genPool(u||null,0)},10).map(makeQ);
+  }
+  if(lv===0){startQuiz(dedupPick(function(){return mixPool(u,10)},10).map(makeQ),'gen','智能出题',refill)}
+  else{
+    var qs=dedupPick(function(){return genPool(u||null,lv).length?genPool(u||null,lv):genPool(u||null,0)},10).map(makeQ);
+    startQuiz(qs,'gen','智能出题',refill);
+  }
+}
+
+/* —— 答题引擎（通用）—— */
+function startQuiz(qs,mode,title,refill){
+  QS={qs:qs,i:0,mode:mode||'gen',ok:0,title:title||'练习',log:[]};
+  window._refillFn=refill||null;
+  go('quiz');
+}
+function startPass(kid){
+  if(!permGate('units'))return;
+  var kp=null,uid=0;
+  UNITS.forEach(function(u){u.kps.forEach(function(k){if(k.id===kid){kp=k;uid=u.id}})});
+  var specs=kp.gens.map(function(g){return{g:g,u:uid,k:kid}});
+  var qs=[];
+  for(var i=0;i<10;i++){var s=pick(specs);qs.push(makeQ(s))}
+  QS={qs:qs,i:0,mode:'pass',kid:kid,okN:0,okStreak:0,title:'过关检验 · '+kp.name,log:[]};
+  go('quiz');
+}
+function startDrill(kid){
+  if(!permGate('units'))return;
+  var kp=null,uid=0;
+  UNITS.forEach(function(u){u.kps.forEach(function(k){if(k.id===kid){kp=k;uid=u.id}})});
+  var specs=kp.gens.map(function(g){return{g:g,u:uid,k:kid}});
+  var qs=[];for(var i=0;i<10;i++){qs.push(makeQ(pick(specs)))}
+  startQuiz(qs,'gen','专项练习 · '+kp.name,function(){
+    var arr=[];for(var i=0;i<10;i++){arr.push(makeQ(pick(specs)))}
+    return arr;
+  });
+}
+function startUnitMix(uid){
+  if(!permGate('units'))return;
+  var name=UNITS.find(function(u){return u.id===uid}).name;
+  startQuiz(dedupPick(function(){return mixPool(uid,10)},10).map(makeQ),'gen',name+' 混合闯关',function(){
+    return dedupPick(function(){return mixPool(uid,10)},10).map(makeQ);
+  });
+}
+function startUnitApp(uid){
+  if(!permGate('units'))return;
+  /* 收集该单元所有应用题生成器（总复习=全册应用题混出） */
+  var pool=[];
+  UNITS.forEach(function(un){
+    if(isRevId(String(uid))){ if(!isRevId(un.id)){un.kps.forEach(function(kp){kp.gens.forEach(function(g){if(GENS[g]&&GENLVL[g])pool.push({g:g,u:un.id,k:kp.id})})})} }
+    else if(String(un.id)===String(uid)){ un.kps.forEach(function(kp){kp.gens.forEach(function(g){if(!GENS[g])return;pool.push({g:g,u:un.id,k:kp.id})})}) }
+  });
+  /* 先跑一遍筛出真正带 app 标记的模板 */
+  var appPool=pool.filter(function(x){var t=GENS[x.g](x.u,x.k);return t&&t.app});
+  if(!appPool.length){appPool=pool}
+  var qs=dedupPick(function(){return appPool},20).map(makeQ);
+  var name=UNITS.find(function(u){return u.id===uid}).name;
+  startQuiz(qs,'gen',name+' 应用题特训',function(){
+    return dedupPick(function(){return appPool},20).map(makeQ);
+  });
+}
+function startDaily(){
+  if(!permGate('daily'))return;
+  var unlit=UNITS.filter(function(u){return !isRevId(u.id)});
+  var kpSpec=null,card='';
+  for(var i=0;i<unlit.length;i++){
+    for(var j=0;j<unlit[i].kps.length;j++){
+      if(!S.lit[unlit[i].kps[j].id]){kpSpec={u:unlit[i],k:unlit[i].kps[j]};break}
+    }
+    if(kpSpec)break;
+  }
+  if(!kpSpec){var lastU=UNITS[UNITS.length-1];kpSpec={u:lastU,k:lastU.kps[0]}}
+  card=`<div class="card"><h2>📖 今日知识卡：${kpSpec.k.name}</h2>
+    <div style="font-size:14.5px">${rich(kpSpec.k.card)}</div>
+    <div style="margin-top:10px"><button class="btn orange" onclick="startPass('${kpSpec.k.id}')">🎯 给这个知识点过关</button></div></div>`;
+  app.innerHTML=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>今天的任务</h1></div>`+card+
+    `<div class="card"><h2>✏️ 五道混合题</h2><p class="muted">跨单元混着来，防遗忘</p>
+     <button class="btn" style="width:100%;margin-top:8px" onclick="startDailyQuiz()">开始答题</button></div>
+     <div class="card"><h2>📕 错题重考</h2>${dueWrongCount()>0?`<p>有 <b>${dueWrongCount()}</b> 道隔日错题到期，先清账！</p><button class="btn orange" style="width:100%;margin-top:8px" onclick="startWrongDue()">去重考</button>`:'<p class="muted">今天没有到期的错题，干得漂亮 🎉</p>'}</div>`;
+  window._dailyCard=card;
+}
+function startDailyQuiz(){
+  if(!permGate('daily'))return;
+  var specs=[];
+  var units=UNITS.filter(function(u){return !isRevId(u.id)});
+  for(var i=0;i<5;i++){
+    var u=pick(units);
+    var kp=pick(u.kps);
+    specs.push({g:pick(kp.gens),u:u.id,k:kp.id});
+  }
+  startQuiz(specs.map(makeQ),'gen','今日五题',function(){
+    var arr=[];
+    for(var i=0;i<5;i++){
+      var u=pick(units);
+      var kp=pick(u.kps);
+      arr.push(makeQ({g:pick(kp.gens),u:u.id,k:kp.id}));
+    }
+    return arr;
+  });
+}
+
+VIEWS.quiz=function(){
+  if(!QS)return go('home');
+  if(QS.i>=QS.qs.length)return quizDone();
+  var q=QS.qs[QS.i];
+  var h=`<div class="topbar"><button class="backbtn" onclick="quitQuiz()">✕ 退出</button>
+    <h1>${QS.title}</h1><span class="badge gray">${QS.i+1} / ${QS.qs.length}</span></div>
+  <div class="qstem">${rich(q.q)}</div>`;
+  if(q.ops){
+    q.ops.forEach(function(o,idx){
+      h+=`<button class="opt" id="opt${idx}" onclick="answer(${idx},'')">${rich(o)}</button>`;
+    });
+    h+=`<input type="hidden" id="freeIn">`;
+  }else if(q.app){
+    /* 应用题：分步写过程（多行）或拍照上传手写过程，判分=本地数字提取 → AI 识别（含图片识别） */
+    h+=`<p class="muted" style="font-size:13px">✍ 可以分步写计算过程（每步一行），最后一行写「答：…」。只写最终答案也可以。</p>
+      <textarea class="ansin" id="freeIn" rows="4" placeholder="点这里输入，例：&#10;总份数：3+2=5&#10;每份：50÷5=10（平方米）&#10;黄瓜：10×2=20（平方米）&#10;答：黄瓜 20 平方米" style="width:100%;resize:vertical;font-family:inherit"></textarea>
+      <p class="muted" id="kbHint" style="font-size:11.5px;margin:4px 0 0;display:none">⌨ 输入框已聚焦：直接打字即可。若打字没反应，多为浏览器插件（划词翻译/词典类）抢了键盘，可暂停该插件或换 Edge/Chrome 无痕窗口打开。</p>
+      <div style="margin-top:8px"><input type="file" id="photoIn" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(this)">
+        <button class="btn plain" style="width:100%" onclick="document.getElementById('photoIn').click()">📷 拍照上传手写解题过程</button>
+        <div id="photoPrev" style="margin-top:8px"></div></div>
+      <div style="margin-top:10px"><button class="btn" style="width:100%" onclick="answer(-1,document.getElementById('freeIn').value)">提交答案</button></div>`;
+  }else{
+    h+=`<input class="ansin" id="freeIn" placeholder="在这里输入答案，如 3/4" autocomplete="off"
+        onkeydown="if(event.key==='Enter')answer(-1,document.getElementById('freeIn').value)">
+      <div style="margin-top:10px"><button class="btn" style="width:100%" onclick="answer(-1,document.getElementById('freeIn').value)">提交答案</button></div>`;
+  }
+  h+=`<div class="fb" id="fb"></div>
+  <div id="nextWrap" style="margin-top:12px;display:none"><button class="btn blue" style="width:100%" id="nextBtn">下一题 →</button></div>`;
+  app.innerHTML=h;
+  window._answered=false;
+  /* v3.3.1：聚焦输入框并自动弹出键盘（手机上免点一次）；聚焦时显示键盘故障提示行 */
+  (function(){
+    var fi=document.getElementById('freeIn');
+    if(fi&&fi.tagName==='TEXTAREA'){
+      var hint=document.getElementById('kbHint');
+      fi.addEventListener('focus',function(){if(hint)hint.style.display='block'});
+      setTimeout(function(){try{fi.focus()}catch(e){}},80);
+    }
+  })();
+};
+function answer(optIdx,free){
+  if(window._answered)return;
+  var q=QS.qs[QS.i],user;
+  if(q.ops){user=q.ops[optIdx]}
+  else{user=String(free||'').trim()}
+  window._answered=true;
+  if(q.app&&!q.ops){
+    /* 应用题过程作答：拍照优先（AI 视觉识别）→ 文本两级判分（本地数字提取 → AI） */
+    var fb0=document.getElementById('fb');
+    fb0.className='fb';
+    if(window._photoData){
+      fb0.innerHTML='⏳ AI 正在识别照片中的解题过程…';
+      gradePhoto(q,user,window._photoData,function(res){
+        window._photoData=null;
+        finishAnswer(q,!!res.correct,user,(res.recognized?'📝 <b>识别的过程：</b>'+res.recognized+'<br>':'')+(res.feedback?'🤖 <b>AI 点评：</b>'+res.feedback:null),optIdx);
+      });
+      return;
+    }
+    fb0.innerHTML='⏳ 正在判分…';
+    gradeAnswer(q,user,function(res){finishAnswer(q,!!res.correct,user,res.feedback||null,optIdx)});
+    return;
+  }
+  var correct=q.ops?(user===q.ans):checkAns(q,user);
+  finishAnswer(q,!!correct,user,null,optIdx);
+}
+/* 拍照上传：压缩图片并预览（手机拍的照片可达数 MB，base64 前必须压缩） */
+function handlePhoto(inp){
+  var f=inp.files&&inp.files[0];
+  if(!f)return;
+  try{
+    var rd=new FileReader();
+    rd.onload=function(){
+      var img=new Image();
+      img.onload=function(){
+        try{
+          var max=1280,w=img.width||max,h=img.height||max;
+          if(w>max||h>max){var k=Math.min(max/w,max/h);w=Math.round(w*k);h=Math.round(h*k)}
+          var c=document.createElement('canvas');c.width=w;c.height=h;
+          c.getContext('2d').drawImage(img,0,0,w,h);
+          window._photoData=c.toDataURL('image/jpeg',0.8);
+        }catch(e){window._photoData=rd.result}  /* canvas 不可用时用原图 */
+        var pv=document.getElementById('photoPrev');
+        if(pv)pv.innerHTML='<img src="'+window._photoData+'" style="max-width:100%;max-height:180px;border-radius:8px;border:1px solid var(--line)"><p class="muted" style="font-size:12px">✓ 照片已就绪（约 '+Math.round(window._photoData.length/1365)+' KB），提交答案后 AI 会识别图中的解题过程</p>';
+      };
+      img.onerror=function(){window._photoData=rd.result;
+        var pv=document.getElementById('photoPrev');
+        if(pv)pv.innerHTML='<p class="muted" style="font-size:12px">✓ 照片已就绪，提交答案后 AI 会识别</p>';};
+      img.src=rd.result;
+    };
+    rd.readAsDataURL(f);
+  }catch(e){
+    var m=document.getElementById('photoPrev');
+    if(m)m.innerHTML='<p class="muted" style="font-size:12px;color:#C0392B">✕ 照片读取失败：'+e.message+'</p>';
+  }
+}
+/* 从多行过程作答中提取最终数值（支持分数/小数/百分数；优先"答："行）
+   v3.3.2：增加中文分数解析——「一百分之39 / 百分之39」→ 39/100。
+   此前会误提取成 39（分子），数值判分必错：学生明明答对却被判 mismatch。 */
+function extractFinal(text){
+  var s=String(text||'');
+  /* 中文分数：X百分之Y / 百分之Y（Y 可含小数）→ 优先级最高，
+     否则「一百分之39」会被答字/裸数字分支误提取成 39（v3.3.2 修复）；
+     变体「100分之31」= 31/100（数字分之数字，分母在前） */
+  var cnAll0=s.match(/([一二三四五六七八九十\d]+)\s*百分之\s*(\d+(?:\.\d+)?)/);
+  var cnAll02=s.match(/百分之\s*(\d+(?:\.\d+)?)/);
+  if(cnAll0)return cnAll0[2]+'/100';
+  if(cnAll02)return cnAll02[1]+'/100';
+  var fz=s.match(/(\d+)\s*分之\s*(\d+(?:\.\d+)?)/);
+  if(fz)return fz[2]+'/'+fz[1];
+  var m=s.match(/答\s*[：:][^\n\d\-]*(-?\d+(?:\.\d+)?(?:\/\d+)?)\s*(?:%|（[^）]*）)?/);
+  if(m)return m[1];
+  var nums=s.match(/-?\d+(?:\.\d+)?(?:\/\d+)?%?/g);
+  if(!nums)return null;
+  var last=nums[nums.length-1];
+  return /%$/.test(last)?last.replace(/%$/,''):last;
+}
+/* 本地预判：ok=最终答案数值正确 / mismatch=数值不一致 / none=提不出数值
+   v3.4.3 修复：比值题（ans 形如 a:b）禁用 extractFinal——它会把 "10:8" 拆成 "8"，
+   与 val("10:8")=10 比较造成假 mismatch；改走 checkAns 的化简比判等（10:8=5:4=20:16）。 */
+function procLocalGrade(q,text){
+  var s=String(text||'').trim();
+  if(q.ratio||/^\d+\s*[:：]\s*\d+$/.test(String(q.ans||'').trim())){
+    var all=s.match(/\d+\s*[:：]\s*\d+/g);
+    if(!all)return {level:'none'};
+    var cq=q.ratio?q:{ratio:1,ans:q.ans};
+    return {level:checkAns(cq,all[all.length-1])?'ok':'mismatch'};
+  }
+  var v=extractFinal(s);
+  if(v===null)return {level:'none'};
+  var uv=val(v),cv=val(q.ans);
+  if(uv===null||cv===null)return {level:'none'};
+  return {level:Math.abs(uv-cv)<1e-9?'ok':'mismatch'};
+}
+/* AI 配置：页面源码零密钥。首次使用由管理员在「管理员面板 → 🤖 AI 判分设置」填写，
+   Key 只存当前浏览器 localStorage，不写进页面、不进导出的用户备份、不随页面下发。
+   「服务端代理模式」：Key 留空，请求不带 Authorization，由 NAS 反向代理在服务端注入。 */
+var AIKEY='qd6_ai';
+/* 推荐值（非敏感）：默认同源代理 /ai/，Key 由 NAS nginx 在服务端注入，
+   所有设备都能用 AI 判分且浏览器不持有密钥；仅预填，未点保存前不生效。
+   直连模式则把地址改成完整网关地址，并在面板自填 API Key。 */
+var DEFAULT_AI={endpoint:'/ai/chat/completions',model:'glm-5.3-flash'};
+/* v2.4.3：地址归一化。允许的两种形态：相对代理 /ai/chat/completions（推荐，跨域免疫）或
+   完整 http(s)://...；把「网关主机+代理路径」这类拼接错误（:3201/ai/...）和带 v1 的直连
+   一律收敛为同源代理。返回 {endpoint,key(仅尾号)} 供掩码展示。 */
+function normalizeAIEndpoint(ep){
+  ep=String(ep||'').trim();
+  if(!ep)return DEFAULT_AI.endpoint;
+  if(ep.charAt(0)==='/')return ep;                       /* 已是同源相对路径 */
+  if(/^https?:\/\//i.test(ep)&&ep.indexOf(':3201/')>=0)return DEFAULT_AI.endpoint;  /* 误拼网关地址 → 代理 */
+  return ep;                                             /* 其它完整地址（用户自担，直连模式） */
+}
+function getAIcfg(){
+  try{
+    var c=JSON.parse(lsGet(AIKEY));
+    if(c&&c.endpoint&&c.model){
+      /* 惰性自愈：地址形制错误（如 :3201/ai/...）当场收敛为代理并落盘 */
+      var fixed=normalizeAIEndpoint(c.endpoint);
+      if(fixed!==c.endpoint){c.endpoint=fixed;lsSet(AIKEY,JSON.stringify(c))}
+      return c;
+    }
+  }catch(e){}
+  /* 未配置 = 直接用内置代理默认值（开箱即用；代理请求不带 Key，由 NAS 注入） */
+  return {endpoint:DEFAULT_AI.endpoint,model:DEFAULT_AI.model,key:''};
+}
+function isAIReady(c){return !!(c&&c.endpoint&&c.model)}
+function aiHeaders(c){var h={'Content-Type':'application/json'};if(c&&c.key)h.Authorization='Bearer '+c.key;return h}
+/* ===== v3.5 模型级容灾层：超时 / 错误分类 / 重试 / 换模型 / 熔断 / 半开 / 预算封顶 =====
+   所有 AI 请求统一走 aiRequest()；前端零密钥，切换模型只改请求体 model 字段。 */
+var FTKEY='qd6_aift', AI_HEALTH={}, AI_RR=0;
+/* v3.8：云端巡检判定的坏模型集合（服务端每天8/12/17探测写入 model_health.json）。
+   CLOUD_BAD[m]=1 表示该模型被服务端判无效；CLOUD_HC_TS 为报告时间戳，超过 26h 视为陈旧自动失效。 */
+var CLOUD_BAD={}, CLOUD_HC_TS=0, CLOUD_HC_MAXAGE=26*3600*1000;
+/* v3.6：默认候选链 = Agent2API 网关(:3065) 实测可输出判分 JSON 的 20 个模型。
+   顺序即故障转移优先级：一个失效立刻切下一个，覆盖全部 20 个后本地兜底。 */
+var FT_DEFAULT={
+  on:1,
+  chain:['glm-5.3-flash','glm-5.3-flashx','deepseek-v4.1-flash','MiniMax-M3','glm-4.6v',
+    'auto','glm-5.2','kimi-k2.8-preview','space-bunny','mimo-v2.6-pro',
+    'deepseek-v4-pro','kimi-k3','Qwen3.8-Max','glm-5-3-flashx','glm-5-3-flash',
+    'glm-5.1','kimi-k2-7-code','hy4','glm-5v-turbo','qwen3-8-max'],
+  timeoutText:8000, timeoutVision:15000, budgetText:20000, budgetVision:45000,
+  retries:1, backoff:400, backoffCap:2000, tripFails:3, cooldown:60000,
+  cooldownMax:600000, strategy:'priority'
+};
+/* v3.6：新网关支持图片输入(input_modalities 含 image)的模型，供拍照判分过滤用 */
+var VISION_MODELS={'glm-5.3-flash':1,'glm-5.3-flashx':1,'deepseek-v4.1-flash':1,
+  'MiniMax-M3':1,'glm-4.6v':1,'glm-5.2':1,'kimi-k2.8-preview':1,'space-bunny':1,
+  'mimo-v2.6-pro':1,'kimi-k3':1,'Qwen3.8-Max':1,'glm-5v-turbo':1,
+  'auto-fast':1,'LongCat-2.5':1,'kimi-k3.1-pro':1,'Qwen4-Max':1,'glm-5.2':1};
+function getFT(){
+  var d={},c={};try{d=JSON.parse(lsGet(FTKEY))||{}}catch(e){}
+  for(var k in FT_DEFAULT)c[k]=(d[k]===undefined?FT_DEFAULT[k]:d[k]);
+  return c;
+}
+function saveFT(c){lsSet(FTKEY,JSON.stringify(c))}
+function markOK(m){AI_HEALTH[m]={fails:0,openUntil:0,halfOpen:0}}
+function markFail(m,cd){
+  var h=AI_HEALTH[m]||{fails:0,openUntil:0,halfOpen:0},ft=getFT();
+  h.fails++;
+  if(h.fails>=ft.tripFails){
+    h.openUntil=Date.now()+Math.min(cd*Math.pow(2,h.fails-ft.tripFails),ft.cooldownMax);
+    h.halfOpen=0;
+  }
+  AI_HEALTH[m]=h;
+}
+function modelUsable(m){
+  var n=Date.now();
+  /* v3.8：服务端巡检判定无效的模型直接跳过（报告新鲜时生效），交给 aiRequest 换下一个 */
+  if(CLOUD_HC_TS&&(n-CLOUD_HC_TS)<CLOUD_HC_MAXAGE&&CLOUD_BAD[m])return false;
+  var h=AI_HEALTH[m]||{fails:0,openUntil:0,halfOpen:0};
+  if(h.openUntil>n)return false;
+  if(h.openUntil&&h.openUntil<=n&&!h.halfOpen){h.halfOpen=1}
+  return true;
+}
+function classifyErr(e,resp,text){
+  if(e&&e.name==='AbortError')return 'timeout';
+  if(!resp)return /abort/i.test(String((e&&e.message)||''))?'timeout':'network';
+  var s=resp.status;
+  if(s===429)return 'rate_limit';
+  if(s===401||s===403)return 'auth';
+  if(s>=500)return 'server';
+  if(s===400||s===404||s===422)return 'bad_request';
+  try{
+    var j=JSON.parse(text);
+    return (j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content)?'ok':'format';
+  }catch(_){return 'format'}
+}
+function fetchOnce(cfg,model,body,ms){
+  var ctl=(typeof AbortController!=='undefined')?new AbortController():null;
+  var timer=ctl?setTimeout(function(){ctl.abort()},ms):null;
+  var b={};for(var k in body)b[k]=body[k];b.model=model;
+  return fetch(cfg.endpoint,{method:'POST',headers:aiHeaders(cfg),
+    body:JSON.stringify(b),signal:ctl?ctl.signal:undefined})
+  .then(function(r){return r.text().then(function(t){return {r:r,t:t}})})
+  .then(function(x){
+    if(timer)clearTimeout(timer);
+    var kind=classifyErr(null,x.r,x.t);
+    if(kind!=='ok'){var e=new Error('HTTP '+x.r.status);e.kind=kind;e.resp=x.r;throw e}
+    var j=JSON.parse(x.t);
+    var txt=(j.choices[0].message.content)||'';
+    if(!txt){var e2=new Error('AI 未返回内容');e2.kind='format';throw e2}
+    return txt;
+  })
+  .catch(function(e){if(timer)clearTimeout(timer);if(!e.kind)e.kind=classifyErr(e,null,null);throw e});
+}
+function aiRequest(body,opt,cfg){
+  cfg=cfg||getAIcfg();opt=opt||{};
+  var ft=getFT();
+  if(!ft.on)return fetchOnce(cfg,cfg.model,body,opt.timeout||ft.timeoutText);
+  var chain=(ft.chain&&ft.chain.length?ft.chain:FT_DEFAULT.chain)
+    .filter(function(m){return !opt.vision||VISION_MODELS[m]});
+  if(!chain.length)chain=[(ft.chain&&ft.chain[0])||FT_DEFAULT.chain[0]];
+  if(ft.strategy==='roundrobin'&&chain.length>1){
+    var i=(AI_RR++)%chain.length;chain=chain.slice(i).concat(chain.slice(0,i));
+  }
+  var timeout=opt.timeout||(opt.vision?ft.timeoutVision:ft.timeoutText);
+  var budget=opt.budget||(opt.vision?ft.budgetVision:ft.budgetText);
+  var end=Date.now()+budget,last=null;
+  function nap(ms){return new Promise(function(r){setTimeout(r,ms)})}
+  function attempt(m,k){
+    var per=Math.min(timeout,Math.max(1,end-Date.now()));
+    return fetchOnce(cfg,m,body,per)
+    .then(function(txt){
+      if(opt.check){try{opt.check(txt)}catch(ce){var fe=new Error(ce&&ce.message||'AI 内容格式异常');fe.kind='format';throw fe}}
+      return txt;
+    })
+    .catch(function(e){
+      if(e.kind==='rate_limit'&&e.resp&&e.resp.headers){
+        var ra=parseInt(e.resp.headers.get('retry-after'),10);
+        if(ra>0&&ra<30)return nap(ra*1000).then(function(){throw e});
+      }
+      var can=e.kind==='timeout'||e.kind==='network'||e.kind==='server'||e.kind==='rate_limit';
+      if(can&&k<ft.retries&&Date.now()<end){
+        var w=Math.min(ft.backoff*Math.pow(2,k),ft.backoffCap)*(0.7+Math.random()*0.6);
+        return nap(w).then(function(){return attempt(m,k+1)});
+      }
+      throw e;
+    });
+  }
+  function loop(i){
+    if(Date.now()>end){var te=new Error('AI 总预算超时');te.kind='timeout';return Promise.reject(te)}
+    while(i<chain.length&&!modelUsable(chain[i]))i++;
+    if(i>=chain.length)return Promise.reject(last||new Error('无可用模型'));
+    var m=chain[i];
+    return attempt(m,0).then(function(t){markOK(m);return t},function(e){
+      last=e;
+      if(e.kind==='auth')return Promise.reject(e);
+      markFail(m,ft.cooldown);
+      return loop(i+1);
+    });
+  }
+  return loop(0);
+}
+/* ===== v3.7 定时健康巡检（HC）：每天 08:00 / 12:00 / 17:00 遍历候选链全部模型 =====
+   设计：仅探测、不改写有效模型；无效模型直接置入现有 AI_HEALTH 熔断态，
+   由现有 aiRequest() 的 modelUsable() 跳过 → 自动换到链上下一个有效模型。
+   定时器是页面级的：页面关闭不运行，页面再打开会按 qd6_hclast 自动补测错过的检测点。
+   每个模型独立异常隔离，单个探测失败不影响其他模型。 */
+var HC_SLOTS=[[8,0],[12,0],[17,0]], HC_TIMER=null, HC_RUNNING=false;
+var HC_LAST_KEY='qd6_hclast', HC_REPORT_KEY='qd6_hcreport';
+var HC_PROBE_BODY={messages:[{role:'user',content:'只回复：可用'}],temperature:0,max_tokens:5};
+/* 返回"当前应处理的检测点"时间戳：今天(或昨天)中 <= 现在的最近一个 slot。
+   天然防重复 + 补测：只要 slot > qd6_hclast 就需要处理。 */
+function hcSlotTs(now){
+  now=now||new Date();
+  var y=now.getFullYear(),mo=now.getMonth(),d=now.getDate(),best=0,i,ts;
+  for(i=0;i<HC_SLOTS.length;i++){
+    ts=new Date(y,mo,d,HC_SLOTS[i][0],HC_SLOTS[i][1],0,0).getTime();
+    if(ts<=now.getTime()&&ts>best)best=ts;
+  }
+  if(best)return best;
+  return new Date(y,mo,d-1,17,0,0,0).getTime(); // 凌晨：回退到昨天 17:00
+}
+/* 把模型立即置入熔断态（复用现有 AI_HEALTH 结构）——现有替换机制据此跳过它 */
+function hcTrip(m,cd){
+  var ft=getFT();cd=cd||ft.cooldown||60000;
+  var h=AI_HEALTH[m]||{fails:0,openUntil:0,halfOpen:0};
+  h.fails=Math.max(h.fails,ft.tripFails||3);
+  h.openUntil=Date.now()+cd;
+  h.halfOpen=0;
+  AI_HEALTH[m]=h;
+}
+/* 巡检一次：串行遍历全部已加载模型（串行避免并发触发网关限流误判），逐个异常隔离 */
+function hcRunAll(slotTs){
+  if(HC_RUNNING)return Promise.resolve(null);
+  HC_RUNNING=true;
+  try{lsSet(HC_LAST_KEY,String(slotTs))}catch(e){} // 先登记，防定时器重复触发
+  var ft=getFT(),cfg=getAIcfg();
+  var chain=(ft.chain&&ft.chain.length?ft.chain:FT_DEFAULT.chain).slice(0,30);
+  var timeout=Math.min(ft.timeoutText||8000,6000);
+  var report={ts:Date.now(),slot:slotTs||0,on:ft.on||0,total:chain.length,ok:[],bad:[],skipped:[]},idx=0;
+  function next(){
+    if(idx>=chain.length){
+      report.done=true;HC_RUNNING=false;
+      try{lsSet(HC_REPORT_KEY,JSON.stringify(report))}catch(e){}
+      return Promise.resolve(report);
+    }
+    var m=chain[idx++];
+    return Promise.resolve()
+      .then(function(){return fetchOnce(cfg,m,HC_PROBE_BODY,timeout)})
+      .then(function(){report.ok.push(m)})            // 有效：不做任何变更
+      .catch(function(e){
+        var kind=(e&&e.kind)||'network';
+        if(kind==='auth'){report.skipped.push({m:m,why:'auth'});return} // 密钥问题，换模型无用，不摘
+        try{hcTrip(m,ft.cooldown)}catch(_){}           // 无效：立即熔断→下次请求自动换到下一个
+        report.bad.push({m:m,why:kind});
+      })
+      .then(next,function(){return next()});          // 双保险：任何意外都继续下一个
+  }
+  return next();
+}
+/* 手动/立即巡检一次（忽略检测点），供管理面板与测试调用 */
+function hcRunNow(){return hcRunAll(Date.now())}
+/* 定时器检查：到点且未处理则触发一次巡检 */
+function hcCheck(){
+  if(HC_RUNNING)return;
+  try{
+    var slot=hcSlotTs(),last=parseInt(lsGet(HC_LAST_KEY)||'0',10)||0;
+    if(slot>last)hcRunAll(slot);
+  }catch(e){}
+}
+/* v3.8：拉取服务端巡检报告 → 云端坏模型集合。失败静默（不影响本地判分/容灾）。 */
+function fetchCloudHealth(){
+  try{
+    fetch('/api/model-health',{method:'GET'}).then(function(r){return r.ok?r.json():null})
+    .then(function(j){
+      if(!j||!j.ts||!Array.isArray(j.bad))return;
+      var bad={};(j.bad||[]).forEach(function(x){if(x&&x.m)bad[x.m]=1});
+      CLOUD_BAD=bad;CLOUD_HC_TS=j.ts;   // 报告新鲜度由 modelUsable 里的 26h 阈值守护
+    }).catch(function(){});
+  }catch(e){}
+}
+/* 启动：页面打开立即补测+拉取云端报告，之后每分钟检查一次、每5分钟刷新云端报告 */
+function hcStart(){
+  if(HC_TIMER)clearInterval(HC_TIMER);
+  fetchCloudHealth();
+  hcCheck();
+  HC_TIMER=setInterval(hcCheck,60000);
+  setInterval(fetchCloudHealth,300000);
+}
+hcStart();
+/* 内置推荐模型（Agent2API :3065 实测可判分的 20 个；👁=支持图片可拍照判分） */
+var AI_MODELS=[
+ {id:'glm-5.3-flash',d:'👁 推荐 · 视觉+文本（默认主力，实测最稳）'},
+ {id:'glm-5.3-flashx',d:'👁 视觉+文本 · GLM 增强'},
+ {id:'deepseek-v4.1-flash',d:'👁 视觉+文本 · DeepSeek 快速'},
+ {id:'MiniMax-M3',d:'👁 视觉+文本 · MiniMax 多模态'},
+ {id:'glm-4.6v',d:'👁 视觉+文本 · GLM 视觉版'},
+ {id:'glm-5.2',d:'👁 视觉+文本 · GLM 新版'},
+ {id:'kimi-k2.8-preview',d:'👁 视觉+文本 · Kimi 预览'},
+ {id:'space-bunny',d:'👁 视觉+文本 · 快速'},
+ {id:'mimo-v2.6-pro',d:'👁 视觉+文本 · 小米 MiMo'},
+ {id:'kimi-k3',d:'👁 视觉+文本 · Kimi K3'},
+ {id:'Qwen3.8-Max',d:'👁 视觉+文本 · 通义千问 Max'},
+ {id:'glm-5v-turbo',d:'👁 视觉+文本 · GLM 视觉加速'},
+ {id:'auto',d:'网关自动路由（备用）'},
+ {id:'glm-5-3-flashx',d:'仅文本 · GLM 备胎'},
+ {id:'glm-5-3-flash',d:'仅文本 · GLM 备胎'},
+ {id:'glm-5.1',d:'仅文本 · GLM 备胎'},
+ {id:'kimi-k2-7-code',d:'仅文本 · Kimi 备胎'},
+ {id:'hy4',d:'仅文本 · 混元备胎'},
+ {id:'qwen3-8-max',d:'仅文本 · 通义备胎'},
+ {id:'deepseek-v4-pro',d:'仅文本 · DeepSeek 备胎'}
+];
+/* getAIcfg 已在上方 v2.4.3 区块定义（带归一化自愈与代理默认值），此处不再重复 */
+function updateAIModelDesc(){
+  var v=(document.getElementById('aiModel').value||'').trim();
+  var m=AI_MODELS.find(function(x){return x.id===v});
+  var el=document.getElementById('aiModelDesc');
+  if(el)el.textContent=m?('▸ '+m.d):(v?'▸ 自定义模型':'');
+}
+/* 从网关动态拉取模型列表填充下拉 */
+function fetchAIModels(){
+  var ep=(document.getElementById('aiEndpoint').value||'').trim();
+  /* 输入框不回显明文；留空时沿用已保存的 Key（仅本次请求使用，不写入 DOM） */
+  var ke=(document.getElementById('aiKey').value||'').trim()||((getAIcfg()||{}).key||'');
+  var m=document.getElementById('aiMsg');
+  if(!ep){m.style.color='#C0392B';m.textContent='✕ 请先填接口地址';return}
+  /* 相对地址（/ai/chat/completions）→ 同源 /ai/models；直连完整地址 → 原样换 /models */
+  var base;
+  if(ep.charAt(0)==='/'){base='/ai'}
+  else{base=ep.replace(/\/chat\/completions\/?$/,'').replace(/\/v1\/?$/,'/v1');}
+  var modelsUrl=base+'/models';
+  m.style.color='var(--sub)';m.textContent='⏳ 获取模型列表…';
+  fetch(modelsUrl,{headers:ke?{Authorization:'Bearer '+ke}:{}})
+  .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()})
+  .then(function(j){
+    var ids=(j.data||[]).map(function(x){return x.id}).sort();
+    var dl=document.getElementById('aiModelList');
+    dl.innerHTML=ids.map(function(id){return '<option value="'+id+'">'}).join('');
+    m.style.color='#1E8449';m.textContent='✓ 获取到 '+ids.length+' 个模型，已填入下拉列表（判分推荐带 vl/vision 的视觉模型）';
+  })
+  .catch(function(e){m.style.color='#C0392B';m.textContent='✕ 获取失败：'+e.message});
+}
+/* v3.5 容灾设置面板：读值 / 保存 / 恢复默认 / 健康状态展示 */
+function renderFTHealth(){
+  var cb=document.getElementById('ftOn');if(!cb)return;   /* 面板未渲染时静默返回 */
+  var ft=getFT();
+  cb.checked=!!ft.on;
+  var el=document.getElementById('ftChain');if(el)el.value=(ft.chain||[]).join(',');
+  var to=document.getElementById('ftTimeout');if(to)to.value=ft.timeoutText;
+  var rt=document.getElementById('ftRetries');if(rt)rt.value=ft.retries;
+  var tp=document.getElementById('ftTrip');if(tp)tp.value=ft.tripFails;
+  var cd=document.getElementById('ftCooldown');if(cd)cd.value=Math.round(ft.cooldown/1000);
+  var box=document.getElementById('ftHealth');
+  if(box){
+    var chains=(ft.chain||[]),parts=[];
+    for(var i=0;i<chains.length;i++){
+      var m=chains[i],h=AI_HEALTH[m]||{fails:0,openUntil:0};
+      var left=Math.max(0,h.openUntil-Date.now());
+      var st=left>0?('熔断中 '+Math.ceil(left/1000)+'s'):(h.fails?('失败 '+h.fails+' 次'):'正常');
+      parts.push(m+'：'+st);
+    }
+    box.innerHTML=parts.length?('状态：'+parts.join(' ｜ ')):'';
+  }
+}
+function saveFTcfg(){
+  var m=document.getElementById('ftMsg'),ft=getFT();
+  var on=document.getElementById('ftOn').checked?1:0;
+  var raw=(document.getElementById('ftChain').value||'').trim();
+  var chain=raw.split(/[,，]/).map(function(s){return s.trim()}).filter(Boolean);
+  if(!chain.length){m.style.color='#C0392B';m.textContent='✕ 候选模型链不能为空';return}
+  if(chain.length>30){m.style.color='#C0392B';m.textContent='✕ 最多配置 30 个模型';return}
+  chain=chain.slice(0,30);
+  var to=+document.getElementById('ftTimeout').value;
+  var rt=+document.getElementById('ftRetries').value;
+  var tp=+document.getElementById('ftTrip').value;
+  var cd=+document.getElementById('ftCooldown').value;
+  if(!(to>=1000)){m.style.color='#C0392B';m.textContent='✕ 超时至少 1000ms';return}
+  ft.on=on;ft.chain=chain;ft.timeoutText=to;ft.budgetText=Math.max(to*2,20000);
+  ft.timeoutVision=Math.max(to,15000);ft.budgetVision=Math.max(to*3,45000);
+  ft.retries=isFinite(rt)?Math.max(0,Math.min(3,rt)):1;
+  ft.tripFails=isFinite(tp)?Math.max(1,Math.min(10,tp)):3;
+  ft.cooldown=isFinite(cd)?Math.max(5,cd)*1000:60000;
+  saveFT(ft);
+  m.style.color='#1E8449';m.textContent='✓ 容灾设置已保存（'+chain.length+' 个候选模型，按此顺序切换）';
+  renderFTHealth();
+}
+function resetFTcfg(){
+  saveFT(JSON.parse(JSON.stringify(FT_DEFAULT)));
+  renderFTHealth();
+  var m=document.getElementById('ftMsg');
+  m.style.color='#1E8449';m.textContent='✓ 已恢复默认容灾设置';
+}
+function saveAIcfg(){
+  var ep=(document.getElementById('aiEndpoint').value||'').trim();
+  var mo=(document.getElementById('aiModel').value||'').trim();
+  var ke=(document.getElementById('aiKey').value||'').trim();
+  var m=document.getElementById('aiMsg');
+  if(ep&&!/\/chat\/completions$/.test(ep.replace(/\/+$/,'').replace(/\/v1$/,'/v1/chat/completions'))&&!/chat\/completions$/.test(ep)){
+    m.style.color='#C0392B';m.textContent='✕ 接口地址需以 /chat/completions 结尾（OpenAI 兼容格式）';return;
+  }
+  if(!ep||!mo){m.style.color='#C0392B';m.textContent='✕ 请填写接口地址和判分模型';return}
+  var old=getAIcfg()||{};
+  var key=ke||old.key||'';   /* 输入框留空 = 沿用已保存的 Key（明文不回显） */
+  lsSet(AIKEY,JSON.stringify({endpoint:ep,model:mo,key:key}));
+  var ki=document.getElementById('aiKey');ki.value='';
+  ki.placeholder=key?'已保存（尾号 '+key.slice(-4)+'）· 留空保持不变':'服务端代理模式 · 未存放 Key';
+  m.style.color='#1E8449';
+  m.textContent=key?'✓ 已保存（Key 仅存本机浏览器，页面源码不含密钥）'
+                   :'✓ 已保存为服务端代理模式（请求不带 Key，需 NAS 侧注入）';
+}
+/* 清除本机 Key，切换为服务端代理模式（保留接口地址与模型） */
+function clearAIKey(){
+  var c=getAIcfg(),m=document.getElementById('aiMsg');
+  if(!c){m.style.color='#C0392B';m.textContent='✕ 当前没有已保存的配置';return}
+  lsSet(AIKEY,JSON.stringify({endpoint:c.endpoint,model:c.model,key:''}));
+  var k=document.getElementById('aiKey');k.value='';k.placeholder='已清除 Key · 由服务端代理注入';
+  m.style.color='#1E8449';m.textContent='✓ 已清除本机 Key，切换为服务端代理模式';
+}
+function resetAIcfg(){
+  lsRm(AIKEY);
+  go('admin');   /* 重渲染以显示「首次配置」引导 */
+  var m=document.getElementById('aiMsg');
+  m.style.color='#1E8449';m.textContent='✓ 已清空配置：AI 判分停用，应用题自动按最终答案判分';
+}
+/* v2.4：旧版直连配置自动迁移。旧配置指向 3201 完整网关（跨域被浏览器拦截 → Failed to fetch），
+   探测到即静默改写为同源代理地址（Key 由 NAS nginx 注入，所有账号设备可用），只执行一次。 */
+function aiMigrateToProxy(){
+  try{
+    var c=JSON.parse(lsGet(AIKEY));
+    if(c&&c.endpoint&&c.endpoint.indexOf(':3201/')>=0){
+      c.endpoint='/ai/chat/completions';
+      c.key='';
+      lsSet(AIKEY,JSON.stringify(c));
+      console.info('AI 配置已自动迁移到同源代理（修复跨域 Failed to fetch）');
+    }
+  }catch(e){}
+}
+aiMigrateToProxy();
+function testAI(){
+  var cfg=getAIcfg(),m=document.getElementById('aiMsg');
+  if(!isAIReady(cfg)){m.style.color='#C0392B';m.textContent='✕ 请先点「保存配置」（推荐留空 Key 走 NAS 代理）';return}
+  m.style.color='var(--sub)';m.textContent='⏳ 测试中…';
+  fetch(cfg.endpoint,{method:'POST',
+    headers:aiHeaders(cfg),
+    body:JSON.stringify({model:cfg.model,messages:[{role:'user',content:'回复 OK 两个字母'}],temperature:0,max_tokens:10})})
+  .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()})
+  .then(function(j){
+    var ft=getFT(),ok=ft.on?('（容灾已启用，'+ft.chain.length+' 个候选）'):'（容灾未启用）';
+    m.style.color='#1E8449';m.textContent='✓ 连通正常：'+String((j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content)||'').slice(0,20)+ok;
+    renderFTHealth();
+  })
+  .catch(function(e){m.style.color='#C0392B';m.textContent='✕ 连接失败：'+e.message});
+}
+/* AI 判分请求（OpenAI 兼容接口） */
+/* v3.4 通用 LLM 调用（举一反三等新功能复用）：单轮 user 消息 → 返回原始文本 */
+function callLLMRaw(prompt,cfg){
+  return aiRequest({messages:[{role:'user',content:prompt}],temperature:0.8,max_tokens:1000},{},cfg)
+  .then(function(txt){return {text:txt}});
+}
+function callLLM(q,user,cfg,photo){
+  var prompt='你是小学数学老师，请判定学生的应用题作答是否正确。\n'
+    +'【题目】'+q.q+'\n'
+    +'【标准答案】'+q.ans+'\n'
+    +'【参考解析】'+(q.exp||'无')+'\n'
+    +(photo
+      ?'【学生作答】学生把解题过程写在纸上并拍照上传'+(user?'，并补充了文字：'+user:'（无文字补充）')+'。请先识别照片中的手写解题过程，再按识别内容判定。\n'
+      :'【学生作答（可能包含分步计算过程）】\n'+user+'\n')
+    +'判定规则：\n'
+    +'0. 【标准答案】由程序精确计算并经过校验，绝对正确——你点评时只能围绕它解释思路，禁止重新计算、禁止给出不同数值；\n'
+    +'1. 只要最终答案数值正确（分数等价、单位不影响判定）即为正确，过程写法不必与标准解析一致；\n'
+    +'2. 最终答案错误但过程思路正确时，判不正确，并在点评中指出错在哪一步；\n'
+    +'3. 学生只写最终答案也算有效作答；\n'
+    +'4. 点评用小学生能看懂的中文，不超过 60 字。\n'
+    +(photo
+      ?'只输出一行 JSON：{"recognized": "照片中手写过程的文字转写", "correct": true 或 false, "feedback": "点评"}'
+      :'只输出一行 JSON：{"correct": true 或 false, "feedback": "点评"}');
+  var msgContent=photo
+    ?[{type:'text',text:prompt},{type:'image_url',image_url:{url:photo}}]
+    :prompt;
+  return aiRequest({messages:[{role:'user',content:msgContent}],temperature:0,max_tokens:photo?500:300},
+    {vision:!!photo,check:function(txt){
+      var mm=String(txt).match(/\{[\s\S]*\}/);
+      var oo=mm?JSON.parse(mm[0]):null;
+      if(!oo||typeof oo.correct!=='boolean')throw new Error('AI 返回格式异常');
+    }},cfg)
+  .then(function(txt){
+    var m=String(txt).match(/\{[\s\S]*\}/);
+    var obj=JSON.parse(m[0]);
+    return {correct:!!obj.correct,feedback:String(obj.feedback||'').slice(0,150),recognized:photo?String(obj.recognized||'').slice(0,300):null};
+  });
+}
+/* 拍照作答判分（视觉模型识别手写过程） */
+function gradePhoto(q,user,photo,cb){
+  if(!hasPerm('ai')){return cb({correct:false,feedback:'当前账号未授权 AI 拍照判分，请改用文字作答或联系管理员开通。',recognized:null})}
+  var cfg=getAIcfg();
+  callLLM(q,user,cfg,photo)
+    .then(function(r){cb(r)})
+    .catch(function(e){
+      cb({correct:false,feedback:'照片识别失败（'+e.message+'）。请确认接口配置的是支持图片的视觉模型，或改用文字作答。',recognized:null});
+    });
+}
+
+/* 应用题两级判分入口 */
+function gradeAnswer(q,user,cb){
+  var local=procLocalGrade(q,user);
+  if(local.level==='ok')return cb({correct:true,feedback:null});
+  if(!hasPerm('ai')){
+    var msg0=local.level==='mismatch'?'按最终答案判定为不正确。':'未授权 AI 判分。请至少写明最终答案（如「答：48 平方米」）。';
+    return cb({correct:false,feedback:msg0});
+  }
+  var cfg=getAIcfg();
+  callLLM(q,user,cfg)
+    .then(function(r){cb(r)})
+    .catch(function(e){
+      /* v3.4.3 修复：AI 故障（含 429 限流）不应等同于答错。先用本地判分兜底——
+         比值题/数值题本地已能精确判定，AI 挂掉时按本地结果走，避免"答案正确却被判错"。 */
+      var local2=procLocalGrade(q,user);
+      if(local2.level==='ok')return cb({correct:true,feedback:null});
+      var tip=/429/.test(e.message)?'判分服务繁忙，请稍后再试一次':e.message;
+      cb({correct:false,feedback:'AI 判分调用失败（'+tip+'），按最终答案判定：不正确。'});
+    });
+}
+function finishAnswer(q,right,user,aiFeedback,optIdx){
+  var correct=right;
+  window._answered=true;
+  var d=dayTick();d.att++;S.st[q.unit]=S.st[q.unit]||{att:0,cor:0};S.st[q.unit].att++;
+  /* v3.1 学习报告时间范围查询：按日 × 按单元累计（随课本分桶保存） */
+  var ukey=String(q.unit);
+  d.byUnit=d.byUnit||{};
+  d.byUnit[ukey]=d.byUnit[ukey]||{att:0,cor:0};
+  d.byUnit[ukey].att++;
+  rememberQ(q.q);   /* v2.4.6：答对答错都记入近期题面，供组题去重 */
+  if(right){d.cor++;S.st[q.unit].cor++;d.byUnit[ukey].cor++;QS.ok++;QS.log.push({q:q,ok:true});QS.okStreak=(QS.okStreak||0)+1}
+  else{
+    QS.okStreak=0;
+    QS.log.push({q:q,ok:false,user:user});
+    /* v3.4 举一反三生成的题（source:'similar'）不收错题本：避免 AI 出题→答错→AI 再出题的循环，也避免污染原生错题统计 */
+    if(q.source!=='similar'){
+      S.wrong.push({q:q.q,ops:q.ops||null,ans:q.ans,ratio:q.ratio||0,exp:q.exp,unit:q.unit,kp:q.kp,
+        proc:(q.app&&!q.ops)?1:0,user:user,ts:Date.now(),due:tomorrow(),done:false});
+    }
+  }
+  /* 错题重考模式：答对就把那道错题标记为已通过 */
+  if(QS.mode==='wrong'&&right&&QS.idxList){
+    var wi=S.wrong[QS.idxList[QS.i]];
+    if(wi)wi.done=true;
+  }
+  /* 过关模式：连对 5 题点亮知识点 */
+  if(QS.mode==='pass'&&right&&QS.okStreak>=5&&!S.lit[QS.kid]){
+    S.lit[QS.kid]=today();
+  }
+  save();
+  var fb=document.getElementById('fb');
+  fb.className='fb '+(right?'ok':'no');
+  fb.innerHTML=(right?'🎉 <b>答对了！</b> ':'💭 <b>再想想。</b>正确答案：<b>'+rich(q.ans)+'</b><br>')
+    +rich(q.exp||'')
+    +(aiFeedback?'<br>🤖 <b>AI 点评：</b>'+aiFeedback:'');
+  if(QS.mode==='pass'&&S.lit[QS.kid]===today()&&!QS._litMsg){QS._litMsg=true;fb.innerHTML+='<br>⭐ <b>知识点已点亮！连续做对 5 题达成。</b>'}
+  if(!q.ops){
+    var fi=document.getElementById('freeIn');if(fi)fi.disabled=true;
+  }else{
+    q.ops.forEach(function(o,idx){
+      var el=document.getElementById('opt'+idx);
+      if(el){el.disabled=true;if(o===q.ans)el.classList.add('right');else if(idx===optIdx)el.classList.add('wrong')}
+    });
+  }
+  var nw=document.getElementById('nextWrap');nw.style.display='block';
+  document.getElementById('nextBtn').onclick=nextQ;
+}
+function nextQ(){
+  QS.i++;
+  if(QS.mode==='pass'&&QS.okStreak>=5&&S.lit[QS.kid]&&QS.i<QS.qs.length){QS.i=QS.qs.length}
+  if(QS.mode==='pass'&&QS.okStreak<5&&QS.i>=QS.qs.length){
+    /* 没连对5题，再给一组题，最多补两轮 */
+    QS._extra=(QS._extra||0)+1;
+    if(QS._extra<=2&&QS.okStreak<5){
+      var kp=null,uid=0;
+      UNITS.forEach(function(u){u.kps.forEach(function(k){if(k.id===QS.kid){kp=k;uid=u.id}})});
+      var specs=kp.gens.map(function(g){return{g:g,u:uid,k:QS.kid}});
+      for(var i=0;i<3;i++){QS.qs.push(makeQ(pick(specs)))}
+    }
+  }
+  go('quiz');
+}
+function quitQuiz(){if(window._autoTimer){clearInterval(window._autoTimer);window._autoTimer=null}QS=null;go('home')}
+function quizDone(){
+  var n=QS.qs.filter(function(x,i){return QS.log[i]&&QS.log[i].ok}).length;
+  /* 连续模式：本组完成，5 秒后自动换一批新题（可点"就到这里"取消） */
+  if(window._refillFn&&QS.mode!=='pass'&&QS.mode!=='place'){
+    var fn=window._refillFn;
+    var remain=5;
+    var h=`<div class="card" style="text-align:center">
+    <h2>${n>=QS.qs.length*0.8?'🎉 太棒了！':'💪 完成练习！'}</h2>
+    <p style="font-size:30px;font-weight:900;color:var(--green);margin:8px 0">${n} / ${QS.qs.length}</p>
+    <p class="muted">${QS.title}</p>
+    <p class="muted">答错的题已自动收进错题本，明天会提醒你重考。</p>
+    <p id="autoNextTip" style="font-weight:800;color:var(--orange);margin-top:10px">⏭ ${remain} 秒后自动开始新一组题…</p>
+    <div class="grid2" style="margin-top:8px">
+      <button class="btn" id="goNextBtn">🔄 现在就换新题</button>
+      <button class="btn plain" id="stopBtn">🏁 就到这里</button>
+    </div></div>
+    <p class="footer-tip">连续模式：每一组都是全新数字的新题，做完自动续一组。点"就到这里"随时收工。</p>`;
+    app.innerHTML=h;
+    var ended=false;
+    function endSession(){if(ended)return;ended=true;if(window._autoTimer){clearInterval(window._autoTimer);window._autoTimer=null}window._refillFn=null;QS=null;go('home')}
+    function startNext(){
+      if(ended)return;ended=true;
+      if(window._autoTimer){clearInterval(window._autoTimer);window._autoTimer=null}
+      var newQs=fn();
+      if(!newQs||!newQs.length){endSession();return}
+      var oldMode=QS.mode;QS=null;
+      startQuiz(newQs,oldMode,QS_TITLE_LAST||'练习',fn);
+    }
+    window._autoTimer=setInterval(function(){
+      remain--;
+      var tip=document.getElementById('autoNextTip');
+      if(tip)tip.textContent='⏭ '+remain+' 秒后自动开始新一组题…';
+      if(remain<=0){startNext()}
+    },1000);
+    document.getElementById('goNextBtn').onclick=startNext;
+    document.getElementById('stopBtn').onclick=endSession;
+    QS_TITLE_LAST=QS.title;
+    return;
+  }
+  var h=`<div class="card" style="text-align:center">
+    <h2>${n>=QS.qs.length*0.8?'🎉 太棒了！':'💪 完成练习！'}</h2>
+    <p style="font-size:30px;font-weight:900;color:var(--green);margin:8px 0">${n} / ${QS.qs.length}</p>
+    <p class="muted">${QS.title}</p>
+    <p class="muted">答错的题已自动收进错题本，明天会提醒你重考。</p></div>
+    <div class="grid2">
+      <div class="modbtn" onclick="QS=null;go('home')">🏠 回首页</div>
+      <div class="modbtn" onclick="go('wrong')">📕 看看错题本</div>
+    </div>`;
+  app.innerHTML=h;QS=null;
+}
+
+/* —— 错题本 —— */
+function dueWrongCount(){return S.wrong.filter(function(w){return !w.done&&w.due<=today()}).length}
+VIEWS.wrong=function(){
+  var due=S.wrong.filter(function(w){return !w.done&&w.due<=today()});
+  var later=S.wrong.filter(function(w){return !w.done&&w.due>today()});
+  var doneN=S.wrong.filter(function(w){return w.done}).length;
+  var h=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>📕 错题本</h1></div>`;
+  h+=`<div class="card"><h2>🕐 今天到期 ${due.length} 道</h2>`;
+  if(due.length===0)h+='<p class="muted">没有到期的错题。隔日重考的安排：今天错的题，明天才会来提醒你——隔一天再考，记得才牢。</p>';
+  else h+=`<p class="muted">先不看答案自己想，再对照解析。</p>
+    <button class="btn orange" style="width:100%;margin-top:8px" onclick="startWrongDue()">开始重考（${due.length} 题）</button>`;
+  h+='</div>';
+  h+=`<div class="card"><h2>📚 全部错题（${S.wrong.length}）</h2>`;
+  if(!S.wrong.length)h+='<p class="muted">空空如也，一个错题都没有！</p>';
+  S.wrong.slice().reverse().slice(0,30).forEach(function(w){
+    var wi=S.wrong.indexOf(w);
+    h+=`<div class="kp" style="opacity:${w.done?0.5:1}"><b style="font-size:14.5px">${rich(w.q)}</b>
+      <p class="muted">你的答案：${rich(w.user)||'—'} ｜ 正确：${rich(w.ans)} ${w.done?'｜ ✅ 已重考通过':''}</p>
+      <p style="font-size:13.5px;color:var(--blue)">${rich(w.exp)}</p>
+      <button class="btn plain" style="width:100%;margin-top:8px;padding:9px;font-size:13.5px" onclick="similarFromWrong(${wi})">🔄 举一反三（AI 出 5 道同类题）</button>
+      <div id="simMsg_${wi}" style="min-height:16px;font-size:12.5px;color:var(--sub);margin-top:4px"></div></div>`;
+  });
+  h+=`</div><div class="card"><p class="muted">已重考通过 ${doneN} 道。错题重考通过后会标记 ✅（原理：今天错 → 明天到期 → 重考做对划掉）。</p><p class="muted" style="font-size:12px;margin-top:4px">🔄 举一反三：AI 参照错题出 2 道同类新题（换情境换数字、考同一个知识点），做完计入统计。</p></div>`;
+  app.innerHTML=h;
+};
+/* —— v3.4 举一反三：参照错题用 AI 出同类题（参考小小刷题家 /api/questions/:id/similar 的策略）——
+   数据来源：S.wrong[i]（题干/答案/解析/单元）；生成走同源 /ai/ 网关（callLLM，无 Key 代理）；
+   生成的选择题/填空题直接塞进现有答题引擎，计分/统计/错题收录全复用。
+   防循环：AI 生成的题再答错不收错题本（source:'similar'，finishAnswer 里识别跳过）。 */
+var SIM_Q=null;   /* 暂存 AI 生成的题组 */
+function similarFromWrong(i){
+  var w=S.wrong[i];
+  if(!w)return;
+  var msg=document.getElementById('simMsg_'+i);
+  if(!hasPerm('ai')){if(msg){msg.style.color='var(--red)';msg.textContent='✕ 当前账号未授权 AI 功能，请联系管理员开通。'}return}
+  if(msg){msg.style.color='var(--sub)';msg.textContent='… AI 正在出题，约 10 秒…'}
+  var prompt='你是小学数学老师。基于下面的错题出 5 道同类练习题（举一反三）：\n'
+    +'- 换一个生活情境、换一组数字，考的知识点和难度与原题相当\n'
+    +'- 原题是选择题就出选择题（4 个选项，干扰项埋在常见错点上）；原题是填空/应用题就出填空题（答案是一个数或最简分数，如 3/4）\n'
+    +'- 若题干含分数，答案必须用最简分数或整数表示，禁止小数\n'
+    +'只输出一行 JSON，不要解释。格式：{"questions":[{"stem":"题干","ops":["选项A","选项B","选项C"] 或 null,"ans":"正确答案","exp":"30字以内讲解"}]}\n\n'
+    +'【原题】'+w.q+'\n【选项】'+(w.ops?JSON.stringify(w.ops):'无（填空/应用题）')+'\n【正确答案】'+w.ans+'\n【解析】'+(w.exp||'无');
+  callLLMRaw(prompt,getAIcfg()).then(function(r){
+    var txt=(r&&r.text)||'';
+    var m=txt.match(/\{[\s\S]*\}/);
+    var parsed=m?JSON.parse(m[0]):null;
+    var qs=(parsed&&Array.isArray(parsed.questions)?parsed.questions:[]).slice(0,5).map(function(x){
+      var ans=String(x.ans||'').trim();
+      /* v3.4.3 修复：比值答案（a:b）不走过程作答通道——该通道 extractFinal 不识别比值。
+         标 app:0 + ratio:1 后走 checkAns 化简比判等，彻底绕开误判（如 10:8）。 */
+      var isRatio=/^\d+\s*[:：]\s*\d+$/.test(ans);
+      return {q:String(x.stem||'').trim(),ops:Array.isArray(x.ops)&&x.ops.length>=2?x.ops.map(String):null,
+        ans:ans,exp:String(x.exp||'').trim(),unit:w.unit,kp:w.kp,ratio:isRatio?1:0,app:!Array.isArray(x.ops)&&!isRatio,source:'similar'};
+    }).filter(function(x){return x.q&&x.ans});
+    if(!qs.length)throw new Error('AI 返回的题目格式不对，再试一次');
+    SIM_Q=qs;
+    if(msg){msg.style.color='var(--green)';msg.textContent='✓ 出好了，开始做！'}
+    setTimeout(function(){
+      QS={qs:SIM_Q,i:0,mode:'gen',ok:0,title:'举一反三 · 同类题',log:[]};
+      SIM_Q=null;
+      go('quiz');
+    },500);
+  }).catch(function(e){
+    if(msg){msg.style.color='var(--red)';msg.textContent='✕ '+e.message}
+  });
+}
+function startWrongDue(){
+  if(!permGate('wrong'))return;
+  var due=S.wrong.filter(function(w){return !w.done&&w.due<=today()});
+  var qs=due.map(function(w){var isRatio=/^\d+\s*[:：]\s*\d+$/.test(String(w.ans||'').trim());var q={q:w.q,ops:w.ops,ans:w.ans,ratio:w.ratio||(isRatio?1:0),exp:w.exp,unit:w.unit,kp:w.kp,lvl:2,app:w.proc&&!isRatio?1:0};return q});
+  QS={qs:qs,i:0,mode:'wrong',idxList:due.map(function(w){return S.wrong.indexOf(w)}),ok:0,title:'错题重考',log:[]};
+  go('quiz');
+}
+
+/* —— 摸底 —— */
+VIEWS.place=function(){
+  app.innerHTML=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>📋 两分钟摸底</h1></div>
+  <div class="card"><p>每个内容单元 1 道中等题，共 <b>${UNITS.filter(function(u){return !isRevId(u.id)}).length} 题</b>。做完看报告：<b>哪单元弱就从哪学起</b>，不用从第一页啃起。</p>
+  <button class="btn" style="width:100%;margin-top:10px" onclick="startPlace()">开始摸底</button></div>`;
+};
+function startPlace(){
+  if(!permGate('place'))return;
+  var qs=[];
+  UNITS.forEach(function(u){
+    if(isRevId(u.id))return;
+    var pool=genPool(u.id,2);
+    if(!pool.length)pool=genPool(u.id,0);
+    qs.push(makeQ(pick(pool)));
+  });
+  QS={qs:qs,i:0,mode:'place',ok:0,title:'摸底测试',log:[]};
+  go('quiz');
+}
+function quizDonePlace(){/* 由 quizDone 分支处理 */}
+
+/* —— 一图看全册（v3.0 通用布局：内容单元 4 列网格，总复习压轴居中）—— */
+VIEWS.map=function(){
+  var content=UNITS.filter(function(u){return !isRevId(u.id)});
+  var revs=UNITS.filter(function(u){return isRevId(u.id)});
+  var nodes='';
+  var cols=4;
+  content.forEach(function(u,i){
+    var cx=75+(i%cols)*125, cy=70+Math.floor(i/cols)*120;
+    var l=0;u.kps.forEach(function(k){if(S.lit[k.id])l++});
+    nodes+=`<g cursor="pointer" onclick="go('unit','${u.id}')">
+      <rect x="${cx-55}" y="${cy-30}" width="110" height="64" rx="12" fill="${u.color}" opacity="0.92"/>
+      <text x="${cx}" y="${cy-8}" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">${u.id} ${u.name.slice(0,7)}</text>
+      <text x="${cx}" y="${cy+12}" text-anchor="middle" fill="#fff" font-size="10.5">${l}/${u.kps.length} 点亮</text>
+    </g>`;
+  });
+  var rows=Math.ceil(content.length/cols);
+  revs.forEach(function(u,r){
+    var cx=260, cy=70+rows*120+30+r*80;
+    var l=0;u.kps.forEach(function(k){if(S.lit[k.id])l++});
+    nodes+=`<g cursor="pointer" onclick="go('unit','${u.id}')">
+      <rect x="${cx-70}" y="${cy-26}" width="140" height="56" rx="12" fill="${u.color}" opacity="0.92"/>
+      <text x="${cx}" y="${cy-6}" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">${u.name.slice(0,9)}</text>
+      <text x="${cx}" y="${cy+14}" text-anchor="middle" fill="#fff" font-size="10.5">${l}/${u.kps.length} 点亮</text>
+    </g>`;
+  });
+  var H=70+rows*120+30+revs.length*80+40;
+  var flow=BOOK_DEF&&BOOK_DEF.mapFlow?BOOK_DEF.mapFlow:'按单元顺序学：先数与运算，再图形与几何，最后统计与概率';
+  var why=BOOK_DEF&&BOOK_DEF.mapWhy?BOOK_DEF.mapWhy:'知识前后衔接：前面的概念是后面学习的基础，按顺序学最省力。';
+  app.innerHTML=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>🗺 一图看全册（${BOOK_DEF?BOOK_DEF.name:''}）</h1></div>
+  <div class="card">
+  <svg class="map" viewBox="0 0 580 ${H}" xmlns="http://www.w3.org/2000/svg">
+    ${nodes}
+  </svg>
+  <p class="muted" style="font-size:11.5px;margin-top:4px">${flow}</p></div>
+  <div class="card"><h2>为什么是这个顺序？</h2>
+  <p style="font-size:14px">${why}</p></div>`;
+};
+
+/* —— 按板块攻 —— */
+VIEWS.board=function(){
+  var h=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>🧩 按板块攻</h1></div>
+  <p class="muted" style="margin-bottom:10px">不看册数看本事：一条线把同板块的知识看穿六年</p>`;
+  BOARDS.forEach(function(b){
+    var l=0,t=0;
+    b.units.forEach(function(uid){var u=UNITS.find(function(x){return x.id===uid});if(u)u.kps.forEach(function(k){t++;if(S.lit[k.id])l++})});
+    h+=`<div class="card"><h2><span class="tag" style="background:${b.color}">${b.name}</span></h2>
+    <p class="muted">${b.desc}</p>
+    <div style="display:flex;align-items:center;margin:8px 0"><span class="muted">${l}/${t} 点亮</span><div class="bar"><i style="width:${t?l/t*100:0}%;background:${b.color}"></i></div></div>`;
+    b.units.forEach(function(uid){
+      var u=UNITS.find(function(x){return x.id===uid});
+      if(u)h+=`<button class="btn plain" style="width:100%;margin-bottom:8px;text-align:left" onclick="go('unit','${u.id}')">${u.id} · ${u.name} ›</button>`;
+    });
+    h+=`<button class="btn" style="width:100%" onclick="startBoardDrill(['${b.units.join("\',\'")}'])">🎲 本板块混合出题 10 道</button></div>`;
+  });
+  app.innerHTML=h;
+};
+function startBoardDrill(uids){
+  if(!permGate('board'))return;
+  var pool=[];
+  uids.forEach(function(uid){pool=pool.concat(genPool(uid,0))});
+  var qs=[];for(var i=0;i<10;i++){qs.push(makeQ(pick(pool)))}
+  startQuiz(qs,'gen','板块混合练习',function(){
+    var arr=[];for(var i=0;i<10;i++){arr.push(makeQ(pick(pool)))}
+    return arr;
+  });
+}
+
+/* v3.0 多课本：速查大表已迁至各课本模块（BOOK_DEF.CHEAT） */
+var CHEAT=[];
+
+VIEWS.cheat=function(){
+  var h=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>📖 速查大表</h1></div>
+  <div class="card">`;
+  CHEAT.forEach(function(c,i){
+    h+=`<div class="cheat"><b>${c[0]}</b>　${c[1]}<br><span class="muted">例：${rich(c[2])}</span></div>`;
+  });
+  h+='</div>';
+  app.innerHTML=h;
+};
+
+/* —— 应用题四步法（v3.11：按课本单元 + 知识点难度出题，覆盖全部 12 册课本）—— */
+/* 应用题生成器清单缓存：按课本 id 自动失效，避免每次进页面重跑上百个生成器。
+   修：每个生成器探测 6 次、命中一次即认定为应用题——旧代码只探测 1 次，而总复习 rev_mix
+   的 app 标记只有约 60% 概率出现，导致总复习应用题时有时无。 */
+var APPGEN_CACHE={bookId:null,list:[]};
+function appGenList(){
+  var bid=BOOK_DEF?BOOK_DEF.id:null;
+  if(APPGEN_CACHE.bookId===bid&&APPGEN_CACHE.list.length)return APPGEN_CACHE.list;
+  var out=[];
+  (UNITS||[]).forEach(function(u){(u.kps||[]).forEach(function(kp){(kp.gens||[]).forEach(function(g){
+    if(!GENS[g])return;
+    var isApp=false;
+    for(var i=0;i<6&&!isApp;i++){try{var t=GENS[g](u.id,kp.id);if(t&&t.app)isApp=true}catch(e){}}
+    if(isApp)out.push({g:g,u:u.id,k:kp.id,lvl:GENLVL[g]||2});
+  })})});
+  APPGEN_CACHE={bookId:bid,list:out};
+  return out;
+}
+/* 选择状态：u=单元 id（0=全册混合）；lv=难度 1基础/2提高/3挑战（0=合理搭配） */
+var FOUR_PICK={u:0,lv:0};
+function fourLvCount(u){
+  var c={1:0,2:0,3:0};
+  appGenList().forEach(function(x){
+    if(u&&String(x.u)!==String(u))return;
+    if(c[x.lvl]!==undefined)c[x.lvl]++;
+  });
+  return c;
+}
+function fourUnitOpts(){
+  var list=appGenList(),n={},out=[];
+  (UNITS||[]).forEach(function(u){n[u.id]=0});
+  list.forEach(function(x){if(n[x.u]!==undefined)n[x.u]++});
+  (UNITS||[]).forEach(function(u){if(n[u.id]>0)out.push({id:u.id,name:u.name,n:n[u.id]})});
+  return out;
+}
+/* 降级链：指定单元+难度 → 该单元全部应用题 → 全册该难度 → 全册全部（保证永远有题） */
+function fourPool(u,lv){
+  var list=appGenList();
+  if(!list.length)return [];
+  var p=[];
+  if(u&&lv)p=list.filter(function(x){return String(x.u)===String(u)&&x.lvl===lv});
+  if(!p.length&&u)p=list.filter(function(x){return String(x.u)===String(u)});
+  if(!p.length&&lv)p=list.filter(function(x){return x.lvl===lv});
+  if(!p.length)p=list.slice();
+  return p;
+}
+/* 合理搭配：应用题版 基础30% + 提高50% + 挑战20%（某难度在所选范围无题时退回该范围全部） */
+function fourMixPool(u,n){
+  var list=appGenList();
+  var base=u?list.filter(function(x){return String(x.u)===String(u)}):list.slice();
+  if(!base.length)base=list.slice();
+  if(!base.length)return [];
+  var out=[],tries=0;
+  while(out.length<n&&tries<n*40){
+    tries++;
+    var r=Math.random(),lv=r<0.3?1:(r<0.8?2:3);
+    var p=base.filter(function(x){return x.lvl===lv});
+    if(!p.length)p=base;
+    out.push(pick(p));
+  }
+  return out;
+}
+function fourLabel(){
+  var un=null;
+  (UNITS||[]).forEach(function(u){if(FOUR_PICK.u&&String(u.id)===String(FOUR_PICK.u))un=u});
+  var lvName={0:'合理搭配',1:'基础',2:'提高',3:'挑战'}[FOUR_PICK.lv]||'合理搭配';
+  return (un?un.name:'全册混合')+' · '+lvName;
+}
+function fourPickUnit(id){
+  FOUR_PICK.u=id;
+  var c=fourLvCount(id||0);
+  if(FOUR_PICK.lv&&!c[FOUR_PICK.lv])FOUR_PICK.lv=0;   /* 新范围下该难度无题 → 回合理搭配 */
+  VIEWS.four();
+}
+function fourPickLv(lv){FOUR_PICK.lv=lv;VIEWS.four()}
+VIEWS.four=function(){
+  var list=appGenList();
+  var h=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>🪜 应用题四步法</h1></div>`;
+  /* 空态：该册没有收录任何应用题（实测 qd1b 一年级下册为 0） */
+  if(!list.length){
+    h+=`<div class="card">
+    <div class="exambox">📘 当前课本《${BOOK_DEF?BOOK_DEF.name:'—'}》暂时还没有收录应用题，四步法练不了。</div>
+    <p class="muted" style="font-size:13px">可以先练这本课本的其他题型，或者换一册有应用题的课本（六年级上/下册应用题最多）。</p>
+    <div style="margin-top:12px"><button class="btn" style="width:100%" onclick="go('gen')">🎲 去智能出题器</button></div>
+    <div style="margin-top:8px"><button class="btn plain" style="width:100%" onclick="go('booksel')">📘 换一本课本</button></div></div>`;
+    app.innerHTML=h;
+    return;
+  }
+  /* 切课本后旧单元 id 可能不存在 → 校正选择 */
+  if(FOUR_PICK.u&&!list.some(function(x){return String(x.u)===String(FOUR_PICK.u)}))FOUR_PICK.u=0;
+  var cAll=fourLvCount(0);
+  if(FOUR_PICK.lv&&!cAll[FOUR_PICK.lv])FOUR_PICK.lv=0;
+  /* 六上/六下是分数·百分数应用题 → 用"单位 1"口诀；其余年级 → 通用应用题四步 */
+  var fracMode=!!(BOOK_DEF&&BOOK_DEF.grade>=6);
+  h+='<div class="card">';
+  if(fracMode){
+    h+=`<div class="step"><div class="n">1</div><div><b>圈一圈</b>：把单位 1、分率（几分之几）、问题圈出来。<br><span class="muted">口诀：见"的"找单位 1——"是谁的几分之几"，谁就是单位 1。</span></div></div>
+    <div class="step"><div class="n">2</div><div><b>画示意图</b>：一条线段代表单位 1，先分一分，再标出已知和问号。</div></div>
+    <div class="step"><div class="n">3</div><div><b>列式</b>：单位 1 已知 → 乘法；单位 1 未知 → 除法（或方程）。</div></div>
+    <div class="step"><div class="n">4</div><div><b>验算</b>：把答案代回去，看看是不是正好是"几分之几"；再检查单位写没写。</div></div>
+    <div class="exambox">💡 90% 的应用题丢分不是不会算，是<b>没找准单位 1</b>。第一步圈对了，后面三步都是顺路的。</div>`;
+  }else{
+    h+=`<div class="step"><div class="n">1</div><div><b>读一读</b>：圈出<b>已知条件</b>和<b>要求的问题</b>，看清单位（元、个、厘米…）。<br><span class="muted">口诀：条件和单位一起圈，漏一个就少一步。</span></div></div>
+    <div class="step"><div class="n">2</div><div><b>理一理</b>：把条件画成图或列成小条，想想<b>要先算出什么中间量</b>。</div></div>
+    <div class="step"><div class="n">3</div><div><b>列式算</b>：一步能算就一步算；需要两步的，先把中间量算出来再往下走。</div></div>
+    <div class="step"><div class="n">4</div><div><b>查一查</b>：把答案代回题目读一遍合不合理（钱不会变负、人数得是整数），<b>别忘了写单位</b>。</div></div>
+    <div class="exambox">💡 应用题丢分多半是<b>漏看条件</b>或<b>忘写单位</b>。第 1 步圈全了，后面就是顺路的。</div>`;
+  }
+  h+='</div>';
+  h+='<div class="card"><h3>① 选范围</h3><div id="fourUnitPick">';
+  h+=`<span class="pctchip" style="cursor:pointer;${FOUR_PICK.u===0?'background:var(--orange);color:#fff':''}" onclick="fourPickUnit(0)">全册混合（${list.length}）</span>`;
+  fourUnitOpts().forEach(function(x){
+    var on=String(FOUR_PICK.u)===String(x.id);
+    h+=`<span class="pctchip" style="cursor:pointer;${on?'background:var(--orange);color:#fff':''}" onclick="fourPickUnit('${x.id}')">${x.name}（${x.n}）</span>`;
+  });
+  h+='</div>';
+  var cu=fourLvCount(FOUR_PICK.u||0);
+  h+='<h3 style="margin-top:14px">② 选难度</h3><div id="fourLvPick">';
+  [[1,'🌱 基础'],[2,'💪 提高'],[3,'🔥 挑战']].forEach(function(p){
+    if(!cu[p[0]])return;   /* 所选范围下此难度没有题 → 不显示，避免点了没反应 */
+    h+=`<span class="pctchip" style="cursor:pointer;${FOUR_PICK.lv===p[0]?'background:var(--orange);color:#fff':''}" onclick="fourPickLv(${p[0]})">${p[1]}（${cu[p[0]]}）</span>`;
+  });
+  h+=`<span class="pctchip" style="cursor:pointer;${FOUR_PICK.lv===0?'background:var(--orange);color:#fff':''}" onclick="fourPickLv(0)">♻ 合理搭配（推荐）</span>`;
+  h+='</div>';
+  h+=`<div style="margin-top:16px"><button class="btn orange" style="width:100%" onclick="startFourDrill()">🚀 来一组应用题特训（8 题）</button></div>
+  <p class="muted" style="margin-top:8px;font-size:12.5px">当前：<b>${fourLabel()}</b> · 课本《${BOOK_DEF?BOOK_DEF.name:''}》<br>"合理搭配"= 基础 30% + 提高 50% + 挑战 20%。所选范围题目不够时自动放宽（本单元 → 全册同难度 → 全册），保证一定有题。</p></div>`;
+  app.innerHTML=h;
+};
+function startFourDrill(){
+  if(!permGate('four'))return;
+  var list=appGenList(),N=8;
+  if(!list.length){VIEWS.four();return}
+  if(FOUR_PICK.u&&!list.some(function(x){return String(x.u)===String(FOUR_PICK.u)}))FOUR_PICK.u=0;
+  var u=FOUR_PICK.u,lv=FOUR_PICK.lv;
+  /* 组内题面重抽：dedupPick 的 peek 对每个规格只采样一次题面，当课本把同一生成器复用到多个
+     知识点（如六下 g_discount/g_cylV/g_scale 同时挂在总复习单元）时，两个规格可能抽到同一题面，
+     触发 dedupPick 第三段「允许组内重复补满」的既定兜底。这里对重复项再调一次 makeQ（生成器每次
+     调用都重新随机）即可拿到新题面；极小池重试上限后仍重复则保留，不影响题量。 */
+  function redraw(specs){
+    var qs=specs.map(makeQ),seen={},i,g2;
+    for(i=0;i<qs.length;i++){
+      g2=0;
+      while(qs[i]&&seen[qs[i].q]&&g2<12){qs[i]=makeQ(specs[i]);g2++}
+      if(qs[i])seen[qs[i].q]=1;
+    }
+    return qs;
+  }
+  function refill(){
+    /* 修：旧代码用 pick 纯随机抽 8 题，同组可能撞到重复题面；改用 dedupPick（与智能出题器、应用题特训一致） */
+    if(lv===0)return redraw(dedupPick(function(){return fourMixPool(u,N)},N));
+    return redraw(dedupPick(function(){return fourPool(u,lv)},N));
+  }
+  var qs=refill();
+  if(!qs.length)qs=redraw(dedupPick(function(){return list.slice()},N));   /* 极端兜底 */
+  startQuiz(qs,'gen','应用题四步法 · '+fourLabel(),refill);
+}
+
+/* —— 家长报告（v3.1：支持时间范围查询，最少覆盖最近 30 天）—— */
+var REP_RANGE=null;   /* '7'|'30'|'90'|'all'|'custom'，页面内选择状态 */
+var REP_FROM=null,REP_TO=null;   /* 自定义起止 'YYYY-MM-DD' */
+/* 构造区间内每一天的日期键（含首尾）。跨月/跨年用 Date 累加自动进位，整月 30/31 天不漏天 */
+function dateRangeKeys(fromKey,toKey){
+  var keys=[],parts=fromKey.split('-'),d=new Date(+parts[0],+parts[1]-1,+parts[2]);
+  var endParts=toKey.split('-'),end=new Date(+endParts[0],+endParts[1]-1,+endParts[2]);
+  var guard=0;
+  while(d<=end&&guard<800){
+    keys.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'));
+    d.setDate(d.getDate()+1);guard++;
+  }
+  return keys;
+}
+/* 时段起点日期键：n=7/30/90 → 含今天在内往回 n 天；'all' → 全部记录的最早日期（无记录则今天） */
+function rangeStartKey(n){
+  if(n==='all'){
+    var ks=Object.keys(S.days||{}).sort();
+    var cks=Object.keys((S.books||{})[BOOK_DEF.id]&&S.books[BOOK_DEF.id].days||{}).sort();
+    ks=ks.concat(cks).sort();
+    return ks.length?ks[0]:today();
+  }
+  var d=new Date();d.setDate(d.getDate()-(n-1));
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+/* 时段统计聚合：对区间内每一天累加总量 + 分单元（新数据读 byUnit；旧数据仅有总量，分单元显示"未细分"） */
+function rangeAgg(fromKey,toKey){
+  var keys=dateRangeKeys(fromKey,toKey);
+  var tot={att:0,cor:0},days=0,perUnit={},activeDays=[];
+  keys.forEach(function(k){
+    var dv=(S.days||{})[k];
+    var hasData=dv&&dv.att>0;
+    if(hasData){days++;activeDays.push(k);tot.att+=dv.att;tot.cor+=dv.cor||0;
+      Object.keys(dv.byUnit||{}).forEach(function(u){
+        perUnit[u]=perUnit[u]||{att:0,cor:0};
+        perUnit[u].att+=dv.byUnit[u].att;perUnit[u].cor+=dv.byUnit[u].cor||0;
+      });
+    }
+  });
+  return {keys:keys,tot:tot,days:days,perUnit:perUnit,activeDays:activeDays,
+    spanDays:keys.length,empty:tot.att===0};
+}
+VIEWS.report=function(){
+  if(!CUR){go('home');return}
+  if(!REP_RANGE)REP_RANGE='30';
+  /* —— v3.2 管理员：全账号视图（云端模式专属；本地模式无集中数据） —— */
+  if(REP_SCOPE==='all'){
+    if(!isAdmin()){REP_SCOPE='self'}
+    else if(!CLOUD.on){
+      app.innerHTML=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>📊 学习报告</h1></div>
+      <div class="card"><h2>🏫 全账号报告</h2><p class="muted" style="font-size:14px">全账号报告需要 <b>云端同步模式</b>（账号与存档集中在家里的 NAS）。当前是本地模式，各账号数据分散在各设备浏览器里，无法集中汇总。请先在首页登录并启用云端。</p></div>`;
+      return;
+    }
+    var fromK,toK;
+    if(REP_RANGE==='custom'&&REP_FROM&&REP_TO&&REP_FROM<=REP_TO){fromK=REP_FROM;toK=REP_TO}
+    else{toK=today();fromK=rangeStartKey(REP_RANGE==='custom'?'30':REP_RANGE)}
+    var rtitle=REP_RANGE==='7'?'最近 7 天':REP_RANGE==='30'?'最近 30 天':REP_RANGE==='90'?'最近 90 天':REP_RANGE==='custom'?(fromK+' ~ '+toK):'全部时间';
+    var h=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>📊 学习报告 · 全账号</h1></div>`;
+    /* 时段选择（与本人视图同一套状态）+ 范围切换 */
+    h+=`<div class="card"><h2>📅 统计时段：${rtitle}</h2><div style="display:flex;gap:8px;flex-wrap:wrap">`;
+    [['7','近7天'],['30','近30天'],['90','近90天'],['all','全部时间']].forEach(function(p){
+      h+=`<button class="btn ${REP_RANGE===p[0]?'':'plain'}" style="padding:8px 14px;font-size:13.5px" onclick="REP_RANGE='${p[0]}';go('report')">${p[1]}</button>`;
+    });
+    h+=`<button class="btn ${REP_RANGE==='custom'?'':'plain'}" style="padding:8px 14px;font-size:13.5px" onclick="REP_RANGE='custom';go('report')">📆 自定义</button></div>`;
+    if(REP_RANGE==='custom'){
+      h+=`<div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap">
+        <label style="font-size:13px">开始 <input type="date" id="repFrom" value="${fromK}" style="padding:7px;border:1.5px solid var(--line);border-radius:10px;font-size:13.5px"></label>
+        <label style="font-size:13px">结束 <input type="date" id="repTo" value="${toK}" style="padding:7px;border:1.5px solid var(--line);border-radius:10px;font-size:13.5px"></label>
+        <button class="btn" style="padding:8px 16px;font-size:13.5px" onclick="applyRepRange()">查询</button>
+      </div>`;
+      var m=new Date();m.setDate(1);
+      for(var mi=0;mi<3;mi++){
+        var y=m.getFullYear(),mo=m.getMonth();
+        var first=y+'-'+String(mo+1).padStart(2,'0')+'-01';
+        var lastD=new Date(y,mo+1,0).getDate();
+        var last=y+'-'+String(mo+1).padStart(2,'0')+'-'+String(lastD).padStart(2,'0');
+        h+=`<button class="btn plain" style="padding:6px 12px;font-size:12.5px;margin:4px 4px 0 0" onclick="REP_FROM='${first}';REP_TO='${last}';go('report')">${y}年${mo+1}月整月</button>`;
+        m.setMonth(m.getMonth()-1);
+      }
+    }
+    h+=`<div style="margin-top:10px"><button class="btn plain" style="padding:8px 14px;font-size:13px" onclick="REP_SCOPE='self';go('report')">👤 看我自己的报告</button></div></div>`;
+    h+=`<div id="allRepBox"><div class="card"><p class="muted">… 正在从云端聚合全部账号数据…</p></div></div>`;
+    app.innerHTML=h;
+    loadAllReport().then(function(rep){
+      var box=document.getElementById('allRepBox');
+      if(box)box.innerHTML=renderAllReport(rep);
+    }).catch(function(e){
+      var box=document.getElementById('allRepBox');
+      if(box)box.innerHTML='<div class="card"><p style="color:var(--red);font-weight:700">✕ 全账号报告读取失败：'+e.message+'</p><p class="muted" style="font-size:13px">请确认 NAS 同步服务已更新到 v3.2 并已重启。</p></div>';
+    });
+    return;
+  }
+  var fromK,toK;
+  if(REP_RANGE==='custom'&&REP_FROM&&REP_TO&&REP_FROM<=REP_TO){fromK=REP_FROM;toK=REP_TO}
+  else{toK=today();fromK=rangeStartKey(REP_RANGE==='custom'?'30':REP_RANGE)}
+  var R=rangeAgg(fromK,toK);
+  var rtitle=REP_RANGE==='7'?'最近 7 天':REP_RANGE==='30'?'最近 30 天':REP_RANGE==='90'?'最近 90 天':REP_RANGE==='custom'?(fromK+' ~ '+toK):'全部记录';
+  /* — 时段选择卡 — */
+  var h=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>📊 学习报告</h1></div>
+  <div class="card"><h2>📅 统计时段：${rtitle}</h2><div style="display:flex;gap:8px;flex-wrap:wrap">`;
+  [['7','近7天'],['30','近30天'],['90','近90天'],['all','全部']].forEach(function(p){
+    h+=`<button class="btn ${REP_RANGE===p[0]?'':'plain'}" style="padding:8px 14px;font-size:13.5px" onclick="REP_RANGE='${p[0]}';go('report')">${p[1]}</button>`;
+  });
+  h+=`<button class="btn ${REP_RANGE==='custom'?'':'plain'}" style="padding:8px 14px;font-size:13.5px" onclick="REP_RANGE='custom';go('report')">📆 自定义</button>`;
+  if(isAdmin()&&CLOUD.on)h+=`<button class="btn blue" style="padding:8px 14px;font-size:13.5px" onclick="REP_SCOPE='all';go('report')">🏫 全账号报告</button>`;
+  h+='</div>';
+  if(REP_RANGE==='custom'){
+    h+=`<div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap">
+      <label style="font-size:13px">开始 <input type="date" id="repFrom" value="${fromK}" style="padding:7px;border:1.5px solid var(--line);border-radius:10px;font-size:13.5px"></label>
+      <label style="font-size:13px">结束 <input type="date" id="repTo" value="${toK}" style="padding:7px;border:1.5px solid var(--line);border-radius:10px;font-size:13.5px"></label>
+      <button class="btn" style="padding:8px 16px;font-size:13.5px" onclick="applyRepRange()">查询</button>
+      <button class="btn plain" style="padding:8px 14px;font-size:13px" onclick="REP_FROM=null;REP_TO=null;REP_RANGE='30';go('report')">重置</button>
+    </div>
+    <p class="muted" style="font-size:12px;margin-top:6px">可选任意整月跨度（如 10月1日～10月31日），最多查询 800 天内的记录。</p>`;
+    /* 快捷整月：最近三个自然月 */
+    var m=new Date();m.setDate(1);
+    for(var mi=0;mi<3;mi++){
+      var y=m.getFullYear(),mo=m.getMonth();
+      var first=y+'-'+String(mo+1).padStart(2,'0')+'-01';
+      var lastD=new Date(y,mo+1,0).getDate();
+      var last=y+'-'+String(mo+1).padStart(2,'0')+'-'+String(lastD).padStart(2,'0');
+      h+=`<button class="btn plain" style="padding:6px 12px;font-size:12.5px;margin:4px 4px 0 0" onclick="REP_FROM='${first}';REP_TO='${last}';go('report')">${y}年${mo+1}月整月</button>`;
+      m.setMonth(m.getMonth()-1);
+    }
+  }
+  /* — 时段汇总 — */
+  var rate=R.tot.att?Math.round(R.tot.cor/R.tot.att*100):null;
+  h+=`<div class="card"><h2>📈 ${rtitle}汇总</h2>
+  <div class="grid3" style="text-align:center">
+    <div><div style="font-size:26px;font-weight:900;color:var(--green)">${R.tot.att}</div><span class="muted" style="font-size:12.5px">练习题数</span></div>
+    <div><div style="font-size:26px;font-weight:900;color:var(--orange)">${rate===null?'—':rate+'%'}</div><span class="muted" style="font-size:12.5px">时段正确率</span></div>
+    <div><div style="font-size:26px;font-weight:900;color:var(--blue)">${R.days}</div><span class="muted" style="font-size:12.5px">练习天数 / 共 ${R.spanDays} 天</span></div>
+  </div>`;
+  if(R.empty)h+=`<p class="muted" style="font-size:13.5px;margin-top:10px">⚠ 该时段内没有练习记录，柱状图每天显示 0。换个时段看看，或先去练一组题吧。</p>`;
+  h+='</div>';
+  /* — 每日柱状图：覆盖区间内每一天，无数据日显示 0 灰柱 — */
+  var maxA=1;R.keys.forEach(function(k){var dv=(S.days||{})[k];if(dv&&dv.att>maxA)maxA=dv.att});
+  h+=`<div class="card"><h2>${rtitle} · 每日练习量（${R.spanDays} 天，无练习的日子显示 0）</h2><div style="overflow-x:auto"><div style="display:flex;align-items:flex-end;gap:3px;height:90px;padding-top:8px;min-width:${Math.max(280,R.keys.length*22)}px">`;
+  R.keys.forEach(function(k,i){
+    var dv=(S.days||{})[k],a=dv?dv.att:0,c=dv?(dv.cor||0):0;
+    var lab=k.slice(5);   /* MM-DD */
+    var tip=k+'：练 '+a+' 对 '+(dv?c:0);
+    h+=`<div title="${tip}" style="flex:1;min-width:16px;text-align:center">
+      <div style="background:${a>0?'var(--green)':'#E8E4D8'};height:${a>0?Math.max(4,a/maxA*62):3}px;border-radius:3px 3px 0 0"></div>
+      <div style="font-size:9px;color:var(--sub);transform:rotate(60deg);transform-origin:top;white-space:nowrap;margin-top:2px;${R.keys.length>40?'display:none':''}">${lab}</div>
+      <div style="font-size:9.5px;font-weight:700;color:${a>0?'var(--green)':'#C9C4B4'}">${a}</div>
+    </div>`;
+  });
+  h+=`</div></div><p class="muted" style="font-size:11.5px;margin-top:6px">绿柱=当天练了（高度=题量，悬停看明细）；灰柱=当天没练（0 题）。</p></div>`;
+  /* — 时段内分单元表（byUnit 新数据；旧数据无细分则显示整时段提示）— */
+  var hasUnitDetail=Object.keys(R.perUnit).length>0;
+  h+=`<div class="card"><h2>📚 ${rtitle}分单元表现（当前课本：${BOOK_DEF?BOOK_DEF.name:''}）</h2><table class="rep"><tr><th>单元</th><th>时段练习</th><th>时段正确率</th><th>状态</th></tr>`;
+  var weak=[];
+  if(hasUnitDetail){
+    UNITS.forEach(function(u){
+      var s=R.perUnit[String(u.id)]||R.perUnit[u.id]||{att:0,cor:0};
+      var r2=s.att?Math.round(s.cor/s.att*100):null;
+      var st=r2===null?'<span class="muted">该时段未练</span>':(r2>=80?'👍 稳':(r2>=60?'💪 练':'⚠ 弱'));
+      if(r2!==null&&r2<60&&s.att>=5)weak.push(u.id+'·'+u.name);
+      h+=`<tr><td style="text-align:left">${u.id} ${u.name}</td><td>${s.att}</td><td>${r2===null?'—':r2+'%'}</td><td>${st}</td></tr>`;
+    });
+  }else{
+    /* 旧数据没有按日分单元记录：显示累计口径并说明 */
+    UNITS.forEach(function(u){
+      var s=S.st[u.id]||{att:0,cor:0};
+      var r2=s.att?Math.round(s.cor/s.att*100):null;
+      var st=r2===null?'<span class="muted">未开始</span>':(r2>=80?'👍 稳':(r2>=60?'💪 练':'⚠ 弱'));
+      h+=`<tr><td style="text-align:left">${u.id} ${u.name}</td><td>${s.att} <span class="muted" style="font-size:11px">(累计)</span></td><td>${r2===null?'—':r2+'%'} <span class="muted" style="font-size:11px">(累计)</span></td><td>${st}</td></tr>`;
+    });
+    h+='</table><p class="muted" style="font-size:12.5px;margin-top:8px">ℹ 升级前的练习只记了每日总量，没有按单元细分，所以这里先显示累计口径；<b>从今天起</b>的新练习会按日按单元记录，时间范围筛选对之后的练习完全生效。</p>';
+  }
+  h+='</table></div>';
+  /* — 时段内错题与点亮（点亮日期在区间内才算）— */
+  var wrongInRange=S.wrong.filter(function(w){var d=new Date(w.ts||Date.now());var k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return k>=fromK&&k<=toK});
+  var litInRange={};Object.keys(S.lit||{}).forEach(function(kid){var v=S.lit[kid];if(typeof v==='string'&&v>=fromK&&v<=toK&&v!=='1')litInRange[kid]=v});
+  /* — 给家长的话（按所选时段口径）— */
+  h+=`<div class="card"><h2>💡 给家长的话（${rtitle}）</h2>`;
+  if(weak.length){
+    h+='<p style="font-size:14px">该时段内这几个单元正确率低于 60%，建议回去读知识卡、再做一次"过关检验"：<b>'+weak.join('、')+'</b></p>';
+  }else if(R.empty){
+    h+='<p class="muted">该时段内没有练习记录。建议和孩子约定每天 10 分钟固定练习时间。</p>';
+  }else h+='<p class="muted" style="font-size:14px">该时段共练 '+R.tot.att+' 题、正确率 '+(rate===null?'—':rate+'%')+'、练了 '+R.days+' 天。保持节奏，错题隔日重考别忘了。</p>';
+  var due=dueWrongCount();
+  if(due)h+=`<p style="font-size:14px;margin-top:6px">📕 当前有 <b>${due}</b> 道错题到期（不受时段筛选影响），花 3 分钟清掉。</p>`;
+  h+=`<p class="muted" style="font-size:12.5px;margin-top:6px">时段内新增错题 <b>${wrongInRange.length}</b> 道；时段内新点亮知识点 <b>${Object.keys(litInRange).length}</b> 个。</p></div>`;
+  app.innerHTML=h;
+};
+/* 自定义区间查询应用：读日期控件，校验起止顺序 */
+function applyRepRange(){
+  var f=document.getElementById('repFrom'),t=document.getElementById('repTo');
+  if(!f||!t||!f.value||!t.value){alert('请选择开始和结束日期');return}
+  if(f.value>t.value){alert('开始日期不能晚于结束日期');return}
+  REP_FROM=f.value;REP_TO=t.value;go('report');
+}
+/* —— v3.2 管理员·全账号时段报告 —— */
+var REP_SCOPE='self';   /* 'self' 本人 | 'all' 全账号（仅管理员） */
+var REP_ALL_CACHE=null; /* 全账号报告缓存（避免每次切换时段都拉全量） */
+function repRangeQuery(){
+  /* 把当前 REP_RANGE 折算成 from/to 查询参数 */
+  if(REP_RANGE==='custom'&&REP_FROM&&REP_TO&&REP_FROM<=REP_TO)return {from:REP_FROM,to:REP_TO};
+  if(REP_RANGE==='all')return {};
+  var n=REP_RANGE==='7'?7:(REP_RANGE==='90'?90:30);
+  var d=new Date();d.setDate(d.getDate()-(n-1));
+  var k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  return {from:k,to:today()};
+}
+function loadAllReport(){
+  var q=repRangeQuery();
+  var qs=[];if(q.from)qs.push('from='+q.from);if(q.to)qs.push('to='+q.to);
+  return cloudAdminReq('/admin/report'+(qs.length?'?'+qs.join('&'):''),'GET').then(function(r){
+    if(!r.ok)throw new Error(r.err||'读取失败');
+    var rep=r.report;REP_ALL_CACHE=rep;
+    /* v4.0 报告同步镜像状态：与报告并行拉取，失败不影响报告展示 */
+    return cloudAdminReq('/admin/report/mirror','GET').then(function(mr){
+      if(mr.ok)rep._sync={mirror:mr.mirror||{},verify:mr.verify||{}};
+      return rep;
+    }).catch(function(){return rep});
+  });
+}
+function renderAllReport(rep){
+  var r=rep.summary||{};
+  var rateTxt=r.rate===null?'—':r.rate+'%';
+  var h=syncStatusCard(rep);
+  h+=`<div class="card"><h2>🏫 全账号汇总（${rep.users.length} 个账号）</h2>
+  <div class="grid3" style="text-align:center">
+    <div><div style="font-size:26px;font-weight:900;color:var(--green)">${r.att||0}</div><span class="muted" style="font-size:12.5px">总练习题数</span></div>
+    <div><div style="font-size:26px;font-weight:900;color:var(--orange)">${rateTxt}</div><span class="muted" style="font-size:12.5px">总正确率</span></div>
+    <div><div style="font-size:26px;font-weight:900;color:var(--blue)">${(rep.from||'最早')+(rep.to?' ~ '+rep.to:' ~ 今天')}</div><span class="muted" style="font-size:12.5px">统计时段</span></div>
+  </div></div>`;
+  /* 每账号明细表（按时段练习量降序） */
+  var us=(rep.users||[]).slice().sort(function(a,b){return (b.range.att||0)-(a.range.att||0)});
+  h+=`<div class="card"><h2>👥 各账号时段表现</h2><table class="rep"><tr><th>账号</th><th>练习</th><th>正确率</th><th>天数</th><th>最近活跃</th><th>错题(未清)</th><th>报告同步</th><th>详情</th></tr>`;
+  us.forEach(function(u){
+    var rg=u.range||{att:0,cor:0,days:0};
+    var rr=rg.att?Math.round(rg.cor/rg.att*100):null;
+    var litTotal=0,wrongLeft=0;
+    (u.books||[]).forEach(function(b){litTotal+=b.lit||0;wrongLeft+=b.wrong||0});
+    var unDone=Object.keys(rg.perUnit||{}).length;
+    h+=`<tr>
+      <td style="text-align:left">${u.name}${u.banned?' <span class="badge gray">封禁</span>':''}${u.role==='admin'?' 🛡':''}<br><span class="muted" style="font-size:11px">${u.phone}</span></td>
+      <td>${rg.att||0}</td>
+      <td>${rr===null?'—':rr+'%'}</td>
+      <td>${rg.days||0}</td>
+      <td>${u.lastActive||'<span class="muted">—</span>'}</td>
+      <td>${wrongLeft}</td>
+      <td style="text-align:left;font-size:11.5px">${syncCellHtml(u.phone,rep)}</td>
+      <td>${unDone>0?`<a style="cursor:pointer;color:var(--blue);font-weight:700" onclick="toggleUserUnits('${u.phone}')">展开</a>`:'<span class="muted">—</span>'}</td>
+    </tr>`;
+    if(unDone>0){
+      h+=`<tr id="units_${u.phone}" style="display:none"><td colspan="8" style="text-align:left;background:#FBFAF5">`;
+      var parts=Object.keys(rg.perUnit).map(function(uid){
+        var s=rg.perUnit[uid];var rr2=s.att?Math.round(s.cor/s.att*100):null;
+        return `单元${uid}：${s.att} 题 / ${rr2===null?'—':rr2+'%'}`;
+      });
+      h+=parts.join(' ｜ ');
+      h+='</td></tr>';
+    }
+  });
+  h+='</table><p class="muted" style="font-size:12px;margin-top:6px">按时段练习量降序；「详情」展开该账号时段内分单元练习量与正确率。点亮知识点为累计口径，错题列=当前未清错题。「报告同步」显示该账号报告镜像的最新状态与更新时间。</p></div>';
+  return h;
+}
+
+/* ===== v4.0 报告同步镜像：状态卡片 / 单行状态 / 手动操作 ===== */
+function syncStatusCard(rep){
+  var s=(rep&&rep._sync)||{};var v=s.verify||{};var m=s.mirror||{};
+  var ok=v.ok===true;
+  var badge=ok?'<span class="badge" style="background:#E6F4EA;color:#1E7E34">✓ 全部一致</span>'
+    :'<span class="badge" style="background:#FDECEA;color:#B3261E">⚠ 存在 '+
+      ((v.missing||0)+(v.stale||0)+(v.corrupt||0)+(v.orphan||0)+(v.failed||0))+' 项异常</span>';
+  var updated=m.updatedAt?new Date(m.updatedAt).toLocaleString('zh-CN',{hour12:false}):'—';
+  var stat='账号 '+(v.total||0)+' 个 · 正常 '+(v.good||0)+' · 遗漏 '+(v.missing||0)+' · 陈旧 '+(v.stale||0)+' · 损坏 '+(v.corrupt||0)+' · 孤儿 '+(v.orphan||0)+' · 失败 '+(v.failed||0);
+  return `<div class="card" style="border-left:4px solid ${ok?'var(--green)':'var(--orange)'}">
+    <h2>🔄 报告数据同步状态 ${badge}</h2>
+    <p class="muted" style="font-size:13px;margin:4px 0">${stat}</p>
+    <p class="muted" style="font-size:12px;margin:2px 0">镜像版本 rev ${m.rev||0} · 最近同步 ${updated} · 校验时间 ${v.checkedAt||'—'}</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <button class="btn" style="padding:8px 14px;font-size:13px" onclick="mirrorAction('rebuild',this)">🔃 立即全量同步</button>
+      <button class="btn plain" style="padding:8px 14px;font-size:13px" onclick="mirrorAction('verify',this)">✅ 重新校验</button>
+    </div>
+    <p id="mirrorMsg" class="muted" style="font-size:12.5px;margin-top:8px"></p>
+  </div>`;
+}
+function syncCellHtml(phone,rep){
+  var s=(rep&&rep._sync)||{};var list=(s.mirror&&s.mirror.accounts)||[];
+  var rec=null;for(var i=0;i<list.length;i++){if(list[i].phone===phone){rec=list[i];break}}
+  if(!rec)return '<span class="muted">无镜像</span>';
+  var st=rec.status;
+  var color=st==='ok'?'#1E7E34':(st==='empty'?'#6B7280':'#B3261E');
+  var label=st==='ok'?'已同步':(st==='empty'?'空档案':(st==='error'?'失败':'未知'));
+  var t=rec.syncedAtStr||'—';
+  var rev=rec.source&&rec.source.stateRev;
+  return '<span style="color:'+color+';font-weight:700">● '+label+'</span><br><span class="muted">'+t+(rev!==undefined?' · rev'+rev:'')+'</span>';
+}
+function mirrorAction(op,btn){
+  var path=op==='rebuild'?'/admin/report/mirror/rebuild':'/admin/report/mirror/verify';
+  var old=btn?btn.textContent:'';if(btn)btn.textContent='处理中…';
+  cloudAdminReq(path,'POST').then(function(r){
+    if(btn)btn.textContent=old;
+    var msg=document.getElementById('mirrorMsg');if(!msg)return;
+    if(r.ok){
+      if(op==='rebuild'){
+        var s=r;msg.style.color='var(--green)';
+        msg.textContent='✓ 全量同步完成：账号 '+(s.accounts||0)+' · 更新 '+(s.synced||0)+' · 未变 '+(s.skipped||0)+' · 失败 '+(s.error||0);
+      }else{
+        var v=r.verify||{};msg.style.color=v.ok?'var(--green)':'var(--orange)';
+        msg.textContent=v.ok?'✓ 一致性校验通过：全部账号数据一致':'⚠ 校验发现异常，请执行全量同步';
+      }
+      loadAllReport().then(function(rep){var box=document.getElementById('allRepBox');if(box)box.innerHTML=renderAllReport(rep)});
+    }else{msg.style.color='var(--red)';msg.textContent='✕ 操作失败：'+(r.err||'未知错误')}
+  }).catch(function(e){if(btn)btn.textContent=old;var msg=document.getElementById('mirrorMsg');if(msg){msg.style.color='var(--red)';msg.textContent='✕ '+e.message}});
+}
+function toggleUserUnits(phone){
+  var tr=document.getElementById('units_'+phone);
+  if(tr)tr.style.display=tr.style.display==='none'?'table-row':'none';
+}
+
+/* —— 关于 —— */
+VIEWS.about=function(){
+  app.innerHTML=`<div class="topbar"><button class="backbtn" onclick="go('home')">‹ 首页</button><h1>💡 怎么用好它</h1></div>
+  <div class="card"><h2>推荐节奏</h2>
+  <p style="font-size:14.5px">① 先做<b>两分钟摸底</b>，找到最弱的单元；<br>
+  ② 进该单元<b>读知识卡</b>，点"过关检验"，做对 5 题点亮；<br>
+  ③ 每天用<b>今天的任务</b>（10 分钟：一卡五题 + 错题重考）；<br>
+  ④ 单元学完做一次<b>混合闯关</b>；周末跑一次<b>摸底</b>看进步。</p></div>
+  <div class="card"><h2>数据与隐私</h2>
+  <p class="muted" style="font-size:14px">${CLOUD.on?'☁ <b>云端同步模式</b>：账号与所有进度集中保存在家里的飞牛 NAS 上，任何设备登录同一账号，看到的都是同一份最新进度（自动合并，无需手动迁移）。':'所有进度保存在<b>这台设备</b>的浏览器里（localStorage），不联网、不上传、不要钱。换设备时不会自动同步。'}</p></div>
+  <div class="card"><h2>题目是怎么来的</h2>
+  <p class="muted" style="font-size:14px">每道题都由"出题生成器"现场编：数字随机、答案现算、错误选项专门埋在常见错点上。所以永远做不完、也永远不重复打卡。知识点讲解按所选课本的单元编排（青岛版六三制 1～6 年级共 12 册，可随时切换）。</p></div>`;
+};
+
+/* 启动：加载课本偏好 → 应用课本指针 → 渲染；再探测云端（异步） */
+loadBookPref();
+applyBookPointers();
+go('home');
+cloudProbe().then(function(){
+  if(!CLOUD.on)return;
+  console.info('云端同步模式已启用（NAS 统一存储）');
+  /* v3.10：先拉取注册策略（失败也不阻塞），再恢复会话/重渲染，登录墙据此隐藏自助注册入口 */
+  return fetchRegPolicy().catch(function(){}).then(function(){
+    if(CUR&&CUR.cloud){
+      /* 云端会话恢复：拉最新存档覆盖本地缓存，再刷新当前视图 */
+      return cloudLoadState(CUR.phone).then(function(st){
+        if(st.data){try{lsSet(userKey(CUR.phone),JSON.stringify(st.data))}catch(e){}}
+        S=load();syncBookRefs();
+      }).catch(function(){}).then(function(){go('home')});
+    }
+    go('home');   /* 未登录或本地会话：重渲染以显示云端标识 */
+  });
+});
+</script>
+</body>
+</html>
